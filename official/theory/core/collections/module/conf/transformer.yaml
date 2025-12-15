@@ -1,0 +1,863 @@
+CLIP:
+  shape: [L, B, H, M, K, N, F, E, KV, P]
+  base:
+    fwd:
+      - aten::convolution;[M, P, N]
+      - aten::add;[M, N]
+      - layer::GPTDecoder;[L, B, H, M, K, N, F, KV]
+      - layer::LayerNorm;[M, N]
+      - layer::MLP_Gelu;[M, N, F]
+      - aten::lt;[M]
+      - aten::index_put_;[M]
+      - aten::embedding;[M, E, N]
+      - aten::index;[M, N]
+      - aten::index_put_;[M, N]
+GPTDecoder:
+  shape: [L, B, H, M, K, N, F, KV]
+  num_layers: L
+  feature:
+    - sequence_parallel
+  base:
+    fwd:
+      - layer::LayerNorm;[B*M, N]
+      - layer::Attention;[B, H, M, K, N, KV]
+      - layer::Add;[B*M, N]
+      - layer::LayerNorm;[B*M, N]
+      - layer::MLP;[B*M, N, F]
+      - layer::Add;[B*M, N]
+  sequence_parallel:
+    fwd:
+      - layer::LayerNorm;[B*M/T, N]
+      - layer::Attention;[B, H, M, K, N, KV]
+      - layer::Add;[B*M/T, N]
+      - layer::LayerNorm;[B*M/T, N]
+      - layer::MLP;[B*M, N, F]
+      - layer::Add;[B*M/T, N]
+MOEDecoder:
+  shape: [L, B, H, M, K, N, F, KV]
+  num_layers: L
+  feature:
+    - tensor_parallel
+    - sequence_parallel
+  base:
+    fwd:
+      - layer::LayerNorm;[B*M, N]
+      - layer::Attention;[B, H, M, K, N, KV]
+      - layer::Add;[B*M, N]
+      - layer::LayerNorm;[B*M, N]
+      - layer::MOE;[B*M, N, F]
+      - layer::Add;[B*M, N]
+  tensor_parallel:
+    fwd:
+      - layer::LayerNorm;[B*M, N]
+      - layer::Attention;[B, H, M, K, N, KV]
+      - c10d::allreduce;[M, N]
+      - layer::Add;[B*M, N]
+      - layer::LayerNorm;[B*M, N]
+      - layer::MOE;[B*M, N, F]
+      - layer::Add;[B*M, N]
+DiT:
+  shape: [L, B, H, M, K, N, F, KV]
+  num_layers: L
+  base:
+    fwd:
+      - layer::Add;[B*6, N]
+      # - aten::split;[B*6, N]
+      - layer::LayerNorm;[B*M/C, N]
+      - layer::Add;[B/C, N]
+      - layer::Mul;[B*M/C, N]
+      - layer::Add;[B*M/C, N]
+      - layer::SelfAttention;[B, H/C, M/C, M, K, N, KV]
+      - layer::Mul;[B*M/C, N]
+      - layer::Add;[B*M/C, N]
+      - layer::LayerNorm;[B*M/C, N]
+      - layer::CrossAttention;[B, H/C, M/C, M, K, N, KV]
+      - layer::Add;[B*M/C, N]
+      - layer::LayerNorm;[B*M/C, N]
+      - layer::Add;[1, N]
+      - layer::Mul;[B*M/C, N]
+      - layer::Add;[B*M/C, N]
+      - layer::MLP;[B*M/C, N, F]
+      - layer::Mul;[B*M/C, N]
+      - layer::Add;[B*M/C, N]
+Attention:
+  shape: [B, H, M, K, N, KV]
+  feature:
+    - mla
+    - gqa
+    - rope
+  base:
+    fwd:
+      - layer::ColumnParallelLinear;[3*B*M, N, N]
+      - layer::SDPA;[B*H/T, M, K, KV, -1, -1, -1]
+      - layer::RowParallelLinear;[B*M, N, N]
+  mla:
+    fwd:
+      - layer::MM;[B*M/T, N, QR];val=q_down_proj
+      - layer::LayerNorm;[B*M, QR];val=q_layernorm
+      - layer::MM;[B*M/T, N, KVR+QKR];val=k_down_proj
+      - layer::LayerNorm;[B*M, KVR];val=kv_layernorm
+      - layer::MM;[B*M/T, QR, H*DQK];val=q_up_proj
+      - layer::MM;[B*M/T, KVR, KVR*QKR];val=kv_up_proj
+      - layer::vllm.rotary_embedding_with_kv_cache;val=rotary_emb
+      - layer::SDPA;[B/T, M, K, KV, H, QKR, -1]
+      - layer::MM;[B*M/T, H*K, N];val=attn_o_proj
+  gqa:
+    fwd:
+      - layer::ColumnParallelLinear;[B*M, N, K*NQ]
+      - layer::ROPE;[H/T, M, K]
+      - layer::ROPE;[1, M, K]
+      - layer::SDPA;[B/T, M, K, KV, H, H/4, -1]
+      - layer::RowParallelLinear;[B*M, N, N]
+  rope:
+    fwd:
+      - layer::ColumnParallelLinear;[3*B*M, N, N]
+      - layer::ROPE;[H/T, M, K]
+      - layer::ROPE;[1, M, K]
+      - layer::SDPA;[B*H/T, M, K, KV, -1, -1, -1]
+      - layer::RowParallelLinear;[B*M, N, N]
+SelfAttention:
+  shape: [B, H, M, MA, K, N, KV]
+  feature:
+    - context_parallel
+  base:
+    fwd:
+      - layer::RMSNorm;[B*M/T, N]
+      - layer::RMSNorm;[B*M/T, N]
+      - layer::ColumnParallelLinear;[3*B*M/T, N, N]
+      - layer::SDPA;[B*H/T, M, K, KV, -1, -1, -1]
+      - layer::RowParallelLinear;[B*M/T, N, N]
+  context_parallel:
+    fwd:
+      - c10d::all2all;[4*B*M, N]
+      - c10d::all2all;[4*B*M, N]
+      - c10d::all2all;[4*B*M, N]
+      - layer::RMSNorm;[B*M, N]
+      - layer::RMSNorm;[B*M, N]
+      - layer::ColumnParallelLinear;[3*B*M, N, N]
+      - layer::SDPA;[B*H/T, MA, K, KV, -1, -1, -1]
+      - layer::RowParallelLinear;[B*M, N, N]
+      - c10d::all2all;[4*B*M, N]
+CrossAttention:
+  shape: [B, H, M, MA, K, N, KV]
+  feature:
+    - t2v
+    - i2v
+  t2v:
+    fwd:
+      - layer::ColumnParallelLinear;[B*M/T, N, N]
+      - layer::RMSNorm;[B*M/T, N]
+      - layer::ColumnParallelLinear;[2*B*TM/T, N, N]
+      - layer::RMSNorm;[B*TM/T, N]
+      - layer::SDPA;[B*H/T, MA, K, KV, -1, -1, -1]
+      - layer::RowParallelLinear;[B*M/T, N, N]
+  i2v:
+    fwd:
+      - layer::ColumnParallelLinear;[B*M/T, N, N]
+      - layer::RMSNorm;[B*M/T, N]
+      - layer::ColumnParallelLinear;[2*B*TM/T, N, N]
+      - layer::RMSNorm;[B*TM/T, N]
+      - layer::ColumnParallelLinear;[2*B*257/T, N, N]
+      - layer::RMSNorm;[B*257/T, N]
+      - layer::SDPA;[B*H/T, MA, K, TM, -1, -1, -1]
+      - layer::SDPA;[B*H/T, MA, K, 257, -1, -1, -1]
+      - layer::Add;[B*M/T, N]
+      - layer::RowParallelLinear;[B*M/T, N, N]
+RMSNorm:
+  shape: [M, N]
+  feature:
+    - te
+    - apex
+    - vllm
+  base:
+    fwd:
+      - aten::to
+      - aten::pow
+      - aten::mean
+      - aten::add
+      - aten::rsqrt
+      - aten::mul
+      - aten::to
+      - aten::mul
+    bwd:
+      - aten::mul
+      - aten::mul
+      - aten::sum
+      - aten::add
+      - aten::to
+      - aten::mul
+      - aten::mul
+      - aten::sum
+      - aten::pow
+      - aten::mul
+      - aten::mul
+      - aten::div
+      - aten::pow
+      - aten::mul
+      - aten::mul
+      - aten::add
+      - aten::to
+  te:
+    fwd:
+      - te::nvte_rmsnorm_fwd;weight
+    bwd:
+      - aten::fill_
+      - te::nvte_rmsnorm_bwd
+  apex:
+    fwd: 
+      - apex::fused_layer_norm_cuda.rms_forward;weight
+    bwd: 
+      - apex::fused_layer_norm_cuda.rms_backward
+  vllm:
+    fwd:
+      - vllm::rms_norm;weight
+LayerNorm:
+  shape: [M, N]
+  feature:
+    - rms_norm
+  base:
+    fwd:
+      - aten::native_layer_norm;weight
+    bwd:
+      - aten::layer_norm_backward
+  rms_norm:
+    fwd:
+      - layer::RMSNorm
+SDPA:
+  shape: [B, MQ, D, MKV, NHQ, NHKV, DQK]
+  feature:
+    - te
+  aten:
+    fwd:
+      - kernel::broadcast
+      - kernel::contiguous
+      - aten::matmul
+      - aten::mul
+      - kernel::repeat
+      - aten::masked_fill_
+      - aten::softmax
+      - aten::mm
+      - aten::copy_
+    bwd:
+      - aten::mm
+      - aten::mm
+      - aten::_softmax_backward_data
+      - aten::fill_
+      - aten::masked_fill_
+      - aten::mm
+      - aten::mul
+      - aten::mm
+      - aten::mul
+      - aten::sum
+      - aten::sum
+  base:
+    fwd:
+      - layer::Baddbmm
+      - aten::masked_fill_
+      - aten::softmax
+      - layer::Bmm
+      - aten::copy_
+    bwd:
+      - layer::Bmm
+      - aten::mul
+      - aten::_softmax_backward_data
+      - aten::fill_
+      - aten::masked_fill_
+      - layer::Baddbmm
+  te:
+    fwd:
+      - aten::contiguous;[B, MQ, D]
+      - te::FlashAttnVarlenFunc
+    bwd:
+      - te::FlashAttnVarlenFuncBackward
+      - aten::cat;[B, MQ, D]
+  vllm:
+    fwd:
+      - aten::contiguous;[B, MQ, D]
+      - vllm::FlashAttnVarlenFunc
+ROPE:
+  shape: [B, M, N]
+  feature:
+    - te
+    - apex
+    - vllm
+  base:
+    fwd:
+      - aten::cos
+      - aten::to
+      - aten::sin
+      - aten::to
+      - aten::mul
+      - aten::neg
+      - aten::cat
+      - aten::mul
+      - aten::add
+      - aten::cat
+    bwd:
+      - aten::mul
+      - aten::neg
+      - aten::cat
+      - aten::mul
+      - aten::add
+      - aten::fill_
+      - aten::add
+  te:
+    fwd:
+      - te::FusedRoPEFunc
+    bwd:
+      - te::FusedRoPEFuncBackward
+  apex:
+    fwd: 
+      - apex::fused_rotary_positional_embedding.forward
+    bwd: 
+      - apex::fused_rotary_positional_embedding.backward
+  vllm:
+    fwd:
+      - vllm::fused_rope_forward
+MLP:
+  shape: [M, K, N]
+  feature:
+    - silu
+  base:
+    fwd:
+      - layer::ColumnParallelLinear
+      - layer::Activation;[M, N/T]
+      - layer::RowParallelLinear
+  silu:
+    fwd:
+      - layer::ColumnParallelLinear;[M, K, 2*N]
+      - layer::Activation;[M, N/T]
+      - layer::RowParallelLinear;[M, N, K]
+      - aten::add;[M, N]
+    bwd:
+      - layer::ColumnParallelLinear;[M, K, 2*N]
+      - aten::cat;[M, N/T]
+      - layer::Activation;[M, N/T]
+      - layer::RowParallelLinear
+Activation:
+  shape: [M, N]
+  feature:
+    - silu
+    - silu_and_mul
+  base:
+    fwd:
+      - aten::gelu
+    bwd:
+      - aten::gelu_backward
+  silu:
+    fwd:
+      - aten::silu
+      - layer::Mul
+    bwd:
+      - layer::Mul
+      - aten::silu_backward
+  silu_and_mul:
+    fwd:
+      - vllm::silu_and_mul
+ColumnParallelLinear: 
+  shape: [M, K, N]
+  feature:
+    - sequence_parallel
+  base:
+    fwd:
+      - layer::Gemm;[M, K, N/T]
+    bwd:
+      - layer::Gemm;[M, K, N/T];w_up
+      - layer::Gemm;[M, K, N/T]
+  sequence_parallel:
+    feature:
+      - overlap
+    fwd:
+      - c10d::allgather;[M, N/T]
+      - layer::Gemm;[M, K, N/T]
+    bwd:
+      - layer::Gemm;[M, K, N/T];w_up
+      - c10d::reduce_scatter;[M, N/T]
+      - layer::Gemm;[M, K, N/T]
+      - c10d::allgather;[M, N/T]
+RowParallelLinear:
+  shape: [M, K, N]
+  feature:
+    - tensor_parallel
+    - sequence_parallel
+    - stream
+  base:
+    fwd:
+      - layer::Gemm;[M, K, N/T]
+    bwd:
+      - layer::Gemm;[M, K, N/T]
+      - layer::Gemm;[M, K, N/T];w_up
+  tensor_parallel:
+    feature:
+      - overlap
+    fwd:
+      - layer::Gemm;[M, K, N/T]
+      - c10d::allreduce;[M, N]
+    bwd:
+      - c10d::allreduce;[M, N]
+      - layer::Gemm;[M, K, N/T]
+      - layer::Gemm;[M, K, N/T];w_up
+  sequence_parallel:
+    feature:
+      - overlap
+    fwd:
+      - layer::Gemm;[M, K, N/T];stream7
+      - c10d::reduce_scatter;[M, N/T];stream36
+    bwd:
+      - layer::Gemm;[M, K, N/T]
+      - layer::Gemm;[M, K, N/T];w_up
+      - c10d::allgather;[M, N/T]
+Gemm:
+  shape: [M, K, N]
+  feature:
+    - te
+    - vllm_fp8
+  base:
+    fwd:
+      - aten::mm
+    bwd:
+      - aten::mm
+  vllm_fp8:
+    fwd:
+      - vllm::cast_to_fp8;[M, K, K/PGQ]
+      - vllm::cutlass_scaled_mm;[1, M, K, N, PGQ]
+  te:
+    fwd:
+      - te::nvte_cublas_gemm
+    bwd:
+      - te::nvte_cublas_gemm
+Grouped_Gemm:
+  shape: [B, M, K, N]
+  feature:
+    - vllm_fp8
+  base:
+    fwd:
+      - customer::grouped_gemm
+    bwd:
+      - customer::grouped_gemm
+      - customer::grouped_gemm
+  vllm_fp8:
+    fwd:
+      - vllm::cast_to_fp8;[B*M, K, K/PGQ]
+      - vllm::grouped_gemm;[B, M, K, N, PGQ]
+MM:
+  shape: [M, K, N]
+  base:
+    fwd:
+      - layer::Gemm
+    bwd:
+      - layer::Gemm
+      - layer::Gemm;w_up
+Mul:
+  shape: [M, N]
+  base:
+    fwd:
+      - aten::mul
+    bwd:
+      - aten::mul
+      - aten::mul
+Bmm:
+  shape: [M, K, N]
+  base:
+    fwd:
+      - aten::bmm
+    bwd:
+      - aten::bmm
+      - aten::bmm;w_up
+Baddbmm:
+  shape: [B, M, K, N]
+  base:
+    fwd:
+      - aten::bmm
+    bwd:
+      - aten::bmm
+      - aten::mul
+      - aten::bmm;w_up
+      - aten::mul
+Add:
+  shape: [M, N]
+  base:
+    fwd:
+      - aten::add
+    bwd:
+      - aten::add
+Embedding:
+  shape: [M, E, N]
+  feature:
+    - tensor_parallel
+    - sequence_parallel
+  base:
+    fwd:
+      - aten::embedding
+    bwd:
+      - aten::embedding_dense_backward
+      - aten::add_;[M, N]
+  sequence_parallel:
+    fwd:
+      - aten::embedding
+      - c10d::reduce_scatter;[M, N]
+    bwd:
+      - aten::embedding_dense_backward
+      - aten::add_;[M, N]
+      - c10d::allgather;[M, N]
+  tensor_parallel:
+    fwd:
+      - aten::embedding;[M, E, N/T]
+      - c10d::allreduce;[M, N]
+      # - aten::embedding
+    bwd:
+      - aten::embedding_dense_backward
+      - aten::add_;[M, N]
+      - aten::embedding_dense_backward
+      - aten::add_;[M, N]
+      - c10d::allgather;[M, N]
+Post&Loss:
+  shape: [M, N, E]
+  base:
+    fwd:
+      - layer::LayerNorm;[M, N]
+      - layer::ColumnParallelLinear
+      - layer::Loss;[M, E]
+Post&Sampler:
+  shape: [M, N, E]
+  base:
+    fwd:
+      - layer::LayerNorm;[M, N]
+      - aten::linear
+      - layer::Sampler;[M, E]
+Loss:
+  shape: [M, E]
+  base:
+    fwd:
+      - aten::copy_
+      - aten::_log_softmax
+      - aten::nll_loss_forward
+      - aten::ne;[M]
+      - aten::sum;[M]
+      - aten::mul;[1]
+      - aten::div;[1]
+      - aten::argmax
+    bwd:
+      - aten::div;[1]
+      - aten::div;[1]
+      - aten::div;[1]
+      - aten::mul;[1]
+      - aten::copy_
+      - aten::copy_
+      - aten::copy_
+      - aten::nll_loss_backward
+      - aten::_log_softmax_backward_data
+Sampler:
+  shape: [M, E]
+  base:
+    fwd:
+      - aten::div_
+      - aten::softmax
+      - aten::log_softmax
+      - aten::index
+      - aten::argmax
+Adam:
+  shape: [M, N]
+  feature:
+    - overlap
+    - zero1
+    - zero2
+    - zero3
+  base:
+    fwd:
+      # - c10d::allreduce
+      - layer::FusedAdam;[M, N]
+  zero1:
+    fwd:
+      # - c10d::allreduce
+      - c10d::reduce_scatter
+      - layer::FusedAdam
+      - c10d::allgather
+  zero2:
+    fwd:
+      # - c10d::allreduce
+      - c10d::reduce_scatter
+      - layer::FusedAdam
+      - c10d::allgather
+FusedAdam:
+  shape: [M, N]
+  base:
+    fwd:
+      - apex::L2Norm;[M, N]
+      - apex::Scale;[M, N]
+      - apex::Adam;[4*M, N]
+      - aten::copy_;[M, N]
+      - aten::add_;[M, N]
+router.Gating:
+  shape: [M, K, N]
+  feature:
+    - tensor_parallel
+  base:
+    fwd:
+      - aten::linear;[M, K, N]
+router.TopKRouter:
+  shape: [M, K, E]
+  feature:
+    - vllm
+    - deepseek
+  base:
+  #   fwd:
+  #     - aten::sigmoid
+  #     - aten::add
+  #     - aten::topk
+  #     - aten::sum
+  #     - aten::topk
+  #     - aten::scatter_
+  #     # - aten::unsqueeze
+  #     # - aten::expand
+  #     # - aten::bitwise_not
+  #     # - aten::masked_fill
+  #     - aten::topk
+  #     # - aten::gather
+  #     - aten::sum
+  #     - aten::div
+  #     - c10d::allreduce
+  #     - aten::sum
+  #     - aten::div_
+  #     - aten::mean
+  #     - aten::mul
+  #     - aten::sum
+  #     - aten::mean
+  #     - aten::mul
+  #     - aten::div_
+  #     - aten::add
+  # deepseek:
+  #   fwd:
+  #     - layer::red_fused_max;[M, K, N]
+  #     - aten::topk;[M, K, N]
+  #     - layer::scatter_zeros_like;[M, N]
+  #     - layer::scatter_zeros_like2;[M, N, K]
+  #     - layer::_to_copy_add_bitwise_not_masked_fill_sigmoid_3;[M, N, K]
+  #     - aten::topk;[M, K, N]
+  #     - layer::gather_sigmoid_sum_4;[M, N, K]
+  #     - layer::_to_copy_dive_gather_sigmoid_5;[M, N, K]
+  #     - aten::fill_;[M, N, K]
+  #     - aten::sgl_moe_align_block_size;[M, N, K]
+  #     - apply_z_loss
+  #     - gather_from_sequence_parallel_region;if alltoall_seq
+  #     - topk_softmax_with_capacity/aux_loss_load_balancing
+  # vllm:
+    fwd:
+      - layer::dpsk.top2_sum_gate
+      # - aten::gather;[M, E]
+      - aten::sum;[M, MRT]
+      - aten::div;[M, MRT]
+      - vllm::grouped_topk;[M, K, E]  # k=MRT
+      - vllm::sgl_moe_align_block_size;[M, MRT, 64, E, 764]
+SharedExperts:
+  shape: [M, K, N]
+  num_layers: NSE
+  base:
+    fwd:
+      - layer::MLP
+RoutedExperts:
+  shape: [M, K, N]
+  launched_layers: NRE/EP
+  base:
+    fwd:
+      - layer::Grouped_Gemm;[MRT, M, K, N*2]
+      - layer::Activation;[M*MRT, N]
+      - layer::Grouped_Gemm;[MRT, M, N, K]
+MOE:
+  shape: [M, K, N]
+  feature:
+    - expert_parallel
+    - tensor_parallel
+  # base:
+  #   fwd:
+  #     - layer::SharedExperts
+  #     - layer::router.Gating;[M, K, NRE]
+  #     - layer::router.TopKRouter;[M, K, NRE]
+  #     - layer::RoutedExperts;[M, K, MF]
+  #     - vllm::moe_sum;[M, MRT, MF]
+  #     - layer::Mul;[M, N]
+  #     # - c10d::allreduce;[M, N/T]
+  base:
+    fwd:
+      - layer::SharedExperts;[M, K, MF]
+      - layer::router.Gating;[M, K, NRE]
+      - layer::router.TopKRouter;[M, K, MRT]
+      - c10d::all2all;[M, N]
+      - layer::RoutedExperts;[M, K, MF]
+      - c10d::all2all;[M, N]
+      - vllm::moe_sum;[M, MRT, MF]
+      - layer::Mul;[M, K]
+  expert_parallel:
+    fwd:
+      - layer::SharedExperts;[M, K, MF]
+      - layer::router.Gating;[M, K, NRE]
+      - layer::router.TopKRouter;[M, K, MRT]
+      - c10d::all2all;[M, N]
+      - layer::RoutedExperts;[M, K, MF]
+      - c10d::all2all;[M, N]
+      - vllm::moe_sum;[M, MRT, MF]
+      - layer::Mul;[M, K]
+  # tensor_parallel:
+  #   fwd:
+  #     - layer::SharedExperts
+  #     - layer::router.Gating;[M, K, NRE]
+  #     - layer::router.TopKRouter;[M, K, NRE]
+  #     - layer::RoutedExperts;[M, K, MF/T]
+  #     - vllm::moe_sum;[M, MRT, MF/T]
+  #     - layer::Mul;[M, N/T]
+  #     - c10d::allreduce;[M, N]
+vllm.rotary_embedding_with_kv_cache:
+  shape: [B, H, M, K, N, KV]
+  fusion: true
+  base:
+    fwd:
+      - layer::ROPE;[H/T, M, QKR]
+      - layer::ROPE;[1, M, QKR]
+      - vllm::concat_and_cache_mla;[M, KVR, QKR]
+      - aten::cat;[B*M, H+QKR]
+      - aten::fill_;[B*M, H+QKR]
+dpsk.top2_sum_gate:
+  shape: [M, K, E]
+  fusion: true
+  base:
+    fwd:
+      - aten::sigmoid;[M, E]
+      - aten::add;[M, E]
+      - aten::topk;[M, NEG, E/NEG]  # k=NEG/NLG
+      - aten::sum;[M, NEG, NEG/NLG]
+      - aten::topk;[M, NEG]  # k=NLG
+      - aten::zeros_like;[M, MRT]
+      - aten::scatter_;[M, MRT]
+      - aten::bitwise_not;[M, E]
+      - aten::masked_fill;[M, E]
+      - aten::topk;[M, E]  # k=MRT
+vllm.fused_add_rms_norm_fp8:
+  shape: [M, K]
+  fusion: true
+  base:
+    fwd:
+      - aten::add
+      - vllm::rms_norm
+      - vllm::cast_to_fp8;[M, K, K/PGQ]
+vllm.fused_rms_norm_fp8:
+  shape: [M, K]
+  fusion: true
+  base:
+    fwd:
+      - vllm::rms_norm
+      - vllm::cast_to_fp8;[M, K, K/PGQ]
+vllm.batched_swiglu_fp8:
+  shape: [M, K]
+  fusion: true
+  base:
+    fwd:
+      - aten::silu
+      - aten::mul
+      - vllm::cast_to_fp8;[M, K, K/PGQ]
+
+# backup
+LLamaDecoder:
+  shape: [L, B, H, M, K, N, F, KV]
+  num_layers: L
+  base:
+    fwd:
+      - layer::RMSNorm;[B*M, N]
+      - layer::Attention;[B, H, M, K, N, KV]
+      - layer::Add;[B*M, N]
+      - layer::RMSNorm;[B*M, N]
+      - layer::MLP_Silu;[B*M, N, F]
+      - layer::Add;[B*M, N]
+Silu&Mul:
+  shape: [M, N]
+  aten:
+    fwd:
+      - aten::silu
+    bwd:
+      - aten::sigmoid
+      - aten::mul
+      - aten::sigmoid
+      - aten::sub
+      - aten::mul
+      - aten::add
+      - aten::mul
+      - aten::mul
+      - aten::silu
+      - aten::mul
+  base:
+    fwd:
+      - aten::silu
+      - layer::Mul
+    bwd:
+      - layer::Mul
+      - aten::silu_backward
+MLP_Silu:
+  shape: [M, K, N]
+  feature:
+    - tensor_parallel
+  base:
+    fwd:
+      - layer::Gemm;[M, K, N]
+      - layer::Silu&Mul;[M, N]
+      - layer::Gemm;[M, K, N]
+      - layer::Gemm;[M, N, K]
+    bwd:
+      - layer::Gemm;[M, K, N]
+      - layer::Gemm;[M, K, N]
+      - layer::Silu&Mul;[M, N]
+      - layer::Gemm;[M, K, N]
+      - layer::Gemm;[M, K, N]
+      - layer::Gemm;[M, N, K]
+      - layer::Gemm;[M, N, K]
+  tensor_parallel:
+    split: [M, K, N]
+    fwd:
+      - layer::ColumnParallelLinear;[2*M, K, N]
+      - layer::Silu&Mul;[M, N]
+      - layer::RowParallelLinear
+      - aten::add;[M, N]
+    bwd:
+      - layer::RowParallelLinear
+      - layer::Silu&Mul
+      - aten::cat
+      - layer::ColumnParallelLinear
+MLP_Gelu:
+  shape: [M, K, N]
+  feature:
+    - tensor_parallel
+  base:
+    fwd:
+      - layer::Gemm;[M, K, N]
+      - aten::gelu;[M, N]
+      - layer::Gemm;[M, N, K]
+  tensor_parallel:
+    split: M
+    fwd:
+      - layer::ColumnParallelLinear
+      - aten::gelu;[M, N]
+      - layer::RowParallelLinear
+    bwd:
+      - layer::RowParallelLinear
+      - aten::gelu_backward;[M, N]
+      - layer::ColumnParallelLinear
+token_dispatcher.token_permutation:
+  shape: [M, K, N]
+  feature:
+    - tensor_parallel
+  base:
+    fwd:
+      - drop_and_pad
+      - input_splits
+      - gather_from_sequence_parallel_region
+      - num_global_tokens_per_expert
+      - output_splits
+      - num_tokens_per_local_expert
+      - if self.cuda_sync_point == "before_permutation_1":
+            torch.cuda.current_stream().synchronize()
+      - permute
+      - if self.cuda_sync_point == "before_ep_alltoall":
+            torch.cuda.current_stream().synchronize()
+      - all_to_all
+      - gather_from_sequence_parallel_region
+      - Sort tokens by local expert
+      - if self.cuda_sync_point == "before_finish":
+            torch.cuda.current_stream().synchronize()

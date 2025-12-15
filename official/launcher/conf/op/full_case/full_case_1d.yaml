@@ -1,0 +1,140 @@
+- name: aten::add
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [N]
+- name: aten::sub
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [M, N]
+- name: aten::mul
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [1, N]
+- name: aten::gelu
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::silu
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::sum
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::mean
+  size:
+    B: [1]
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [B, M, N]
+    - dim: -1
+      keepdim: True
+- name: aten::minimum
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [M, N]
+- name: aten::pow
+  size:
+    B: [1]
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [B, M, N]
+    - exponent: 2
+- name: aten::log
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::cumsum
+  size:
+    B: [1]
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+  input:
+    - _tensor: [B, M]
+    - dim: -1
+- name: aten::argmax
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+  precision: fp32
+- name: aten::max
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+  precision: fp32
+- name: aten::reciprocal
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::cos
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::sin
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+- name: aten::div
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [M, N]
+# - name: aten::exponential_
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384]
+#     N: [32, 128, 1024, 8192, 16384]
+#   input:
+#     - self:
+#         _tensor: [M, N]
+#       lambd: 1
+#     # - generator: None
+
+
+# - name: aten::index_add
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384]
+#     N: [32, 128, 1024, 8192, 16384]
+#   input:
+#     - self:
+#         _tensor: [M, N]
+#       dim: 0
+#       index:
+#         _tensor: [N]
+#         precision: int32
+#         high: N
+#       source:
+#         _tensor: [N, N]

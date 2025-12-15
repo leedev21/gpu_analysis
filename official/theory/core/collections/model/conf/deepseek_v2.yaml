@@ -1,0 +1,17 @@
+model:
+  name: DeepSeek_v2
+  size: 236
+  num_layers: 60
+  hidden_size: 5120
+  ffn_hidden_size: 12288
+  n_shared_experts: 2
+  n_routed_experts: 160
+  moe_intermediate_size: 1536
+  moe_router_topk: 6
+  num_attention_heads: 128
+  kv_lora_rank: 512
+  q_lora_rank: 1536
+  qk_rope_head_dim: 64
+  swiglu: true
+  moe_layer_freq: 1
+  vocab_size: 50257

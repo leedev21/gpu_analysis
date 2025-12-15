@@ -1,0 +1,2884 @@
+{
+    "aten::embedding": [
+        {
+            "idx": 0,
+            "use_count": 1,
+            "inputs": "(weight:<151936x2048xf16>{2048, 1}, indices:<8xint64>{1})",
+            "outputs": "<8x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.lm_head_VocabParallelEmbedding"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 9,
+            "inputs": "(weight:<151936x2048xf16>{2048, 1}, indices:<1xint64>{1})",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.lm_head_VocabParallelEmbedding"
+            ]
+        }
+    ],
+    "aten::pow": [
+        {
+            "idx": 0,
+            "use_count": 73,
+            "inputs": "(self:<8x2048xf32>{2048, 1}, exponent:2:int)",
+            "outputs": "<8x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 657,
+            "inputs": "(self:<1x2048xf32>{2048, 1}, exponent:2:int)",
+            "outputs": "<1x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        }
+    ],
+    "aten::mean": [
+        {
+            "idx": 0,
+            "use_count": 73,
+            "inputs": "(self:<8x2048xf32>{2048, 1}, dim:['-1:int'], keepdim:True:bool)",
+            "outputs": "<8x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 657,
+            "inputs": "(self:<1x2048xf32>{2048, 1}, dim:['-1:int'], keepdim:True:bool)",
+            "outputs": "<1x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        }
+    ],
+    "aten::add": [
+        {
+            "idx": 0,
+            "use_count": 73,
+            "inputs": "(self:<8x1xf32>{1, 1}, other:1e-06:float)",
+            "outputs": "<8x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{1024, 64, 1}, other:<8x16x64xf16>{1024, 64, 1})",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{128, 64, 1}, other:<8x2x64xf16>{128, 64, 1})",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 72,
+            "inputs": "(self:<8x2048xf32>{2048, 1}, other:<8x2048xf32>{2048, 1})",
+            "outputs": "<8x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 657,
+            "inputs": "(self:<1x1xf32>{1, 1}, other:1e-06:float)",
+            "outputs": "<1x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 5,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{1024, 64, 1}, other:<1x16x64xf16>{1024, 64, 1})",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 6,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{128, 64, 1}, other:<1x2x64xf16>{128, 64, 1})",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 7,
+            "use_count": 648,
+            "inputs": "(self:<1x2048xf32>{2048, 1}, other:<1x2048xf32>{2048, 1})",
+            "outputs": "<1x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        }
+    ],
+    "aten::rsqrt": [
+        {
+            "idx": 0,
+            "use_count": 73,
+            "inputs": "(self:<8x1xf32>{1, 1})",
+            "outputs": "<8x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 657,
+            "inputs": "(self:<1x1xf32>{1, 1})",
+            "outputs": "<1x1xf32>{1, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        }
+    ],
+    "aten::mul": [
+        {
+            "idx": 0,
+            "use_count": 73,
+            "inputs": "(self:<8x2048xf32>{2048, 1}, other:<8x1xf32>{1, 1})",
+            "outputs": "<8x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 73,
+            "inputs": "(self:<8x2048xf16>{2048, 1}, other:<2048xf16>{1})",
+            "outputs": "<8x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{2560, 128, 1}, other:<8x1x64xf16>{128, 64, 1})",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{2560, 128, 1}+64, other:<8x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{2560, 128, 1}+64, other:<8x1x64xf16>{128, 64, 1})",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 5,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{2560, 128, 1}, other:<8x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 6,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{2560, 128, 1}+2048, other:<8x1x64xf16>{128, 64, 1})",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 7,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{2560, 128, 1}+2112, other:<8x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 8,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{2560, 128, 1}+2112, other:<8x1x64xf16>{128, 64, 1})",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 9,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{2560, 128, 1}+2048, other:<8x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 10,
+            "use_count": 36,
+            "inputs": "(self:<8x11008xf16>{11008, 1}, other:<8x11008xf16>{22016, 1}+11008)",
+            "outputs": "<8x11008xf16>{11008, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.17.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.28.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.11.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.34.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.25.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.0.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.19.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.35.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.5.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.6.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.13.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.10.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.12.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.27.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.8.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.31.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.23.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.2.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.22.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.15.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.32.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.1.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.9.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.20.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.16.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.7.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.3.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.14.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.33.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.4.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.24.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.18.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.29.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.21.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.26.mlp.act_fn_SiluAndMul"
+            ]
+        },
+        {
+            "idx": 11,
+            "use_count": 657,
+            "inputs": "(self:<1x2048xf32>{2048, 1}, other:<1x1xf32>{1, 1})",
+            "outputs": "<1x2048xf32>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 12,
+            "use_count": 657,
+            "inputs": "(self:<1x2048xf16>{2048, 1}, other:<2048xf16>{1})",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.20.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.30.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.1.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.31.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.35.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.8.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.27.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.34.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.14.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.21.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.23.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.0.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.3.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.4.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.5.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.2.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.7.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.28.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.12.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.11.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.29.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.9.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.24.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.norm_RMSNorm",
+                "fwd:qwen.model.layers.6.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.13.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.17.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.18.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.19.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.32.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.16.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.25.input_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.22.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.15.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.6.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.26.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.33.post_attention_layernorm_RMSNorm",
+                "fwd:qwen.model.layers.10.input_layernorm_RMSNorm"
+            ]
+        },
+        {
+            "idx": 13,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{2048, 128, 1}, other:<1x1x64xf16>{128, 64, 1})",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 14,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{2048, 128, 1}+64, other:<1x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 15,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{2048, 128, 1}+64, other:<1x1x64xf16>{128, 64, 1})",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 16,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{2048, 128, 1}, other:<1x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 17,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{256, 128, 1}+2048, other:<1x1x64xf16>{128, 64, 1})",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 18,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{256, 128, 1}+2112, other:<1x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 19,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{256, 128, 1}+2112, other:<1x1x64xf16>{128, 64, 1})",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 20,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{256, 128, 1}+2048, other:<1x1x64xf16>{128, 64, 1}+64)",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 21,
+            "use_count": 324,
+            "inputs": "(self:<1x11008xf16>{11008, 1}, other:<1x11008xf16>{22016, 1}+11008)",
+            "outputs": "<1x11008xf16>{11008, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.17.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.28.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.11.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.34.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.25.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.0.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.19.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.35.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.5.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.6.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.13.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.10.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.12.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.27.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.8.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.31.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.23.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.2.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.22.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.15.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.32.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.1.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.9.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.20.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.16.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.7.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.3.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.14.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.33.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.4.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.24.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.18.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.29.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.21.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.26.mlp.act_fn_SiluAndMul"
+            ]
+        }
+    ],
+    "_C::gptq_marlin_gemm": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(a:<8x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x5120xi32>{5120, 1}, b_scales:<16x2560xf16>{2560, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x320xi32>{320, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:8:int, size_n:2560:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<8x2560xf16>{2560, 1}",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.33.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.qkv_proj_QKVParallelLinear"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 36,
+            "inputs": "(a:<8x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x4096xi32>{4096, 1}, b_scales:<16x2048xf16>{2048, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x256xi32>{256, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:8:int, size_n:2048:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<8x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.33.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.32.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.o_proj_RowParallelLinear"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 36,
+            "inputs": "(a:<8x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x44032xi32>{44032, 1}, b_scales:<16x22016xf16>{22016, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x2752xi32>{2752, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:8:int, size_n:22016:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<8x22016xf16>{22016, 1}",
+            "state": [
+                "fwd:qwen.model.layers.11.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.9.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.6.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.33.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.0.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.23.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.1.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.7.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.2.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.13.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.14.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.8.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.10.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.19.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.34.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.32.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.3.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.26.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.16.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.35.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.12.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.4.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.15.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.28.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.5.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.22.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.21.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.24.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.18.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.20.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.31.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.25.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.27.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.29.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.30.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.17.mlp.gate_up_proj_MergedColumnParallelLinear"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 36,
+            "inputs": "(a:<8x11008xf16>{11008, 1}, c_or_none:None:NoneType, b_q_weight:<688x4096xi32>{4096, 1}, b_scales:<86x2048xf16>{2048, 1}, global_scale:None:NoneType, b_zeros_or_none:<86x256xi32>{256, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:8:int, size_n:2048:int, size_k:11008:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<8x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.3.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.16.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.22.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.29.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.11.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.0.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.20.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.28.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.31.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.21.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.7.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.4.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.15.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.19.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.25.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.14.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.32.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.10.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.30.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.26.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.35.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.1.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.23.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.17.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.12.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.13.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.18.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.24.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.9.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.33.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.34.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.2.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.5.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.6.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.8.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.27.mlp.down_proj_RowParallelLinear"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 324,
+            "inputs": "(a:<1x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x5120xi32>{5120, 1}, b_scales:<16x2560xf16>{2560, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x320xi32>{320, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:1:int, size_n:2560:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<1x2560xf16>{2560, 1}",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.33.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.qkv_proj_QKVParallelLinear"
+            ]
+        },
+        {
+            "idx": 5,
+            "use_count": 324,
+            "inputs": "(a:<1x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x4096xi32>{4096, 1}, b_scales:<16x2048xf16>{2048, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x256xi32>{256, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:1:int, size_n:2048:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.33.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.32.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.o_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.o_proj_RowParallelLinear"
+            ]
+        },
+        {
+            "idx": 6,
+            "use_count": 324,
+            "inputs": "(a:<1x2048xf16>{2048, 1}, c_or_none:None:NoneType, b_q_weight:<128x44032xi32>{44032, 1}, b_scales:<16x22016xf16>{22016, 1}, global_scale:None:NoneType, b_zeros_or_none:<16x2752xi32>{2752, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:1:int, size_n:22016:int, size_k:2048:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<1x22016xf16>{22016, 1}",
+            "state": [
+                "fwd:qwen.model.layers.11.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.9.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.6.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.33.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.0.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.23.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.1.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.7.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.2.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.13.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.14.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.8.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.10.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.19.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.34.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.32.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.3.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.26.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.16.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.35.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.12.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.4.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.15.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.28.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.5.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.22.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.21.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.24.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.18.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.20.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.31.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.25.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.27.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.29.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.30.mlp.gate_up_proj_MergedColumnParallelLinear",
+                "fwd:qwen.model.layers.17.mlp.gate_up_proj_MergedColumnParallelLinear"
+            ]
+        },
+        {
+            "idx": 7,
+            "use_count": 324,
+            "inputs": "(a:<1x11008xf16>{11008, 1}, c_or_none:None:NoneType, b_q_weight:<688x4096xi32>{4096, 1}, b_scales:<86x2048xf16>{2048, 1}, global_scale:None:NoneType, b_zeros_or_none:<86x256xi32>{256, 1}, g_idx_or_none:<0xi32>{1}, perm_or_none:<0xi32>{1}, workspace:<108xi32>{1}, b_q_type:1125899906843648:int, size_m:1:int, size_n:2048:int, size_k:11008:int, is_k_full:True:bool, use_atomic_add:False:bool, use_fp32_reduce:True:bool, is_zp_float:False:bool)",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "fwd:qwen.model.layers.3.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.16.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.22.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.29.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.11.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.0.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.20.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.28.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.31.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.21.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.7.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.4.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.15.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.19.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.25.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.14.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.32.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.10.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.30.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.26.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.35.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.1.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.23.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.17.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.12.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.13.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.18.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.24.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.9.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.33.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.34.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.2.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.5.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.6.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.8.mlp.down_proj_RowParallelLinear",
+                "fwd:qwen.model.layers.27.mlp.down_proj_RowParallelLinear"
+            ]
+        }
+    ],
+    "aten::add_": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(self:<8x2560xf16>{2560, 1}, other:<2560xf16>{1})",
+            "outputs": "<8x2560xf16>{2560, 1}",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.33.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.qkv_proj_QKVParallelLinear"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 324,
+            "inputs": "(self:<1x2560xf16>{2560, 1}, other:<2560xf16>{1})",
+            "outputs": "<1x2560xf16>{2560, 1}",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.8.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.29.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.16.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.4.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.9.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.35.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.15.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.34.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.27.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.33.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.31.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.14.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.11.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.28.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.25.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.2.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.13.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.22.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.26.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.10.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.3.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.24.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.17.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.18.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.0.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.1.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.21.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.20.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.30.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.23.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.12.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.7.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.5.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.19.self_attn.qkv_proj_QKVParallelLinear",
+                "fwd:qwen.model.layers.6.self_attn.qkv_proj_QKVParallelLinear"
+            ]
+        }
+    ],
+    "aten::index_select": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(self:<32768x128xf16>{128, 1}, dim:0:int, index:<8xint64>{1})",
+            "outputs": "<8x128xf16>{128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 9,
+            "inputs": "(self:<8388608xi32>{1}, dim:0:int, index:<1xint64>{1}, out:<1xi32>{1})",
+            "outputs": "<1xi32>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 324,
+            "inputs": "(self:<32768x128xf16>{128, 1}, dim:0:int, index:<1xint64>{1})",
+            "outputs": "<1x128xf16>{128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        }
+    ],
+    "aten::sub": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(self:<8x16x64xf16>{1024, 64, 1}, other:<8x16x64xf16>{1024, 64, 1})",
+            "outputs": "<8x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 36,
+            "inputs": "(self:<8x2x64xf16>{128, 64, 1}, other:<8x2x64xf16>{128, 64, 1})",
+            "outputs": "<8x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 9,
+            "inputs": "(self:<1xi32>{1}+1, other:1:int)",
+            "outputs": "<1xi32>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 324,
+            "inputs": "(self:<1x16x64xf16>{1024, 64, 1}, other:<1x16x64xf16>{1024, 64, 1})",
+            "outputs": "<1x16x64xf16>{1024, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 324,
+            "inputs": "(self:<1x2x64xf16>{128, 64, 1}, other:<1x2x64xf16>{128, 64, 1})",
+            "outputs": "<1x2x64xf16>{128, 64, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        }
+    ],
+    "aten::cat": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(tensors:['<8x16x64xf16>{1024, 64, 1}', '<8x16x64xf16>{1024, 64, 1}'], dim:-1:int)",
+            "outputs": "<8x16x128xf16>{2048, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 36,
+            "inputs": "(tensors:['<8x16x128xf16>{2048, 128, 1}', '<8x16x0xf16>{2560, 128, 1}+128'], dim:-1:int)",
+            "outputs": "<8x16x128xf16>{2048, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 36,
+            "inputs": "(tensors:['<8x2x64xf16>{128, 64, 1}', '<8x2x64xf16>{128, 64, 1}'], dim:-1:int)",
+            "outputs": "<8x2x128xf16>{256, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 36,
+            "inputs": "(tensors:['<8x2x128xf16>{256, 128, 1}', '<8x2x0xf16>{2560, 128, 1}+2176'], dim:-1:int)",
+            "outputs": "<8x2x128xf16>{256, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 324,
+            "inputs": "(tensors:['<1x16x64xf16>{1024, 64, 1}', '<1x16x64xf16>{1024, 64, 1}'], dim:-1:int)",
+            "outputs": "<1x16x128xf16>{2048, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 5,
+            "use_count": 324,
+            "inputs": "(tensors:['<1x16x128xf16>{2048, 128, 1}', '<1x16x0xf16>{2048, 128, 1}+128'], dim:-1:int)",
+            "outputs": "<1x16x128xf16>{2048, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 6,
+            "use_count": 324,
+            "inputs": "(tensors:['<1x2x64xf16>{128, 64, 1}', '<1x2x64xf16>{128, 64, 1}'], dim:-1:int)",
+            "outputs": "<1x2x128xf16>{256, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        },
+        {
+            "idx": 7,
+            "use_count": 324,
+            "inputs": "(tensors:['<1x2x128xf16>{256, 128, 1}', '<1x2x0xf16>{256, 128, 1}+2176'], dim:-1:int)",
+            "outputs": "<1x2x128xf16>{256, 128, 1}",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.rotary_emb_RotaryEmbedding"
+            ]
+        }
+    ],
+    "vllm::unified_attention_with_output": [
+        {
+            "idx": 0,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_0_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.0.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_1_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.1.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_2_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.2.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_3_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.3.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 4,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_4_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.4.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 5,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_5_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.5.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 6,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_6_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.6.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 7,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_7_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.7.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 8,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_8_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.8.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 9,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_9_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.9.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 10,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_10_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.10.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 11,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_11_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.11.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 12,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_12_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.12.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 13,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_13_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.13.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 14,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_14_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.14.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 15,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_15_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.15.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 16,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_16_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.16.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 17,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_17_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.17.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 18,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_18_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.18.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 19,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_19_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.19.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 20,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_20_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.20.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 21,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_21_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.21.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 22,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_22_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.22.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 23,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_23_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.23.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 24,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_24_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.24.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 25,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_25_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.25.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 26,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_26_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.26.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 27,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_27_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.27.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 28,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_28_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.28.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 29,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_29_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.29.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 30,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_30_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.30.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 31,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_31_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.31.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 32,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_32_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 33,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_33_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.33.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 34,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_34_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.34.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 35,
+            "use_count": 1,
+            "inputs": "(query:<8x16x128xf16>{2048, 128, 1}, key:<8x2x128xf16>{256, 128, 1}, value:<8x2x128xf16>{2560, 128, 1}+2304, output:<8x16x128xf16>{2048, 128, 1}, layer_name:model_layers_35_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 36,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_0_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.0.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 37,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_1_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.1.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 38,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_2_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.2.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 39,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_3_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.3.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 40,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_4_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.4.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 41,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_5_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.5.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 42,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_6_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.6.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 43,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_7_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.7.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 44,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_8_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.8.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 45,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_9_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.9.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 46,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_10_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.10.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 47,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_11_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.11.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 48,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_12_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.12.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 49,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_13_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.13.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 50,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_14_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.14.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 51,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_15_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.15.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 52,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_16_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.16.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 53,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_17_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.17.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 54,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_18_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.18.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 55,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_19_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.19.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 56,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_20_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.20.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 57,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_21_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.21.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 58,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_22_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.22.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 59,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_23_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.23.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 60,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_24_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.24.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 61,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_25_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.25.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 62,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_26_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.26.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 63,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_27_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.27.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 64,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_28_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.28.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 65,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_29_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.29.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 66,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_30_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.30.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 67,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_31_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.31.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 68,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_32_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.32.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 69,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_33_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.33.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 70,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_34_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.34.self_attn.attn_Attention"
+            ]
+        },
+        {
+            "idx": 71,
+            "use_count": 9,
+            "inputs": "(query:<1x16x128xf16>{2048, 128, 1}, key:<1x2x128xf16>{256, 128, 1}, value:<1x2x128xf16>{256, 128, 1}+2304, output:<1x16x128xf16>{2048, 128, 1}, layer_name:model_layers_35_self_attn_attn:str)",
+            "outputs": "None:NoneType",
+            "state": [
+                "fwd:qwen.model.layers.35.self_attn.attn_Attention"
+            ]
+        }
+    ],
+    "aten::silu": [
+        {
+            "idx": 0,
+            "use_count": 36,
+            "inputs": "(self:<8x11008xf16>{22016, 1})",
+            "outputs": "<8x11008xf16>{11008, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.17.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.28.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.11.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.34.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.25.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.0.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.19.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.35.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.5.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.6.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.13.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.10.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.12.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.27.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.8.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.31.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.23.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.2.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.22.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.15.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.32.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.1.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.9.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.20.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.16.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.7.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.3.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.14.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.33.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.4.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.24.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.18.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.29.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.21.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.26.mlp.act_fn_SiluAndMul"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 324,
+            "inputs": "(self:<1x11008xf16>{22016, 1})",
+            "outputs": "<1x11008xf16>{11008, 1}",
+            "state": [
+                "fwd:qwen.model.layers.30.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.17.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.28.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.11.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.34.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.25.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.0.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.19.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.35.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.5.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.6.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.13.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.10.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.12.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.27.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.8.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.31.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.23.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.2.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.22.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.15.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.32.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.1.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.9.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.20.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.16.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.7.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.3.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.14.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.33.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.4.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.24.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.18.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.29.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.21.mlp.act_fn_SiluAndMul",
+                "fwd:qwen.model.layers.26.mlp.act_fn_SiluAndMul"
+            ]
+        }
+    ],
+    "aten::index": [
+        {
+            "idx": 0,
+            "use_count": 1,
+            "inputs": "(self:<8x2048xf16>{2048, 1}, indices:['<1xi32>{1}'])",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "root"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 9,
+            "inputs": "(self:<524288xi32>{1}, indices:['<1xint64>{1}'])",
+            "outputs": "<1xi32>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 9,
+            "inputs": "(self:<1x2048xf16>{2048, 1}, indices:['<1xi32>{1}'])",
+            "outputs": "<1x2048xf16>{2048, 1}",
+            "state": [
+                "root"
+            ]
+        }
+    ],
+    "aten::linear": [
+        {
+            "idx": 0,
+            "use_count": 10,
+            "inputs": "(input:<1x2048xf16>{2048, 1}, weight:<151936x2048xf16>{2048, 1})",
+            "outputs": "<1x151936xf16>{151936, 1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        }
+    ],
+    "aten::argmax": [
+        {
+            "idx": 0,
+            "use_count": 10,
+            "inputs": "(self:<1x151936xf32>{151936, 1}, dim:-1:int)",
+            "outputs": "<1xint64>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        }
+    ],
+    "aten::copy_": [
+        {
+            "idx": 0,
+            "use_count": 9,
+            "inputs": "(self:<1x2048xi32>{2048, 1}, src:<1x2048xi32>{2048, 1}, non_blocking:True:bool)",
+            "outputs": "<1x2048xi32>{2048, 1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 18,
+            "inputs": "(self:<1xi32>{1}, src:<1xi32>{1}, non_blocking:True:bool)",
+            "outputs": "<1xi32>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 18,
+            "inputs": "(self:<1xint64>{1}, src:<1xint64>{1}, non_blocking:True:bool)",
+            "outputs": "<1xint64>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 3,
+            "use_count": 9,
+            "inputs": "(self:<2xi32>{1}, src:<2xi32>{1}, non_blocking:True:bool)",
+            "outputs": "<2xi32>{1}",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        }
+    ],
+    "aten::fill_": [
+        {
+            "idx": 0,
+            "use_count": 9,
+            "inputs": "(self:<255xi32>{1}+1, value:0:int)",
+            "outputs": "<255xi32>{1}+1",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 1,
+            "use_count": 9,
+            "inputs": "(self:<255xi32>{1}+2, value:-1:int)",
+            "outputs": "<255xi32>{1}+2",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        },
+        {
+            "idx": 2,
+            "use_count": 9,
+            "inputs": "(self:<8191xint64>{1}+1, value:-1:int)",
+            "outputs": "<8191xint64>{1}+1",
+            "state": [
+                "fwd:qwen.logits_processor_LogitsProcessor"
+            ]
+        }
+    ]
+}

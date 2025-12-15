@@ -1,0 +1,784 @@
+config:
+  env:
+    hardware: H100SXM
+    software: transformers
+    n_nodes: 1
+    world_size: 1
+  model:
+    name: janus_pro
+    parameters_size: 7B
+    num_layers: 30
+    hidden_size: 4096
+    ffn_hidden_size: 11008
+    num_attention_heads: 32
+    num_hidden_dim: 128
+    swiglu: true
+    rope: true
+    rms_norm: true
+    vocab_size: 102400
+    image_size: 384
+    num_image_tokens: 576
+    patch_size: 16
+    # num_image_tokens: 3060
+  aligner_config:
+    cls: MlpProjector
+    input_dim: 1024
+    n_embed: 4096
+  modules:
+    janus_pro:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, num_image_tokens, gradient_accumulation_steps]
+      loop: gradient_accumulation_steps
+      percent:
+        base: 0.80
+        optim: 14
+        L3_requirement: 90
+      fwd:
+        - layer::CLIP;[24, micro_batch_size, 16, num_image_tokens, 64, 1024, 4096, vocab_size, -1, 16]
+        - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+        - layer::GPTDecoder;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+        - layer::ColumnParallelLinear;[micro_batch_size*seq_length, hidden_size, vocab_size]
+        - layer::Loss;[micro_batch_size*seq_length, vocab_size]
+    optim:
+      shape: [7, 1000000000]
+      fwd:
+        - layer::Adam
+  target:
+    layer::GPTDecoder: 2287
+    layer::MLP_Silu: 418
+    janus_pro: 76000
+  training:
+    tensor_model_parallel_size: 1
+    pipeline_model_parallel_size: 1
+    virtual_pipeline_model_parallel_size: None
+    data_parallel_size: 8
+    context_parallel_size: 1
+    expert_model_parallel_size: 1
+    sequence_parallel: False
+    gradient_accumulation_steps: 2
+    micro_batch_size: 1
+    global_batch_size: 256
+    seq_length: 74
+    trained_samples: -1
+    eval_samples: -1
+    train_iters: -1
+  feature:
+    megatron_amp_O2: None
+    fsdp: None
+    activations_checkpoint: None
+    transformer_impl: transformer_engine
+    precision: bf16
+    ub_tp_comm_overlap: None
+    cpu_offloading: False
+    use_distributed_optimizer: False
+    recompute_granularity: None
+training_info:
+  summary:
+    step_time: 652.639ms
+    iter_time: 86.394ms
+  step_info:
+    0: 660.260ms
+    1: 652.555ms
+    2: 648.238ms
+    3: 651.801ms
+    4: 650.339ms
+  iter_info:
+    0_0: 101.862ms
+    0_1: 85.129ms
+    0_2: 83.854ms
+    0_3: 83.357ms
+    0_4: 85.912ms
+    0_5: 84.610ms
+    0_6: 83.973ms
+    0_7: 86.315ms
+    1_0: 87.373ms
+    1_1: 85.299ms
+    1_2: 86.473ms
+    1_3: 87.649ms
+    1_4: 84.791ms
+    1_5: 84.741ms
+    1_6: 85.334ms
+    1_7: 85.638ms
+  module_info:
+    emb_fwd:
+      - <0, 30, 30> 5.845ms
+      - <1486, 1510, 24> 4.417ms
+    emb_bwd:
+      - <1476, 1486, 10> 5.289ms
+    attn_fwd:
+      - <30, 89, 59>  9.358ms
+    attn_bwd:
+      - <1471, 1476, 5> 131.296us
+    mlp_fwd:
+      - <89, 95, 6> 802.431us
+    mlp_bwd:
+      - <1460, 1471, 11> 1.144ms
+    optim_step:
+      - <11846, 12120, 274> 229.372ms
+    loss_fwd_bwd:
+      - <95, 1459, 1364> 77.865ms
+analysis:
+  memory_usage:
+    weight_each_device: -1
+    activation_each_device: -1
+    optimizer_each_device: -1
+    grad_each_device: -1
+    total_each_device: -1
+    total_each_dp_group: -1
+  flops:
+    model_flops: -1
+    cluster_flops: -1
+    flops_each_device: -1
+  ratio:
+    communication_ratio: -1
+    2d_ratio: -1
+    1d_ratio: -1
+    bubble_ratio: -1
+  mfu: -1
+  training_time: -1
+module:
+  Model:
+    fwd:
+      - layer::RMSNorm:
+      - module::LlamaMLP:
+        - param_name: janus_pro.language_model.model.layers.0.mlp
+        - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+  Embedding:
+    fwd:
+      - layer::LlamaRotaryEmbedding:
+        - param_name: language_model.model.rotary_emb
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}', '<1x631xint64>{631, 1}'], {})
+        - aten::stack:
+          inputs: (start%13:list{%419:<1024xCUSTOM_DATA_TYPE>{1}+1}, 0:int, out=%426:<1x1024xCUSTOM_DATA_TYPE>{1024, 1})
+          outputs: (%426:<1x1024xCUSTOM_DATA_TYPE>{1024,1})
+          duration: -1
+        - aten::stack:
+          inputs: (start%423:list{%415:<1024xCUSTOM_DATA_TYPE>{1}+1}, 0:int, out=%406:<1x1024xCUSTOM_DATA_TYPE>{1024, 1})
+          outputs: (%406:<1x1024xCUSTOM_DATA_TYPE>{1024,1})
+          duration: -1
+        - aten::embedding:
+          inputs: (%25:<102400x5120xbf16>{5120, 1}, %424:<1x1024xCUSTOM_DATA_TYPE>{1024, 1}, -1:int, False:bool, False:bool)
+          outputs: (%449:<1x1024x5120xbf16>{5242880,5120,1})
+          duration: -1
+      - layer::RotaryEmbedding:
+        - param_name: deepseek_v2.rotary_pos_emb
+        - aten::arange:
+          inputs: (1024:int, dtype=torch_float32:dtype, layout=None:NoneType, device=cuda_3:device, pin_memory=False:bool)
+          outputs: (%460:<1024xf32>{1})
+          duration: -1
+        - aten::add:
+          inputs: (%460:<1024xf32>{1}, 0:int, alpha=1:int)
+          outputs: (%474:<1024xf32>{1})
+          duration: -1
+        - aten::mul:
+          inputs: (%460:<1024x1xf32>{1, 1}, %28:<20xf32>{1})
+          outputs: (%466:<1024x20xf32>{20,1})
+          duration: -1
+        - aten::cat:
+          inputs: (%475:list{%466:<1024x20xf32>{20, 1}, %466:<1024x20xf32>{20, 1}}, -1:int)
+          outputs: (%476:<1024x40xf32>{40,1})
+          duration: -1
+    bwd:
+      - layer::VocabParallelEmbedding:
+        - param_name: deepseek_v2.embedding.word_embeddings
+        - aten::embedding_dense_backward:
+          inputs: (%325:<1x1024x5120xbf16>{5120, 5120, 1}, %430:<1x1024xCUSTOM_DATA_TYPE>{1024, 1}, 102400:int, -1:int, False:bool)
+          outputs: (%879:<102400x5120xbf16>{5120,1})
+          duration: -1
+        - aten::add_:
+          inputs: (%186:<102400x5120xf32>{5120, 1}+667008000, %1177:<102400x5120xbf16>{5120, 1}, alpha=1:int)
+          outputs: (%186:<102400x5120xf32>{5120,1}+667008000)
+          duration: -1
+        - aten::zeros:
+          inputs: (%1345:list{320:int}, dtype=torch_float32:dtype, layout=torch_strided:layout, device=cuda_6:device, pin_memory=None:NoneType)
+          outputs: (%1593:<320xf32>{1})
+          duration: -1
+        - aten::pow:
+          inputs: (%1276:<1xf32>{1}, 2_0:float)
+          outputs: (%885:<1xf32>{1})
+          duration: -1
+        - c10d::allreduce_:
+          inputs: (%1035:list{%885:<1xf32>{1}}, ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, ScriptObject____torch___torch_classes_c10d_ReduceOp_:ScriptObject, None:NoneType, -1:int)
+          outputs: (%756:tuple{%1594:list{%885:<1xf32>{1}},ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject})
+          duration: -1
+  Decoder:
+    fwd:
+      - layer:LlamaRMSNorm:
+        - param_name: language_model.model.layers.0.input_layernorm
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - layer::LlamaAttention:
+        - param_name: language_model.model.layers.0.self_attn
+        # - inputs: ([], {'hidden_states': '<1x631x4096xbf16>{2584576, 4096, 1}', 'attention_mask': 'None', 'position_ids': '<1x631xint64>{631, 1}', 'past_key_value': 'DynamicCache()', 'output_attentions': 'False', 'use_cache': 'True', 'cache_position': '<631xint64>{1}', 'position_embeddings': ['<1x631x128xbf16>{80768, 128, 1}', '<1x631x128xbf16>{80768, 128, 1}']})
+        - 1_0_fwd:Linear:
+          - param_name: language_model.model.layers.0.self_attn.q_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+      - 1_0_fwd:Linear:
+        - param_name: language_model.model.layers.0.self_attn.k_proj
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+        - name: aten::mm
+          inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+          outputs: <631x4096xbf16>{4096, 1}
+          duration: -1
+      - 1_0_fwd:Linear:
+        - param_name: language_model.model.layers.0.self_attn.v_proj
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+        - name: aten::mm
+          inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+          outputs: <631x4096xbf16>{4096, 1}
+          duration: -1
+      - name: aten::mul
+        inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+        duration: -1
+      - name: aten::neg
+        inputs: (self:<1x32x631x64xbf16>{2584576, 128, 4096, 1}+64)
+        outputs: <1x32x631x64xbf16>{1292288, 64, 2048, 1}
+        duration: -1
+      - name: aten::cat
+        inputs: (tensors:['<1x32x631x64xbf16>{1292288, 64, 2048, 1}', '<1x32x631x64xbf16>{2584576, 128, 4096, 1}'], dim:-1)
+        outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x32x631x128xbf16>{2584576, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+        duration: -1
+      - name: aten::neg
+        inputs: (self:<1x32x631x64xbf16>{2584576, 128, 4096, 1}+64)
+        outputs: <1x32x631x64xbf16>{1292288, 64, 2048, 1}
+        duration: -1
+      - name: aten::cat
+        inputs: (tensors:['<1x32x631x64xbf16>{1292288, 64, 2048, 1}', '<1x32x631x64xbf16>{2584576, 128, 4096, 1}'], dim:-1)
+        outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x32x631x128xbf16>{2584576, 80768, 128, 1})
+        outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+        duration: -1
+      - name: aten::_scaled_dot_product_flash_attention
+        inputs: (query:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, key:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, value:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, dropout_p:0.0, is_causal:True, scale:0.08838834764831845)
+        outputs: ['<1x32x631x128xbf16>{2584576, 80768, 128, 1}', '<1x32x631xf32>{20192, 631, 1}', 'None', 'None', '631', '631', '<i32>', '<i32>', '<0xbf16>{1}']
+        duration: -1
+      - 1_0_fwd:Linear:
+        - param_name: language_model.model.layers.0.self_attn.o_proj
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+        - name: aten::mm
+          inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+          outputs: <631x4096xbf16>{4096, 1}
+          duration: -1
+
+      - layer::RowParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_proj
+        - aten::mm:
+          inputs: (%607:<1024x16384xbf16>{16384, 1}, %605:<16384x5120xbf16>{1, 16384})
+          outputs: (%511:<1024x5120xbf16>{5120,1})
+          duration: -1
+      - layer::RMSNorm:
+        - param_name: deepseek_v2.decoder.layers.0.pre_mlp_layernorm
+        - apex::fused_rms_norm_affine:
+          inputs: (%491:<1024x1x5120xbf16>{5120, 5120, 1}, %33:<5120xbf16>{1}, torch_Size([5120]):Size, 1e-06:float, False:bool, %494:tuple{%491:<1024x1x5120xbf16>{5120, 5120, 1}, %33:<5120xbf16>{1}, torch_Size([5120]):Size, 1e-06:float, False:bool})
+          outputs: (%463:<1024x1x5120xbf16>{5120,5120,1})
+          duration: -1
+      - layer::TopKRouter:
+        - param_name: deepseek_v2.decoder.layers.0.mlp.router
+        - aten::mm:
+          inputs: (%723:<1024x5120xbf16>{5120, 1}, %722:<5120x160xbf16>{1, 5120})
+          outputs: (%724:<1024x160xbf16>{160,1})
+          duration: -1
+        - aten::_softmax:
+          inputs: (%728:<1024x160xf32>{160, 1}, 1:int, False:bool)
+          outputs: (%729:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::topk:
+          inputs: (%731:<1024x160xbf16>{160, 1}, 6:int, -1:int, True:bool, True:bool)
+          outputs: (%732:tuple{%733:<1024x6xbf16>{6,1},%734:<1024x6xCUSTOM_DATA_TYPE>{6,1}})
+          duration: -1
+        - aten::_softmax:
+          inputs: (%735:<1024x160xf32>{160, 1}, -1:int, False:bool)
+          outputs: (%736:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::zeros:
+          inputs: (%738:list{1024:int, 6:int, 160:int}, dtype=torch_int64:dtype, layout=torch_strided:layout, device=cuda_6:device, pin_memory=None:NoneType)
+          outputs: (%739:<1024x6x160xCUSTOM_DATA_TYPE>{960,160,1})
+          duration: -1
+        - aten::scatter_:
+          inputs: (%739:<1024x6x160xCUSTOM_DATA_TYPE>{960, 160, 1}, -1:int, %740:<1024x6x1xCUSTOM_DATA_TYPE>{6, 1, 1}, 1:int)
+          outputs: (%739:<1024x6x160xCUSTOM_DATA_TYPE>{960,160,1})
+          duration: -1
+        - aten::sum:
+          inputs: (%739:<1024x6x160xCUSTOM_DATA_TYPE>{960, 160, 1}, %738:list{1:int}, False:bool, dtype=None:NoneType)
+          outputs: (%741:<1024x160xCUSTOM_DATA_TYPE>{160,1})
+          duration: -1
+        - aten::sum:
+          inputs: (%736:<1024x160xf32>{160, 1}, %738:list{0:int}, False:bool, dtype=None:NoneType)
+          outputs: (%742:<160xf32>{1})
+          duration: -1
+        - aten::mul:
+          inputs: (%742:<160xf32>{1}, %741:<1024x160xCUSTOM_DATA_TYPE>{160, 1})
+          outputs: (%740:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::sum:
+          inputs: (%740:<1024x160xf32>{160, 1}, dtype=None:NoneType)
+          outputs: (%743:<i32>)
+          duration: -1
+        - aten::mul:
+          inputs: (%743:<i32>, 2_5431315104166666e-07:float)
+          outputs: (%744:<i32>)
+          duration: -1
+        - aten::div:
+          inputs: (%744:<i32>, 0_01:float)
+          outputs: (%745:<i32>)
+          duration: -1
+        - aten::zeros:
+          inputs: (%738:list{1:int}, dtype=None:NoneType, layout=None:NoneType, device=cuda_6:device, pin_memory=False:bool)
+          outputs: (%746:<1xf32>{1})
+          duration: -1
+        - aten::add_:
+          inputs: (%747:<i32>, %749:<i32>, alpha=1:int)
+          outputs: (%747:<i32>)
+          duration: -1
+        - aten::copy_:
+          inputs: (%750:<i32>, %747:<i32>, False:bool)
+          outputs: (%750:<i32>)
+          duration: -1
+      - layer::LlamaMLP:
+        - param_name: janus_pro.language_model.model.layers.0.mlp
+        - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+        - layer::Linear:
+          - param_name: janus_pro.language_model.model.layers.0.mlp.gate_proj
+          - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<646x4096xbf16>{4096, 1}, mat2:<4096x11008xbf16>{1, 4096})
+            outputs: <646x11008xbf16>{11008, 1}
+            duration: -1
+        - layer::SiLU:
+          - param_name: janus_pro.language_model.model.layers.0.mlp.act_fn
+          - inputs: (['<1x646x11008xbf16>{7111168, 11008, 1}'], {})
+          - name: aten::silu
+            inputs: (self:<1x646x11008xbf16>{7111168, 11008, 1})
+            outputs: <1x646x11008xbf16>{7111168, 11008, 1}
+            duration: -1
+        - layer::Linear:
+          - param_name: janus_pro.language_model.model.layers.0.mlp.up_proj
+          - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<646x4096xbf16>{4096, 1}, mat2:<4096x11008xbf16>{1, 4096})
+            outputs: <646x11008xbf16>{11008, 1}
+            duration: -1
+        - aten::mul:
+          inputs: (self:<1x646x11008xbf16>{7111168, 11008, 1}, other:<1x646x11008xbf16>{7111168, 11008, 1})
+          outputs: <1x646x11008xbf16>{7111168, 11008, 1}
+          duration: -1
+        - layer::Linear:
+          - param_name: janus_pro.language_model.model.layers.0.mlp.down_proj
+          - inputs: (['<1x646x11008xbf16>{7111168, 11008, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<646x11008xbf16>{11008, 1}, mat2:<11008x4096xbf16>{1, 11008})
+            outputs: <646x4096xbf16>{4096, 1}
+            duration: -1
+      - name: aten::add
+        inputs: (self:<1x646x4096xbf16>{2646016, 4096, 1}, other:<1x646x4096xbf16>{2646016, 4096, 1})
+        outputs: <1x646x4096xbf16>{2646016, 4096, 1}
+        duration: -1
+      - layer::RMSNorm:
+        - param_name: janus_pro.language_model.model.norm
+        - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+
+    bwd:
+      - layer::RMSNorm:
+        - param_name: deepseek_v2.decoder.final_layernorm
+        - aten::add_:
+          inputs: (%175:<5120xf32>{1}+524288000, %1483:<5120xbf16>{1}, alpha=1:int)
+          outputs: (%175:<5120xf32>{1}+524288000)
+          duration: -1
+        - apex::FusedRMSNormAffineFunctionBackward:
+          inputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120, 5120, 1}, %33:<5120xbf16>{1}, %496:<1024xf32>{1}})
+          outputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120,5120,1},%33:<5120xbf16>{1},%496:<1024xf32>{1}})
+          duration: -1
+      - layer::Expert:
+        - param_name: deepseek_v2.decoder.layers.0.mlp.experts.local_experts.0
+        - aten::mm:
+          inputs: (%1558:<75x5120xbf16>{5120, 1}, %73:<5120x1536xbf16>{1536, 1})
+          outputs: (%987:<75x1536xbf16>{1536,1})
+          duration: -1
+        - aten::mul:
+          inputs: (%987:<75x1536xbf16>{1536, 1}, %807:<75x1536xbf16>{1536, 1})
+          outputs: (%1577:<75x1536xbf16>{1536,1})
+          duration: -1
+        - aten::mul:
+          inputs: (%987:<75x1536xbf16>{1536, 1}, %806:<75x1536xbf16>{3072, 1}+1536)
+          outputs: (%1576:<75x1536xbf16>{1536,1})
+          duration: -1
+        - aten::silu_backward:
+          inputs: (%1576:<75x1536xbf16>{1536, 1}, %758:<75x1536xbf16>{3072, 1})
+          outputs: (%987:<75x1536xbf16>{1536,1})
+          duration: -1
+        - aten::cat:
+          inputs: (%1561:list{%987:<75x1536xbf16>{1536, 1}, %1577:<75x1536xbf16>{1536, 1}}, 1:int)
+          outputs: (%962:<75x3072xbf16>{3072,1})
+          duration: -1
+        - aten::mm:
+          inputs: (%962:<75x3072xbf16>{3072, 1}, %76:<3072x5120xbf16>{5120, 1})
+          outputs: (%980:<75x5120xbf16>{5120,1})
+          duration: -1
+        - aten::add:
+          inputs: (%840:<6352x5120xbf16>{5120, 1}, %987:<6352x5120xbf16>{5120, 1}, alpha=1:int)
+          outputs: (%962:<6352x5120xbf16>{5120,1})
+          duration: -1
+        - aten::zeros:
+          inputs: (%1561:list{20:int}, dtype=torch_int64:dtype, layout=torch_strided:layout, device=cpu:device, pin_memory=None:NoneType)
+          outputs: (%987:<20xCUSTOM_DATA_TYPE>{1})
+          duration: -1
+        - aten::new_zeros:
+          inputs: (%962:<6352x5120xbf16>{5120, 1}, %1561:list{6352:int, 5120:int}, dtype=None:NoneType, layout=None:NoneType, device=None:NoneType, pin_memory=None:NoneType)
+          outputs: (%987:<6352x5120xbf16>{5120,1})
+          duration: -1
+        - aten::scatter_add:
+          inputs: (%987:<6352x5120xbf16>{5120, 1}, 0:int, %776:<6352x5120xCUSTOM_DATA_TYPE>{1, 0}, %962:<6352x5120xbf16>{5120, 1})
+          outputs: (%432:<6352x5120xbf16>{5120,1})
+          duration: -1
+        - aten::new_zeros:
+          inputs: (%432:<6352x5120xbf16>{5120, 1}, %1554:list{8192:int, 5120:int}, dtype=None:NoneType, layout=None:NoneType, device=None:NoneType, pin_memory=None:NoneType)
+          outputs: (%1574:<8192x5120xbf16>{5120,1})
+          duration: -1
+        - aten::scatter_add:
+          inputs: (%1574:<8192x5120xbf16>{5120, 1}, 0:int, %771:<6352x5120xCUSTOM_DATA_TYPE>{1, 0}, %432:<6352x5120xbf16>{5120, 1})
+          outputs: (%962:<8192x5120xbf16>{5120,1})
+          duration: -1
+        - aten::masked_scatter:
+          inputs: (%987:<8192x6xbf16>{6, 1}, %761:<8192x6xCUSTOM_DATA_TYPE>{6, 1}, %784:<6352xbf16>{1})
+          outputs: (%840:<8192x6xbf16>{6,1})
+          duration: -1
+        - c10d::_reduce_scatter_base_:
+          inputs: (%987:<1024x6xbf16>{6, 1}, %840:<8192x6xbf16>{6, 1}, ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, ScriptObject____torch___torch_classes_c10d_ReduceOp_:ScriptObject, False:bool, -1:int)
+          outputs: (%1578:tuple{%987:<1024x6xbf16>{6,1},ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject})
+          duration: -1
+        - c10d::_reduce_scatter_base_:
+          inputs: (%1562:<1024x5120xbf16>{5120, 1}, %962:<8192x5120xbf16>{5120, 1}, ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, ScriptObject____torch___torch_classes_c10d_ReduceOp_:ScriptObject, False:bool, -1:int)
+          outputs: (%1559:tuple{%1562:<1024x5120xbf16>{5120,1},ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject})
+          duration: -1
+        - aten::add:
+          inputs: (%1547:<1024x1x5120xbf16>{5120, 5120, 1}, %840:<1024x1x5120xbf16>{5120, 5120, 1}, alpha=1:int)
+          outputs: (%962:<1024x1x5120xbf16>{5120,5120,1})
+          duration: -1
+        - aten::zeros:
+          inputs: (%1561:list{1024:int, 6:int}, dtype=torch_int64:dtype, layout=torch_strided:layout, device=cuda_6:device, pin_memory=None:NoneType)
+          outputs: (%1512:<1024x6xCUSTOM_DATA_TYPE>{6,1})
+          duration: -1
+      - layer::TopKRouter:
+        - param_name: deepseek_v2.decoder.layers.0.mlp.router
+        - aten::mul:
+          inputs: (%840:<i32>, %1536:<1xf32>{1})
+          outputs: (%1577:<1xf32>{1})
+          duration: -1
+        - aten::sum:
+          inputs: (%1577:<1xf32>{1}, dtype=None:NoneType)
+          outputs: (%1576:<i32>)
+          duration: -1
+        - aten::mul:
+          inputs: (%1576:<i32>, 2_5431315104166666e-07:float)
+          outputs: (%1574:<i32>)
+          duration: -1
+        - aten::mul:
+          inputs: (%1579:<1024x160xf32>{0, 0}, %741:<1024x160xCUSTOM_DATA_TYPE>{160, 1})
+          outputs: (%740:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::sum:
+          inputs: (%740:<1024x160xf32>{160, 1}, %1543:list{0:int}, True:bool, dtype=None:NoneType)
+          outputs: (%1580:<1x160xf32>{160,1})
+          duration: -1
+        - aten::_softmax_backward_data:
+          inputs: (%1558:<1024x160xf32>{0, 1}, %840:<1024x160xf32>{160, 1}, -1:int, torch_float32:dtype)
+          outputs: (%740:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::zeros:
+          inputs: (%1543:list{1024:int, 160:int}, dtype=torch_bfloat16:dtype, layout=torch_strided:layout, device=cuda_6:device, pin_memory=None:NoneType)
+          outputs: (%840:<1024x160xbf16>{160,1})
+          duration: -1
+        - aten::scatter:
+          inputs: (%840:<1024x160xbf16>{160, 1}, -1:int, %734:<1024x6xCUSTOM_DATA_TYPE>{6, 1}, %987:<1024x6xbf16>{6, 1})
+          outputs: (%740:<1024x160xbf16>{160,1})
+          duration: -1
+        - aten::_softmax_backward_data:
+          inputs: (%1505:<1024x160xf32>{160, 1}, %1579:<1024x160xf32>{160, 1}, 1:int, torch_float32:dtype)
+          outputs: (%997:<1024x160xf32>{160,1})
+          duration: -1
+        - aten::add:
+          inputs: (%1580:<1024x160xbf16>{160, 1}, %1579:<1024x160xbf16>{160, 1}, alpha=1:int)
+          outputs: (%740:<1024x160xbf16>{160,1})
+          duration: -1
+        - aten::mm:
+          inputs: (%1576:<160x1024xbf16>{1, 160}, %723:<1024x5120xbf16>{5120, 1})
+          outputs: (%1577:<160x5120xbf16>{5120,1})
+          duration: -1
+        - aten::mm:
+          inputs: (%1574:<1024x160xbf16>{160, 1}, %1580:<160x5120xbf16>{5120, 1})
+          outputs: (%1576:<1024x5120xbf16>{5120,1})
+          duration: -1
+        - aten::add_:
+          inputs: (%182:<160x5120xf32>{5120, 1}+571479040, %1505:<160x5120xbf16>{5120, 1}, alpha=1:int)
+          outputs: (%182:<160x5120xf32>{5120,1}+571479040)
+          duration: -1
+      - aten::add:
+        inputs: (%962:<1024x1x5120xbf16>{5120, 5120, 1}, %740:<1024x1x5120xbf16>{5120, 5120, 1}, alpha=1:int)
+        outputs: (%987:<1024x1x5120xbf16>{5120,5120,1})
+        duration: -1
+      - aten::add_:
+        inputs: (%184:<5120xf32>{1}+572298240, %701:<5120xbf16>{1}, alpha=1:int)
+        outputs: (%184:<5120xf32>{1}+572298240)
+        duration: -1
+      - layer::RMSNorm:
+        - param_name:
+        - aten::add:
+          inputs: (%1553:<1024x1x5120xbf16>{5120, 5120, 1}, %723:<1024x1x5120xbf16>{5120, 5120, 1}, alpha=1:int)
+          outputs: (%730:<1024x1x5120xbf16>{5120,5120,1})
+          duration: -1
+        - apex::FusedRMSNormAffineFunctionBackward:
+          inputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120, 5120, 1}, %33:<5120xbf16>{1}, %496:<1024xf32>{1}})
+          outputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120,5120,1},%33:<5120xbf16>{1},%496:<1024xf32>{1}})
+          duration: -1
+      - layer::RowParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_proj
+        - aten::mm:
+          inputs: (%997:<1024x5120xbf16>{5120, 1}, %36:<5120x16384xbf16>{16384, 1})
+          outputs: (%1575:<1024x16384xbf16>{16384,1})
+          duration: -1
+      - layer::SDPA:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention
+        - aten::bmm:
+          inputs: (%344:<128x1024x1024xbf16>{1048576, 1, 1024}, %997:<128x1024x128xbf16>{128, 16384, 1})
+          outputs: (%734:<128x1024x128xbf16>{131072,128,1})
+          duration: -1
+        - aten::bmm:
+          inputs: (%997:<128x1024x128xbf16>{128, 16384, 1}, %601:<128x128x1024xbf16>{256, 1, 32768}+128)
+          outputs: (%1513:<128x1024x1024xbf16>{1048576,1024,1})
+          duration: -1
+        - aten::_softmax_backward_data:
+          inputs: (%607:<1x128x1024x1024xf32>{134217728, 1048576, 1024, 1}, %344:<1x128x1024x1024xf32>{134217728, 1048576, 1024, 1}, -1:int, torch_float32:dtype)
+          outputs: (%1513:<1x128x1024x1024xf32>{134217728,1048576,1024,1})
+          duration: -1
+        - aten::mul:
+          inputs: (%607:<1x128x1024x1024xbf16>{134217728, 1048576, 1024, 1}, 0_1147213867929261:float)
+          outputs: (%601:<1x128x1024x1024xbf16>{134217728,1048576,1024,1})
+          duration: -1
+        - aten::bmm:
+          inputs: (%1576:<128x192x1024xbf16>{196608, 1, 192}, %607:<128x1024x1024xbf16>{1048576, 1024, 1})
+          outputs: (%1512:<128x192x1024xbf16>{196608,1024,1})
+          duration: -1
+        - aten::bmm:
+          inputs: (%607:<128x1024x1024xbf16>{1048576, 1024, 1}, %1558:<128x1024x192xbf16>{196608, 192, 1})
+          outputs: (%1576:<128x1024x192xbf16>{196608,192,1})
+          duration: -1
+        - aten::copy_:
+          inputs: (%1558:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, %344:<1x128x1024x192xbf16>{25165824, 196608, 1, 1024}, False:bool)
+          outputs: (%1558:<1x128x1024x192xbf16>{25165824,196608,192,1})
+          duration: -1
+        - aten::copy_:
+          inputs: (%325:<1x128x1024x64xbf16>{25165824, 196608, 192, 1}+128, %1055:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, False:bool)
+          outputs: (%325:<1x128x1024x64xbf16>{25165824,196608,192,1}+128)
+          duration: -1
+        - aten::sum:
+          inputs: (%806:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, %1543:list{0:int, 1:int}, True:bool, dtype=None:NoneType)
+          outputs: (%1055:<1x1x1024x64xbf16>{65536,65536,64,1})
+          duration: -1
+        - aten::copy_:
+          inputs: (%601:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, %1558:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, False:bool)
+          outputs: (%601:<1x128x1024x192xbf16>{25165824,196608,192,1})
+          duration: -1
+        - aten::copy_:
+          inputs: (%344:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, %607:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, False:bool)
+          outputs: (%344:<1x128x1024x192xbf16>{25165824,196608,192,1})
+          duration: -1
+        - aten::copy_:
+          inputs: (%801:<1x128x1024x64xbf16>{25165824, 196608, 192, 1}+128, %696:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, False:bool)
+          outputs: (%801:<1x128x1024x64xbf16>{25165824,196608,192,1}+128)
+          duration: -1
+        - aten::copy_:
+          inputs: (%1562:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, %344:<1x128x1024x192xbf16>{25165824, 196608, 192, 1}, False:bool)
+          outputs: (%1562:<1x128x1024x192xbf16>{25165824,196608,192,1})
+          duration: -1
+        - aten::mul:
+          inputs: (%762:<1x1x1024x64xbf16>{65536, 65536, 64, 1}, %571:<1x1x1024x64xbf16>{65536, 65536, 64, 1})
+          outputs: (%1576:<1x1x1024x64xbf16>{65536,65536,64,1})
+          duration: -1
+        - aten::neg:
+          inputs: (%807:<1x1x1024x32xbf16>{65536, 65536, 64, 1})
+          outputs: (%1583:<1x1x1024x32xbf16>{32768,32768,32,1})
+          duration: -1
+        - aten::add:
+          inputs: (%1512:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, %1583:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, alpha=1:int)
+          outputs: (%1576:<1x128x1024x64xbf16>{8388608,65536,64,1})
+          duration: -1
+        - aten::mul:
+          inputs: (%806:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, %594:<1x1x1024x64xbf16>{65536, 65536, 64, 1})
+          outputs: (%1512:<1x128x1024x64xbf16>{8388608,65536,64,1})
+          duration: -1
+        - aten::add:
+          inputs: (%1576:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, %1512:<1x128x1024x64xbf16>{8388608, 65536, 64, 1}, alpha=1:int)
+          outputs: (%594:<1x128x1024x64xbf16>{8388608,65536,64,1})
+          duration: -1
+        - aten::cat:
+          inputs: (%1543:list{%1177:<1024x1x128x128xbf16>{128, 16777216, 131072, 1}, %740:<1024x1x128x128xbf16>{128, 16777216, 131072, 1}}, 3:int)
+          outputs: (%595:<1024x1x128x256xbf16>{32768,32768,256,1})
+          duration: -1
+      - layer::ColumnParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_kv_b_proj
+        - aten::mm:
+          inputs: (%1505:<1024x32768xbf16>{32768, 1}, %60:<32768x512xbf16>{512, 1})
+          outputs: (%997:<1024x512xbf16>{512,1})
+          duration: -1
+      - aten::cat:
+        inputs: (%1345:list{%838:<1024x1x512xbf16>{512, 512, 1}, %1055:<1024x1x64xbf16>{64, 65536, 1}}, 2:int)
+        outputs: (%740:<1024x1x576xbf16>{576,576,1})
+        duration: -1
+      - layer::ColumnParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_kv_a_proj_with_mqa
+        - aten::mm:
+          inputs: (%595:<1024x576xbf16>{576, 1}, %41:<576x5120xbf16>{5120, 1})
+          outputs: (%1576:<1024x5120xbf16>{5120,1})
+          duration: -1
+      - aten::cat:
+        inputs: (%1556:list{%344:<1024x1x128x128xbf16>{128, 16777216, 131072, 1}, %1583:<1024x1x128x64xbf16>{64, 8388608, 65536, 1}}, 3:int)
+        outputs: (%1467:<1024x1x128x192xbf16>{24576,24576,192,1})
+        duration: -1
+      - layer::ColumnParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_q_b_proj
+        - aten::mm:
+          inputs: (%1139:<1024x24576xbf16>{24576, 1}, %47:<24576x1536xbf16>{1536, 1})
+          outputs: (%734:<1024x1536xbf16>{1536,1})
+          duration: -1
+      - layer::ColumnParallelLinear:
+        - param_name: deepseek_v2.decoder.layers.0.self_attention.linear_q_a_proj
+        - aten::mm:
+          inputs: (%519:<1024x1536xbf16>{1536, 1}, %38:<1536x5120xbf16>{5120, 1})
+          outputs: (%1467:<1024x5120xbf16>{5120,1})
+          duration: -1
+      - layer::RMSNorm:
+        - aten::add_:
+          inputs: (%189:<5120xf32>{1}+667002880, %1586:<5120xbf16>{1}, alpha=1:int)
+          outputs: (%189:<5120xf32>{1}+667002880)
+          duration: -1
+        - apex::FusedRMSNormAffineFunctionBackward:
+          inputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120, 5120, 1}, %33:<5120xbf16>{1}, %496:<1024xf32>{1}})
+          outputs: (%497:tuple{%491:<1024x1x5120xbf16>{5120,5120,1},%33:<5120xbf16>{1},%496:<1024xf32>{1}})
+          duration: -1
+      - aten::add:
+        inputs: (%730:<1024x1x5120xbf16>{5120, 5120, 1}, %1177:<1024x1x5120xbf16>{5120, 5120, 1}, alpha=1:int)
+        outputs: (%1587:<1024x1x5120xbf16>{5120,5120,1})
+        duration: -1
+  Post:
+    fwd:
+      - layer::Linear:
+        - param_name: janus_pro.language_model.lm_head
+        - inputs: (['<1x646x4096xbf16>{2646016, 4096, 1}'], {})
+        - name: aten::mm
+          inputs: (self:<646x4096xbf16>{4096, 1}, mat2:<4096x102400xbf16>{1, 4096})
+          outputs: <646x102400xbf16>{102400, 1}
+          duration: -1
+    bwd:
+      - layer::ColumnParallelLinear:
+        - param_name: deepseek_v2.output_layer
+        - aten::mm:
+          inputs: (%1887:<1024x102400xbf16>{102400, 1}, %149:<102400x5120xbf16>{5120, 1})
+          outputs: (%1052:<1024x5120xbf16>{5120,1})
+          duration: -1
+  Loss:
+    fwd:
+      - layer::Loss:
+        - name: aten::_log_softmax
+          inputs: (self:<645x102400xf32>{102400, 1}, dim:1:int, half_to_float:False:bool)
+          outputs: <645x102400xf32>{102400, 1}
+          duration: -1
+        - name: aten::nll_loss_forward
+          inputs: (self:<645x102400xf32>{102400, 1}, target:<645xint64>{1}+1, weight:None:NoneType, reduction:1:int, ignore_index:-100:int)
+          outputs: ['<i32>', '<i32>']
+          duration: -1
+        - name: aten::ne
+          inputs: (self:<1x645xint64>{646, 1}+1, other:-100:int)
+          outputs: <1x645xbool>{645, 1}
+          duration: -1
+        - name: aten::sum
+          inputs: (self:<1x645xbool>{645, 1})
+          outputs: <i32>
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<i32>, other:<i32>)
+          outputs: <i32>
+          duration: -1
+        - name: aten::div
+          inputs: (self:<i32>, other:27:int)
+          outputs: <i32>
+          duration: -1
+        - name: aten::argmax
+          inputs: (self:<1x646x102400xf32>{66150400, 102400, 1}, dim:-1:int)
+          outputs: <1x646xint64>{646, 1}
+          duration: -1
+    bwd:
+      - layer::Loss:
+        - name: aten::div
+          inputs: (self:<i32>, other:1:int)
+          outputs: <i32>
+          duration: -1
+        - name: aten::div
+          inputs: (self:<i32>, other:1:int)
+          outputs: <i32>
+          duration: -1
+        - name: aten::div
+          inputs: (self:<i32>, other:27:int)
+          outputs: <i32>
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<i32>, other:<i32>)
+          outputs: <i32>
+          duration: -1
+        - name: aten::nll_loss_backward
+          inputs: (grad_output:<i32>, self:<645x102400xf32>{102400, 1}, target:<645xint64>{1}+1, weight:None:NoneType, reduction:1:int, ignore_index:-100:int, total_weight:<i32>)
+          outputs: <645x102400xf32>{102400, 1}
+          duration: -1
+        - name: aten::_log_softmax_backward_data
+          inputs: (grad_output:<645x102400xf32>{102400, 1}, output:<645x102400xf32>{102400, 1}, dim:1:int, input_dtype:torch_float32:dtype)
+          outputs: <645x102400xf32>{102400, 1}
+          duration: -1
+  LlamaRMSNorm:
+    fwd:
+      - param_name: janus_pro.language_model.model.norm
+      - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - name: aten::pow
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, exponent:2)
+        outputs: <1x631x4096xf32>{2584576, 4096, 1}
+        duration: -1
+      - name: aten::mean
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, dim:['-1'], keepdim:True)
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x631x1xf32>{631, 1, 1}, other:1e-06)
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::rsqrt
+        inputs: (self:<1x631x1xf32>{631, 1, 1})
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, other:<1x631x1xf32>{631, 1, 1})
+        outputs: <1x631x4096xf32>{2584576, 4096, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<4096xbf16>{1}, other:<1x631x4096xbf16>{2584576, 4096, 1})
+        outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+        duration: -1
+    bwd:

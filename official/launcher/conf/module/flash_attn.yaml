@@ -1,0 +1,15 @@
+layer:
+  name: flash_attn
+  type: 
+    - Torch
+  seq_length:
+    - 2048
+#    - 4096
+#    - 8192
+#    - 16384
+#    - 32768
+#    - 65536
+  shape: 
+    - [1, 'seq_length', 3, 12, 128]
+  micro_batch_size: 1
+  precision: fp16

@@ -1,0 +1,312 @@
+# - name: aten::add
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192]
+#   input:
+#     - [M, N]
+#     - [N]
+- name: aten::add
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+    - [N]
+- name: aten::gelu
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+- name: aten::silu
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+- name: aten::mul
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+    - [1, N]
+- name: aten::fill_
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+    - _val: 1
+- name: aten::layer_norm
+  size:
+    M: [1, 2, 1024, 4096]
+    N: [32, 64, 120, 8192]
+  input:
+    - [M, N]
+    - _val: [N]
+
+aten::contiguous:
+  type: std
+  split:
+    - fill_
+    - copy_
+  flops: 0
+  io: 2
+aten::dropout:
+  type: std
+  split:
+    - native_dropout
+  flops: 12
+  io: 2
+aten::dropout_bwd:
+  type: std
+  split:
+    - native_dropout
+  flops: 1
+  io: 2
+aten::index_put_:
+  type: std
+  flops: 0
+  io: 2
+aten::to:
+  type: std
+  split:
+    - copy_
+  flops: 0
+  io: 2
+aten::slice:
+  type: framework
+  flops: 0
+  io: 1
+aten::copy_:
+  type: std
+  flops: 1
+  io: 2
+aten::bitwise_or:
+  type: std
+  flops: 0
+  io: 0
+aten::bitwise_and:
+  type: std
+  flops: 0
+  io: 0
+aten::bitwise_not:
+  type: std
+  flops: 0
+  io: 0
+aten::random_:
+  type: std
+  flops: 0
+  io: 2
+aten::softmax_backward:
+  type: std
+  split:
+    - _softmax_backward_data_out
+  flops: 7
+  io: 0
+aten::mul_out:
+  type: std
+  split:
+    - mul_out
+  flops: 1
+  io: 3
+aten::softmax_forward:
+  type: std
+  split:
+    - _softmax_out
+  flops: 7
+  io: 0
+aten::silu_backward:
+  type: std
+  split:
+    - silu_backward_out
+  flops: 26
+  io: 2
+aten::softmax:
+  type: std
+  split:
+    - _softmax_out
+  flops: 9
+  io: 2
+aten::scatter_add_out:
+  type: std
+  flops: 0
+  io: 2
+aten::scatter_:
+  type: std
+  flops: 0
+  io: 2
+aten::gelu_backward:
+  type: std
+  split:
+    - gelu_backward_out
+  flops: 13
+  io: 2
+aten::nll_loss_forward:
+  type: std
+  split:
+    - nll_loss_forward_out
+  flops: 0
+  io: 2
+aten::cat_out:
+  type: std
+  flops: 0
+  io: 0
+aten::nll_loss_backward:
+  type: std
+  split:
+    - nll_loss_backward_out
+  flops: 0
+  io: 2
+aten::masked_fill_:
+  type: std
+  flops: 0
+  io: 2
+aten::_log_softmax_backward_data:
+  type: std
+  split:
+    - _log_softmax_backward_data_out
+  flops: 7
+  io: 2
+aten::silu:
+  type: std
+  flops: 13
+  io: 2
+aten::add:
+  type: std
+  flops: 1
+  io: 3
+aten::add_:
+  type: std
+  flops: 1
+  io: 3
+aten::sub:
+  type: std
+  flops: 1
+  io: 3
+aten::mul:
+  type: std
+  flops: 1
+  io: 3
+aten::pow:
+  type: std
+  flops: 4
+  io: 3
+aten::mean:
+  type: std
+  flops: 1
+  io: 1
+aten::rsqrt:
+  type: std
+  flops: 1
+  io: 1
+aten::ne:
+  type: std
+  flops: 1
+  io: 2
+aten::sum:
+  type: std
+  flops: 1
+  io: 1
+aten::div:
+  type: std
+  flops: 1
+  io: 3
+aten::fill_:
+  type: std
+  flops: 0
+  io: 1
+aten::cat:
+  type: std
+  flops: 0
+  io: 4
+aten::_log_softmax_out:
+  type: std
+  flops: 9
+  io: 2
+aten::argmax:
+  type: std
+  flops: 0
+  io: 2
+aten::topk:
+  type: std
+  flops: 130
+  io: 2
+aten::sigmoid:
+  type: std
+  flops: 4
+  io: 2
+aten::sigmoid_backward:
+  type: std
+  flops: 4
+  io: 2
+aten::gelu:
+  type: std
+  flops: 13
+  io: 2
+aten::lt:
+  type: std
+  flops: 0
+  io: 2
+aten::index:
+  type: std
+  flops: 0
+  io: 2
+customer::FusedRoPEFunc:
+  type: customer
+  flops: 16
+  io: 2
+customer::FusedRoPEFuncBackward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rope_forward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rope_backward:
+  type: customer
+  flops: 16
+  io: 2
+customer::FusedScaleMaskSoftmax:
+  type: customer
+  flops: 9
+  io: 2
+customer::cast_to_fp8:
+  type: customer
+  flops: 4
+  io: 2
+customer::normal:
+  type: customer
+  flops: 4
+  io: 2
+customer::top2_sum_gate:
+  type: customer
+  flops: 16
+  io: 2
+customer::scaled_upper_triang_masked_softmax_cuda.forward:
+  type: customer
+  flops: 9
+  io: 2
+customer::fused_rotary_positional_embedding.forward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rotary_positional_embedding.backward:
+  type: customer
+  flops: 16
+  io: 2
+customer::grouped_topk:
+  type: customer
+  flops: 130
+  io: 2
+customer::sgl_moe_align_block_size:
+  type: customer
+  flops: 0
+  io: 2
+customer::concat_and_cache_mla:
+  type: customer
+  flops: 0
+  io: 2
+

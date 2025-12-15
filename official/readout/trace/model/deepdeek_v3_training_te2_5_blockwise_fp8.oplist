@@ -1,0 +1,850 @@
+================================================== trace ops ==================================================
+te::get_cudnn_version 1
+        %te.2_5_0:3% te::get_cudnn_version() -> 91100:int
+aten::embedding 1
+        %torch.2_8_0:3% aten::embedding(weight:<129280x7168xbf16>{7168, 1}+1741560832, indices:<1x4096xi64>{4096, 1}) -> <1x4096x7168xbf16>{29360128, 7168, 1}
+aten::transpose 9
+        %torch.2_8_0:3% aten::transpose(self:<1x4096x7168xbf16>{29360128, 7168, 1}, dim0:0:int, dim1:1:int) -> <4096x1x7168xbf16>{7168, 29360128, 1}
+        %torch.2_8_0:3% aten::transpose(self:<19621x4xbool>{4, 1}, dim0:0:int, dim1:1:int) -> <4x19621xbool>{1, 4}
+        %torch.2_8_0:3% aten::transpose(self:<4x19621xbool>{1, 4}, dim0:0:int, dim1:1:int) -> <19621x4xbool>{4, 1}
+        %torch.2_8_0:3% aten::transpose(self:<1x4096xi64>{4096, 1}, dim0:0:int, dim1:1:int) -> <4096x1xi64>{1, 4096}
+        %torch.2_8_0:3% aten::transpose(self:<4096x1xf32>{1, 1}, dim0:0:int, dim1:1:int) -> <1x4096xf32>{1, 1}
+        %torch.2_8_0:3% aten::transpose(self:<1x4096xf32>{4096, 1}, dim0:0:int, dim1:1:int) -> <4096x1xf32>{1, 4096}
+        %torch.2_8_0:3% aten::transpose(self:<4096x1x7168xbf16>{7168, 7168, 1}, dim0:0:int, dim1:1:int) -> <1x4096x7168xbf16>{7168, 7168, 1}
+        %torch.2_8_0:3% aten::transpose(self:<18722x4xbool>{4, 1}, dim0:0:int, dim1:1:int) -> <4x18722xbool>{1, 4}
+        %torch.2_8_0:3% aten::transpose(self:<4x18722xbool>{1, 4}, dim0:0:int, dim1:1:int) -> <18722x4xbool>{4, 1}
+te::rmsnorm_fwd 9
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x7168xbf16>{7168, 1}, <7168xbf16>{1}+1741553664, 1e-06:float, None:, None:, DType_kBFloat16:DType, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x1536xbf16>{1536, 1}, <1536xbf16>{1}+1613101568, 1e-06:float, None:, <True, True, True>:Float8BlockQuantizer, DType_kBFloat16:DType, 0:int, False:bool) -> tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x512xbf16>{512, 1}, <512xbf16>{1}+1571223552, 1e-06:float, None:, <True, True, True>:Float8BlockQuantizer, DType_kBFloat16:DType, 0:int, False:bool) -> tuple{<512x4096xu8>, <32x512xf32>, <4096x512xu8>, <4x4096xf32>, 1D:Mode, GEMM_READY:Format}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x7168xbf16>{7168, 1}, <7168xbf16>{1}+1554439168, 1e-06:float, None:, <True, True, True>:Float8BlockQuantizer, DType_kBFloat16:DType, 0:int, False:bool) -> tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x7168xbf16>{7168, 1}, <7168xbf16>{1}+1158070272, 1e-06:float, None:, None:, DType_kBFloat16:DType, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x1536xbf16>{1536, 1}, <1536xbf16>{1}+1029618176, 1e-06:float, None:, <True, True, True>:Float8BlockQuantizer, DType_kBFloat16:DType, 0:int, False:bool) -> tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x512xbf16>{512, 1}, <512xbf16>{1}+987740160, 1e-06:float, None:, <True, True, True>:Float8BlockQuantizer, DType_kBFloat16:DType, 0:int, False:bool) -> tuple{<512x4096xu8>, <32x512xf32>, <4096x512xu8>, <4x4096xf32>, 1D:Mode, GEMM_READY:Format}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x7168xbf16>{7168, 1}, <7168xbf16>{1}+970955776, 1e-06:float, None:, None:, DType_kBFloat16:DType, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, None:, <4096xf32>{1}
+        %te.2_5_0:3% te::rmsnorm_fwd(<4096x7168xbf16>{7168, 1}, <7168xbf16>{1}+926679040, 1e-06:float, None:, None:, DType_kBFloat16:DType, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, None:, <4096xf32>{1}
+aten::cos 1
+        %torch.2_8_0:3% aten::cos(self:<4096x1x1x64xf32>{64, 64, 64, 1}) -> <4096x1x1x64xf32>{64, 64, 64, 1}
+aten::mul 31
+        %torch.2_8_0:3% aten::mul(self:<4096x1x1x64xf32>{64, 64, 64, 1}, other:1_0:float) -> <4096x1x1x64xf32>{64, 64, 64, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x18432xbf16>{18432, 1}, other:<4096x18432xbf16>{36864, 1}+18432) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x8xf32>{8, 1}, other:2_5:float) -> <4096x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::mul(self:<1x32xf32>{32, 1}, other:<1x32xf32>{32, 1}) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x2048xbf16>{2048, 1}, other:<4096x2048xbf16>{4096, 1}+2048) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<4xf32>{1}, other:16:int) -> <4xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xbf16>{2048, 1}, other:<38688x2048xbf16>{4096, 1}+2048) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xbf16>{2048, 1}, other:<38688x1xf32>{1, 1}) -> <38688x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096xf32>{1}, other:<4096xf32>{1}) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<1xf32>{1}, other:1:int) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<1xf32>{1}, other:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<4096xf32>{0}, other:<4096xf32>{1}) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xf32>{2048, 1}, other:<38688x2048xbf16>{2048, 1}) -> <38688x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xbf16>{4096, 1}, other:<38688x2048xbf16>{2048, 1}) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xf32>{2048, 1}, other:<38688x2048xbf16>{4096, 1}+2048) -> <38688x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<38688x2048xbf16>{2048, 1}, other:<38688x2048xf32>{2048, 1}) -> <38688x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x2048xbf16>{2048, 1}, other:<4096x2048xbf16>{2048, 1}) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x2048xbf16>{4096, 1}, other:<4096x2048xbf16>{2048, 1}) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<1xf32>{1}, other:0_001:float) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::mul(self:<1x32xf32>{1, 0}, other:<1x32xf32>{32, 1}) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x32xf32>{32, 1}, other:<4096x32xf32>{32, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x8xf32>{8, 1}, other:<4096x8xf32>{8, 1}) -> <4096x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x18432xbf16>{18432, 1}, other:<4096x18432xbf16>{18432, 1}) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::mul(self:<4096x18432xbf16>{36864, 1}, other:<4096x18432xbf16>{18432, 1}) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::mul(self:<1x32xbf16>{32, 1}, other:0_001:float) -> <1x32xbf16>{32, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xbf16>{2048, 1}, other:<35856x2048xbf16>{4096, 1}+2048) -> <35856x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xbf16>{2048, 1}, other:<35856x1xf32>{1, 1}) -> <35856x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xf32>{2048, 1}, other:<35856x2048xbf16>{2048, 1}) -> <35856x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xbf16>{4096, 1}, other:<35856x2048xbf16>{2048, 1}) -> <35856x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xf32>{2048, 1}, other:<35856x2048xbf16>{4096, 1}+2048) -> <35856x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::mul(self:<35856x2048xbf16>{2048, 1}, other:<35856x2048xf32>{2048, 1}) -> <35856x2048xf32>{2048, 1}
+aten::_to_copy 78
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x1x1x64xf32>{64, 64, 64, 1}, dtype:torch_bfloat16:dtype) -> <4096x1x1x64xbf16>{64, 64, 64, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<32xbf16>{1}, dtype:torch_float32:dtype) -> <32xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x32xf32>{32, 1}, dtype:torch_bool:dtype) -> <4096x32xbool>{32, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x32xf32>{32, 1}, dtype:torch_int32:dtype) -> <4096x32xi32>{32, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x32xi32>{32, 1}, dtype:torch_bool:dtype) -> <4096x32xbool>{32, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1xi64>{1}, dtype:torch_int64:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <1xi64>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+5, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+10, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+15, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+20, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+25, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+30, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<5xu8>{1}+35, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+108, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+216, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+324, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+432, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+540, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+648, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<108xu8>{1}+756, dtype:torch_uint8:dtype, layout:torch_strided:layout, device:cpu:device) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<19621x4xi64>{4, 1}, dtype:torch_bool:dtype) -> <19621x4xbool>{4, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4xf32>{1}, dtype:torch_int64:dtype) -> <4xi64>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4x19621xbool>{1, 4}, dtype:torch_int32:dtype) -> <4x19621xi32>{1, 4}
+        %torch.2_8_0:3% aten::_to_copy(self:<0xf32>{1}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<38688x2048xf32>{2048, 1}, dtype:torch_bfloat16:dtype) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x1x129280xbf16>{129280, 129280, 1}, dtype:torch_float32:dtype) -> <4096x1x129280xf32>{129280, 129280, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096xbool>{1}, dtype:torch_float32:dtype) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x1x129280xf32>{129280, 129280, 1}, dtype:torch_bfloat16:dtype) -> <4096x1x129280xbf16>{129280, 129280, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<38688x2048xbf16>{2048, 1}, dtype:torch_float32:dtype) -> <38688x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<38688x4096xf32>{4096, 1}, dtype:torch_bfloat16:dtype) -> <38688x4096xbf16>{4096, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<32x7168xbf16>{7168, 1}+970726400, dtype:torch_float32:dtype) -> <32x7168xf32>{7168, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x7168xbf16>{7168, 1}, dtype:torch_float32:dtype) -> <4096x7168xf32>{7168, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4096x7168xf32>{7168, 1}, dtype:torch_bfloat16:dtype) -> <4096x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<32x7168xf32>{7168, 1}, dtype:torch_bfloat16:dtype) -> <32x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29028224xbf16>{1}+1000589952, dtype:torch_float32:dtype) -> <29028224xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<11010048xbf16>{1}+1029619712, dtype:torch_float32:dtype) -> <11010048xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<117440512xbf16>{1}+1040629760, dtype:torch_float32:dtype) -> <117440512xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<132120576xbf16>{1}+1158077440, dtype:torch_float32:dtype) -> <132120576xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<43921920xbf16>{1}+1290198016, dtype:torch_float32:dtype) -> <43921920xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1536xbf16>{1}+1029618176, dtype:torch_float32:dtype) -> <1536xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<7168xbf16>{1}+1158070272, dtype:torch_float32:dtype) -> <7168xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<14680064xbf16>{1}, dtype:torch_float32:dtype) -> <14680064xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<14680064xbf16>{1}+14680064, dtype:torch_float32:dtype) -> <14680064xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<14680064xbf16>{1}+29360128, dtype:torch_float32:dtype) -> <14680064xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<14680064xbf16>{1}+44040192, dtype:torch_float32:dtype) -> <14680064xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xbf16>{1}+58720256, dtype:torch_float32:dtype) -> <29360128xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xbf16>{1}+88080384, dtype:torch_float32:dtype) -> <29360128xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xbf16>{1}+117440512, dtype:torch_float32:dtype) -> <29360128xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xbf16>{1}+146800640, dtype:torch_float32:dtype) -> <29360128xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29028224xbf16>{1}, dtype:torch_float32:dtype) -> <29028224xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<11010048xbf16>{1}, dtype:torch_float32:dtype) -> <11010048xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<117440512xbf16>{1}, dtype:torch_float32:dtype) -> <117440512xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<132120576xbf16>{1}, dtype:torch_float32:dtype) -> <132120576xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<43921920xbf16>{1}, dtype:torch_float32:dtype) -> <43921920xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29028224xf32>{1}, dtype:torch_bfloat16:dtype) -> <29028224xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<11010048xf32>{1}, dtype:torch_bfloat16:dtype) -> <11010048xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<117440512xf32>{1}, dtype:torch_bfloat16:dtype) -> <117440512xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<132120576xf32>{1}, dtype:torch_bfloat16:dtype) -> <132120576xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<43921920xf32>{1}, dtype:torch_bfloat16:dtype) -> <43921920xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1536xbf16>{1}, dtype:torch_float32:dtype) -> <1536xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<7168xbf16>{1}, dtype:torch_float32:dtype) -> <7168xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1536xf32>{1}, dtype:torch_bfloat16:dtype) -> <1536xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<7168xf32>{1}, dtype:torch_bfloat16:dtype) -> <7168xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xbf16>{1}, dtype:torch_float32:dtype) -> <29360128xf32>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<14680064xf32>{1}, dtype:torch_bfloat16:dtype) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<29360128xf32>{1}, dtype:torch_bfloat16:dtype) -> <29360128xbf16>{1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1x4096xi64>{4096, 1}, dtype:torch_int64:dtype, layout:torch_strided:layout, device:cuda_3:device, non_blocking:True:bool) -> <1x4096xi64>{4096, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1x4096xf32>{4096, 1}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device, non_blocking:True:bool) -> <1x4096xf32>{4096, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<1x1x4096x4096xbool>{16777216, 16777216, 4096, 1}, dtype:torch_bool:dtype, layout:torch_strided:layout, device:cuda_3:device, non_blocking:True:bool) -> <1x1x4096x4096xbool>{16777216, 16777216, 4096, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<18722x4xi64>{4, 1}, dtype:torch_bool:dtype) -> <18722x4xbool>{4, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<4x18722xbool>{1, 4}, dtype:torch_int32:dtype) -> <4x18722xi32>{1, 4}
+        %torch.2_8_0:3% aten::_to_copy(self:<35856x2048xf32>{2048, 1}, dtype:torch_bfloat16:dtype) -> <35856x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<35856x2048xbf16>{2048, 1}, dtype:torch_float32:dtype) -> <35856x2048xf32>{2048, 1}
+        %torch.2_8_0:3% aten::_to_copy(self:<35856x4096xf32>{4096, 1}, dtype:torch_bfloat16:dtype) -> <35856x4096xbf16>{4096, 1}
+aten::sin 1
+        %torch.2_8_0:3% aten::sin(self:<4096x1x1x64xf32>{64, 64, 64, 1}) -> <4096x1x1x64xf32>{64, 64, 64, 1}
+te::quantize 55
+        %te.2_5_0:3% te::quantize(<4096x1x7168xbf16>{7168, 7168, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<7168x4096x1xu8>, <32x7168xf32>, <4096x1x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<1536x7168xbf16>{7168, 1}+1613103104, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<576x7168xbf16>{7168, 1}+1571224064, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<24576x1536xbf16>{1536, 1}+1575352832, <True, True, False>:Float8BlockQuantizer) -> tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<32768x512xbf16>{512, 1}+1554446336, <True, True, False>:Float8BlockQuantizer) -> tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x1x16384xbf16>{16384, 16384, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<16384x4096x1xu8>, <32x16384xf32>, <4096x1x16384xu8>, <128x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x16384xbf16>{16384, 1}+1624113152, <True, True, False>:Float8BlockQuantizer) -> tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<36864x7168xbf16>{7168, 1}+1290198016, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x36864xu8>, <56x288xf32>, <36864x7168xu8>, <288x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x1x18432xbf16>{18432, 18432, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<18432x4096x1xu8>, <32x18432xf32>, <4096x1x18432xu8>, <144x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x18432xbf16>{18432, 1}+1158077440, <True, True, False>:Float8BlockQuantizer) -> tuple{<18432x7168xu8>, <144x56xf32>, <7168x18432xu8>, <56x144xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<1536x7168xbf16>{7168, 1}+1029619712, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<576x7168xbf16>{7168, 1}+987740672, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<24576x1536xbf16>{1536, 1}+991869440, <True, True, False>:Float8BlockQuantizer) -> tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<32768x512xbf16>{512, 1}+970962944, <True, True, False>:Float8BlockQuantizer) -> tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x16384xbf16>{16384, 1}+1040629760, <True, True, False>:Float8BlockQuantizer) -> tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+941366272, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x1x2048xbf16>{2048, 2048, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<2048x4096x1xu8>, <32x2048xf32>, <4096x1x2048xu8>, <16x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+926686208, <True, True, False>:Float8BlockQuantizer) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+146800640, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+117440512, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+88080384, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+58720256, <True, True, False>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+44040192, <True, True, False>:Float8BlockQuantizer) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+29360128, <True, True, False>:Float8BlockQuantizer) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+14680064, <True, True, False>:Float8BlockQuantizer) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}, <True, True, False>:Float8BlockQuantizer) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x4096xbf16>{4096, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<4096x4096xu8>, <32x4096xf32>, <4096x4096xu8>, <32x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x32768xbf16>{32768, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<32768x4096xu8>, <32x32768xf32>, <4096x32768xu8>, <256x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x24576xbf16>{24576, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<24576x4096xu8>, <32x24576xf32>, <4096x24576xu8>, <192x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x576xbf16>{576, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<576x4096xu8>, <32x576xf32>, <4096x576xu8>, <5x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x1536xbf16>{1536, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x36864xbf16>{36864, 1}, <True, True, True>:Float8BlockQuantizer) -> tuple{<36864x4096xu8>, <32x36864xf32>, <4096x36864xu8>, <288x4096xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<1536x7168xbf16>{7168, 1}+1613103104, <True, True, True>:Float8BlockQuantizer, tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<576x7168xbf16>{7168, 1}+1571224064, <True, True, True>:Float8BlockQuantizer, tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<24576x1536xbf16>{1536, 1}+1575352832, <True, True, True>:Float8BlockQuantizer, tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<32768x512xbf16>{512, 1}+1554446336, <True, True, True>:Float8BlockQuantizer, tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x16384xbf16>{16384, 1}+1624113152, <True, True, True>:Float8BlockQuantizer, tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}        %te.2_5_0:3% te::quantize(<36864x7168xbf16>{7168, 1}+1290198016, <True, True, True>:Float8BlockQuantizer, tuple{<7168x36864xu8>, <56x288xf32>, <36864x7168xu8>, <288x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x36864xu8>, <56x288xf32>, <36864x7168xu8>, <288x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x18432xbf16>{18432, 1}+1158077440, <True, True, True>:Float8BlockQuantizer, tuple{<18432x7168xu8>, <144x56xf32>, <7168x18432xu8>, <56x144xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<18432x7168xu8>, <144x56xf32>, <7168x18432xu8>, <56x144xf32>, 2D:Mode, GEMM_READY:Format}        %te.2_5_0:3% te::quantize(<1536x7168xbf16>{7168, 1}+1029619712, <True, True, True>:Float8BlockQuantizer, tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<576x7168xbf16>{7168, 1}+987740672, <True, True, True>:Float8BlockQuantizer, tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<24576x1536xbf16>{1536, 1}+991869440, <True, True, True>:Float8BlockQuantizer, tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<32768x512xbf16>{512, 1}+970962944, <True, True, True>:Float8BlockQuantizer, tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x16384xbf16>{16384, 1}+1040629760, <True, True, True>:Float8BlockQuantizer, tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+941366272, <True, True, True>:Float8BlockQuantizer, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+926686208, <True, True, True>:Float8BlockQuantizer, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+146800640, <True, True, True>:Float8BlockQuantizer, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+117440512, <True, True, True>:Float8BlockQuantizer, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+88080384, <True, True, True>:Float8BlockQuantizer, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<4096x7168xbf16>{7168, 1}+58720256, <True, True, True>:Float8BlockQuantizer, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+44040192, <True, True, True>:Float8BlockQuantizer, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+29360128, <True, True, True>:Float8BlockQuantizer, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}+14680064, <True, True, True>:Float8BlockQuantizer, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::quantize(<7168x2048xbf16>{2048, 1}, <True, True, True>:Float8BlockQuantizer, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, None:) -> tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}
+te::generic_gemm 30
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<7168x4096x1xu8>, <32x7168xf32>, <4096x1x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x1536xbf16>{1536, 1536, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<7168x4096x1xu8>, <32x7168xf32>, <4096x1x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x576xbf16>{576, 576, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x24576xbf16>{24576, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<512x4096xu8>, <32x512xf32>, <4096x512xu8>, <4x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x32768xbf16>{32768, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<16384x4096x1xu8>, <32x16384xf32>, <4096x1x16384xu8>, <128x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x7168xbf16>{7168, 7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x36864xu8>, <56x288xf32>, <36864x7168xu8>, <288x56xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x36864xbf16>{36864, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<18432x7168xu8>, <144x56xf32>, <7168x18432xu8>, <56x144xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<18432x4096x1xu8>, <32x18432xf32>, <4096x1x18432xu8>, <144x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x7168xbf16>{7168, 7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(<32x7168xbf16>{7168, 1}+970726400, True:bool, <4096x7168xbf16>{7168, 1}, False:bool, None:, None:, DType_kFloat32:DType, None:, DType_kBFloat16:DType, None:, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, False:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x32xf32>{32, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<7168x4096x1xu8>, <32x7168xf32>, <4096x1x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x4096xbf16>{4096, 4096, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, True:bool, tuple{<2048x4096x1xu8>, <32x2048xf32>, <4096x1x2048xu8>, <16x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, False:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1x7168xbf16>{7168, 7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x2048xbf16>{2048, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<2048x4096x1xu8>, <32x2048xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <7168x2048xbf16>{2048, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<4096x4096xu8>, <32x4096xf32>, <4096x4096xu8>, <32x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096x1xu8>, <32x7168xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<4096x4096xu8>, <32x4096xf32>, <4096x4096xu8>, <32x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(<32x7168xf32>{7168, 1}, False:bool, <4096x32xf32>{32, 1}, False:bool, None:, None:, DType_kFloat32:DType, None:, DType_kBFloat16:DType, None:, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, False:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xf32>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(<4096x7168xf32>{7168, 1}, False:bool, <4096x32xf32>{32, 1}, True:bool, None:, None:, DType_kFloat32:DType, None:, DType_kBFloat16:DType, None:, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, False:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <32x7168xf32>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<16384x7168xu8>, <128x56xf32>, <7168x16384xu8>, <56x128xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x16384xbf16>{16384, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<16384x4096x1xu8>, <32x16384xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <7168x16384xbf16>{16384, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<512x32768xu8>, <4x256xf32>, <32768x512xu8>, <256x4xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<32768x4096xu8>, <32x32768xf32>, <4096x32768xu8>, <256x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x512xbf16>{512, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<512x4096xu8>, <32x512xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<32768x4096xu8>, <32x32768xf32>, <4096x32768xu8>, <256x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <32768x512xbf16>{512, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<1536x24576xu8>, <12x192xf32>, <24576x1536xu8>, <192x12xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<24576x4096xu8>, <32x24576xf32>, <4096x24576xu8>, <192x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x1536xbf16>{1536, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<1536x4096xu8>, <32x1536xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<24576x4096xu8>, <32x24576xf32>, <4096x24576xu8>, <192x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <24576x1536xbf16>{1536, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x576xu8>, <56x8xf32>, <576x7168xu8>, <5x56xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<576x4096xu8>, <32x576xf32>, <4096x576xu8>, <5x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096x1xu8>, <32x7168xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<576x4096xu8>, <32x576xf32>, <4096x576xu8>, <5x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <576x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x1536xu8>, <56x12xf32>, <1536x7168xu8>, <12x56xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096x1xu8>, <32x7168xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<1536x4096xu8>, <32x1536xf32>, <4096x1536xu8>, <12x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <1536x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<18432x7168xu8>, <144x56xf32>, <7168x18432xu8>, <56x144xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x18432xbf16>{18432, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<18432x4096x1xu8>, <32x18432xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<7168x4096xu8>, <32x7168xf32>, <4096x7168xu8>, <56x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <7168x18432xbf16>{18432, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x36864xu8>, <56x288xf32>, <36864x7168xu8>, <288x56xf32>, 2D:Mode, GEMM_READY:Format}, False:bool, tuple{<36864x4096xu8>, <32x36864xf32>, <4096x36864xu8>, <288x4096xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <4096x7168xbf16>{7168, 1}, None:, None:, None:
+        %te.2_5_0:3% te::generic_gemm(tuple{<7168x4096xu8>, <32x7168xf32>, 1D:Mode, GEMM_READY:Format}, False:bool, tuple{<36864x4096xu8>, <32x36864xf32>, <4096x36864xu8>, <288x4096xf32>, 1D:Mode, GEMM_READY:Format}, True:bool, None:, None:, DType_kBFloat16:DType, None:, DType_kBFloat16:DType, False:bool, None:, True:bool, <33554432xu8>{1}, 33554432:int, False:bool, True:bool, comm_overlap:None:, comm_type:None:, extra_output:None:, bulk_overlap:False:bool) -> <36864x7168xbf16>{7168, 1}, None:, None:, None:
+aten::split_with_sizes 1
+        %torch.2_8_0:3% aten::split_with_sizes(self:<4096x1x576xbf16>{576, 576, 1}, split_sizes:list{512:int, 64:int}, dim:-1:int) -> <4096x1x512xbf16>{576, 576, 1}, <4096x1x64xbf16>{576, 576, 1}+512
+aten::clone 10
+        %torch.2_8_0:3% aten::clone(self:<4096x1x512xbf16>{576, 512, 1}, memory_format:torch_contiguous_format:memory_format) -> <4096x1x512xbf16>{512, 512, 1}
+        %torch.2_8_0:3% aten::clone(self:<4096x128x192xbf16>{24576, 192, 1}) -> <4096x128x192xbf16>{24576, 192, 1}
+        %torch.2_8_0:3% aten::clone(self:<4096x2x16xf32>{2, 1, 0}, memory_format:torch_contiguous_format:memory_format) -> <4096x2x16xf32>{32, 16, 1}
+        %torch.2_8_0:3% aten::clone(self:<4x19621xbool>{1, 4}, memory_format:torch_contiguous_format:memory_format) -> <4x19621xbool>{19621, 1}
+        %torch.2_8_0:3% aten::clone(self:<4x19621xf32>{1, 4}, memory_format:torch_contiguous_format:memory_format) -> <4x19621xf32>{19621, 1}
+        %torch.2_8_0:3% aten::clone(self:<4096x1xi64>{1, 4096}) -> <4096x1xi64>{1, 4096}
+        %torch.2_8_0:3% aten::clone(self:<4096xf32>{1}) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::clone(self:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::clone(self:<4x18722xbool>{1, 4}, memory_format:torch_contiguous_format:memory_format) -> <4x18722xbool>{18722, 1}
+        %torch.2_8_0:3% aten::clone(self:<4x18722xf32>{1, 4}, memory_format:torch_contiguous_format:memory_format) -> <4x18722xf32>{18722, 1}
+aten::unsqueeze 22
+        %torch.2_8_0:3% aten::unsqueeze(self:<4096x1x64xbf16>{576, 576, 1}+512, dim:-2:int) -> <4096x1x1x64xbf16>{576, 576, 64, 1}+512
+        %torch.2_8_0:3% aten::unsqueeze(self:<4096x2xf32>{2, 1}, dim:-1:int) -> <4096x2x1xf32>{2, 1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+1
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+2
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+3
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+4
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+5
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+6
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xi64>{1}, dim:0:int) -> <1xi64>{1}+7
+        %torch.2_8_0:3% aten::unsqueeze(self:<4xi64>{1}, dim:1:int) -> <4x1xi64>{1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<19621xi64>{1}, dim:0:int) -> <1x19621xi64>{19621, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<38688xf32>{1}, dim:-1:int) -> <38688x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<38688xi64>{1}, dim:1:int) -> <38688x1xi64>{1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<4096x1xf32>{1, 1}, dim:-1:int) -> <4096x1x1xf32>{1, 1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<4096x1xf32>{1, 1}+4096, dim:-1:int) -> <4096x1x1xf32>{1, 1, 1}+4096
+        %torch.2_8_0:3% aten::unsqueeze(self:<4096x1xf32>{1, 4096}, dim:-1:int) -> <4096x1x1xf32>{1, 4096, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<1xf32>{1}, dim:1:int) -> <1x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<1x32xf32>{32, 1}, dim:0:int) -> <1x1x32xf32>{32, 32, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<18722xi64>{1}, dim:0:int) -> <1x18722xi64>{18722, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<35856xf32>{1}, dim:-1:int) -> <35856x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::unsqueeze(self:<35856xi64>{1}, dim:1:int) -> <35856x1xi64>{1, 1}
+aten::copy_ 27
+        %torch.2_8_0:3% aten::copy_(self:<4096x128x192xbf16>{24576, 192, 1}, src:<4096x128x192xbf16>{24576, 192, 1}) -> <4096x128x192xbf16>{24576, 192, 1}
+        %torch.2_8_0:3% aten::copy_(self:<1xf32>{1}, src:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::copy_(self:<32xf32>{1}, src:<32xf32>{1}) -> <32xf32>{1}
+        %torch.2_8_0:3% aten::copy_(self:<29028224xbf16>{1}, src:<29028224xbf16>{1}) -> <29028224xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<11010048xbf16>{1}, src:<11010048xbf16>{1}) -> <11010048xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<117440512xbf16>{1}, src:<117440512xbf16>{1}) -> <117440512xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<132120576xbf16>{1}, src:<132120576xbf16>{1}) -> <132120576xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<43921920xbf16>{1}, src:<43921920xbf16>{1}) -> <43921920xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<1536xbf16>{1}, src:<1536xbf16>{1}) -> <1536xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<7168xbf16>{1}, src:<7168xbf16>{1}) -> <7168xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<29028224xbf16>{1}+1000589952, src:<29028224xf32>{1}) -> <29028224xbf16>{1}+1000589952
+        %torch.2_8_0:3% aten::copy_(self:<11010048xbf16>{1}+1029619712, src:<11010048xf32>{1}) -> <11010048xbf16>{1}+1029619712
+        %torch.2_8_0:3% aten::copy_(self:<117440512xbf16>{1}+1040629760, src:<117440512xf32>{1}) -> <117440512xbf16>{1}+1040629760
+        %torch.2_8_0:3% aten::copy_(self:<132120576xbf16>{1}+1158077440, src:<132120576xf32>{1}) -> <132120576xbf16>{1}+1158077440
+        %torch.2_8_0:3% aten::copy_(self:<43921920xbf16>{1}+1290198016, src:<43921920xf32>{1}) -> <43921920xbf16>{1}+1290198016
+        %torch.2_8_0:3% aten::copy_(self:<1536xbf16>{1}+1029618176, src:<1536xf32>{1}) -> <1536xbf16>{1}+1029618176
+        %torch.2_8_0:3% aten::copy_(self:<7168xbf16>{1}+1158070272, src:<7168xf32>{1}) -> <7168xbf16>{1}+1158070272
+        %torch.2_8_0:3% aten::copy_(self:<14680064xbf16>{1}, src:<14680064xbf16>{1}) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<29360128xbf16>{1}, src:<29360128xbf16>{1}) -> <29360128xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<14680064xbf16>{1}, src:<14680064xf32>{1}) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::copy_(self:<14680064xbf16>{1}+14680064, src:<14680064xf32>{1}) -> <14680064xbf16>{1}+14680064
+        %torch.2_8_0:3% aten::copy_(self:<14680064xbf16>{1}+29360128, src:<14680064xf32>{1}) -> <14680064xbf16>{1}+29360128
+        %torch.2_8_0:3% aten::copy_(self:<14680064xbf16>{1}+44040192, src:<14680064xf32>{1}) -> <14680064xbf16>{1}+44040192
+        %torch.2_8_0:3% aten::copy_(self:<29360128xbf16>{1}+58720256, src:<29360128xf32>{1}) -> <29360128xbf16>{1}+58720256
+        %torch.2_8_0:3% aten::copy_(self:<29360128xbf16>{1}+88080384, src:<29360128xf32>{1}) -> <29360128xbf16>{1}+88080384
+        %torch.2_8_0:3% aten::copy_(self:<29360128xbf16>{1}+117440512, src:<29360128xf32>{1}) -> <29360128xbf16>{1}+117440512
+        %torch.2_8_0:3% aten::copy_(self:<29360128xbf16>{1}+146800640, src:<29360128xf32>{1}) -> <29360128xbf16>{1}+146800640
+aten::zero_ 14
+        %torch.2_8_0:3% aten::zero_(self:<67108864xi32>{1}) -> <67108864xi32>{1}
+        %torch.2_8_0:3% aten::zero_(self:<32xbf16>{1}) -> <32xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<29028224xbf16>{1}) -> <29028224xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<11010048xbf16>{1}) -> <11010048xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<117440512xbf16>{1}) -> <117440512xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<132120576xbf16>{1}) -> <132120576xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<43921920xbf16>{1}) -> <43921920xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<1536xbf16>{1}) -> <1536xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<7168xbf16>{1}) -> <7168xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<14680064xbf16>{1}) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<29360128xbf16>{1}) -> <29360128xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<2xf32>{1}) -> <2xf32>{1}
+        %torch.2_8_0:3% aten::zero_(self:<2668239872xbf16>{1}) -> <2668239872xbf16>{1}
+        %torch.2_8_0:3% aten::zero_(self:<176160768xbf16>{1}) -> <176160768xbf16>{1}
+aten::arange 4
+        %torch.2_8_0:3% aten::arange(start:0:int, end:8192:int, step:4096:int, dtype:torch_int32:dtype, device:cuda_3:device, pin_memory:False:bool) -> <2xi32>{1}
+        %torch.2_8_0:3% aten::arange(end:19621:int, device:cuda_3:device, pin_memory:False:bool) -> <19621xi64>{1}
+        %torch.2_8_0:3% aten::arange(start:0:int, end:4096:int, device:cuda_3:device, pin_memory:False:bool) -> <4096xi64>{1}
+        %torch.2_8_0:3% aten::arange(end:18722:int, device:cuda_3:device, pin_memory:False:bool) -> <18722xi64>{1}
+te::get_fused_attn_backend 1
+        %te.2_5_0:3% te::get_fused_attn_backend(True:bool, DType_kBFloat16:DType, DType_kBFloat16:DType, NVTE_QKV_Layout_NVTE_SBHD_SBHD_SBHD:NVTE_QKV_Layout, NVTE_Bias_Type_NVTE_NO_BIAS:NVTE_Bias_Type, NVTE_Mask_Type_NVTE_CAUSAL_MASK:NVTE_Mask_Type, 0_0:float, 128:int, 128:int, 4096:int, 4096:int, 192:int, 128:int, -1:int, 0:int) -> NVTE_Fused_Attn_Backend_NVTE_F16_arbitrary_seqlen:NVTE_Fused_Attn_Backend
+aten::slice 58
+        %torch.2_8_0:3% aten::slice(self:<2xi32>{1}, dim:0:int, start:0:int, end:2:int) -> <2xi32>{1}
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:0:int, end:5:int) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:5:int, end:10:int) -> <5xu8>{1}+5
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:10:int, end:15:int) -> <5xu8>{1}+10
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:15:int, end:20:int) -> <5xu8>{1}+15
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:20:int, end:25:int) -> <5xu8>{1}+20
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:25:int, end:30:int) -> <5xu8>{1}+25
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:30:int, end:35:int) -> <5xu8>{1}+30
+        %torch.2_8_0:3% aten::slice(self:<40xu8>{1}, dim:0:int, start:35:int, end:40:int) -> <5xu8>{1}+35
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:0:int, end:108:int) -> <108xu8>{1}
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:108:int, end:216:int) -> <108xu8>{1}+108
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:216:int, end:324:int) -> <108xu8>{1}+216
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:324:int, end:432:int) -> <108xu8>{1}+324
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:432:int, end:540:int) -> <108xu8>{1}+432
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:540:int, end:648:int) -> <108xu8>{1}+540
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:648:int, end:756:int) -> <108xu8>{1}+648
+        %torch.2_8_0:3% aten::slice(self:<864xu8>{1}, dim:0:int, start:756:int, end:864:int) -> <108xu8>{1}+756
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:0:int, end:333529984:int) -> <333529984xbf16>{1}
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:333529984:int, end:667059968:int) -> <333529984xbf16>{1}+333529984
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:667059968:int, end:1000589952:int) -> <333529984xbf16>{1}+667059968
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1000589952:int, end:1334119936:int) -> <333529984xbf16>{1}+1000589952
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1334119936:int, end:1667649920:int) -> <333529984xbf16>{1}+1334119936
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1667649920:int, end:2001179904:int) -> <333529984xbf16>{1}+1667649920
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:2001179904:int, end:2334709888:int) -> <333529984xbf16>{1}+2001179904
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:2334709888:int, end:2668239872:int) -> <333529984xbf16>{1}+2334709888
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:0:int, end:176160768:int) -> <176160768xbf16>{1}
+        %torch.2_8_0:3% aten::slice(self:<37748736xbf16>{1}+991869440, dim:0:int, start:8720512:int, end:37748736:int) -> <29028224xbf16>{1}+1000589952
+        %torch.2_8_0:3% aten::slice(self:<11010048xbf16>{1}+1029619712, dim:0:int, start:0:int, end:11010048:int) -> <11010048xbf16>{1}+1029619712
+        %torch.2_8_0:3% aten::slice(self:<117440512xbf16>{1}+1040629760, dim:0:int, start:0:int, end:117440512:int) -> <117440512xbf16>{1}+1040629760
+        %torch.2_8_0:3% aten::slice(self:<132120576xbf16>{1}+1158077440, dim:0:int, start:0:int, end:132120576:int) -> <132120576xbf16>{1}+1158077440
+        %torch.2_8_0:3% aten::slice(self:<264241152xbf16>{1}+1290198016, dim:0:int, start:0:int, end:43921920:int) -> <43921920xbf16>{1}+1290198016
+        %torch.2_8_0:3% aten::slice(self:<1536xbf16>{1}+1029618176, dim:0:int, start:0:int, end:1536:int) -> <1536xbf16>{1}+1029618176
+        %torch.2_8_0:3% aten::slice(self:<7168xbf16>{1}+1158070272, dim:0:int, start:0:int, end:7168:int) -> <7168xbf16>{1}+1158070272
+        %torch.2_8_0:3% aten::slice(self:<14680064xbf16>{1}, dim:0:int, start:0:int, end:14680064:int) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::slice(self:<14680064xbf16>{1}+14680064, dim:0:int, start:0:int, end:14680064:int) -> <14680064xbf16>{1}+14680064
+        %torch.2_8_0:3% aten::slice(self:<14680064xbf16>{1}+29360128, dim:0:int, start:0:int, end:14680064:int) -> <14680064xbf16>{1}+29360128
+        %torch.2_8_0:3% aten::slice(self:<14680064xbf16>{1}+44040192, dim:0:int, start:0:int, end:14680064:int) -> <14680064xbf16>{1}+44040192
+        %torch.2_8_0:3% aten::slice(self:<29360128xbf16>{1}+58720256, dim:0:int, start:0:int, end:29360128:int) -> <29360128xbf16>{1}+58720256
+        %torch.2_8_0:3% aten::slice(self:<29360128xbf16>{1}+88080384, dim:0:int, start:0:int, end:29360128:int) -> <29360128xbf16>{1}+88080384
+        %torch.2_8_0:3% aten::slice(self:<29360128xbf16>{1}+117440512, dim:0:int, start:0:int, end:29360128:int) -> <29360128xbf16>{1}+117440512
+        %torch.2_8_0:3% aten::slice(self:<29360128xbf16>{1}+146800640, dim:0:int, start:0:int, end:29360128:int) -> <29360128xbf16>{1}+146800640
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1000589952:int, end:1029618176:int) -> <29028224xbf16>{1}+1000589952
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1029619712:int, end:1040629760:int) -> <11010048xbf16>{1}+1029619712
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1040629760:int, end:1158070272:int) -> <117440512xbf16>{1}+1040629760
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1158077440:int, end:1290198016:int) -> <132120576xbf16>{1}+1158077440
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1290198016:int, end:1334119936:int) -> <43921920xbf16>{1}+1290198016
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1029618176:int, end:1029619712:int) -> <1536xbf16>{1}+1029618176
+        %torch.2_8_0:3% aten::slice(self:<2668239872xbf16>{1}, dim:0:int, start:1158070272:int, end:1158077440:int) -> <7168xbf16>{1}+1158070272
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:0:int, end:14680064:int) -> <14680064xbf16>{1}
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:14680064:int, end:29360128:int) -> <14680064xbf16>{1}+14680064
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:29360128:int, end:44040192:int) -> <14680064xbf16>{1}+29360128
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:44040192:int, end:58720256:int) -> <14680064xbf16>{1}+44040192
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:58720256:int, end:88080384:int) -> <29360128xbf16>{1}+58720256
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:88080384:int, end:117440512:int) -> <29360128xbf16>{1}+88080384
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:117440512:int, end:146800640:int) -> <29360128xbf16>{1}+117440512
+        %torch.2_8_0:3% aten::slice(self:<176160768xbf16>{1}, dim:0:int, start:146800640:int, end:176160768:int) -> <29360128xbf16>{1}+146800640
+        %torch.2_8_0:3% aten::slice(self:<24xf32>{1}+72, dim:0:int, start:0:int, end:9223372036854775807:int) -> <24xf32>{1}+72
+        %torch.2_8_0:3% aten::slice(self:<8x24xf32>{24, 1}, dim:0:int, start:0:int, end:9223372036854775807:int) -> <8x24xf32>{24, 1}
+te::fused_attn_fwd 1
+        %te.2_5_0:3% te::fused_attn_fwd(4096:int, 4096:int, True:bool, 0_1352337788608801:float, 0_0:float, True:bool, NVTE_QKV_Layout_NVTE_SBHD_SBHD_SBHD:NVTE_QKV_Layout, NVTE_Bias_Type_NVTE_NO_BIAS:NVTE_Bias_Type, NVTE_Mask_Type_NVTE_CAUSAL_MASK:NVTE_Mask_Type, tuple{-1:int, 0:int}, <2xi32>{1}, <2xi32>{1}, <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x128xbf16>{16384, 16384, 128, 1}, torch_bfloat16:dtype, None:, None:, None:, None:, None:, None:, None:, None:, 16:int) -> <4096x1x128x128xbf16>{16384, 16384, 128, 1}, <1x128x4096x1xf32>{524288, 4096, 1, 1}, <2xi64>{1}
+aten::eq 3
+        %torch.2_8_0:3% aten::eq(self:<5056xu8>{1}, other:<5056xu8>{1}) -> <5056xbool>{1}
+        %torch.2_8_0:3% aten::eq(self:<4x19621xbool>{1, 4}, other:0:int) -> <4x19621xbool>{1, 4}
+        %torch.2_8_0:3% aten::eq(self:<4x18722xbool>{1, 4}, other:0:int) -> <4x18722xbool>{1, 4}
+aten::all 2
+        %torch.2_8_0:3% aten::all(self:<5056xbool>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::all(self:<4xbool>{1}) -> <1xbool>{1}
+aten::add 12
+        %torch.2_8_0:3% aten::add(self:<4096x1x7168xbf16>{7168, 7168, 1}, other:<4096x1x7168xbf16>{7168, 7168, 1}) -> <4096x1x7168xbf16>{7168, 7168, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x32xf32>{32, 1}, other:<32xf32>{1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x1xf32>{1, 1}, other:1e-20:float) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::add(self:<38688x2048xbf16>{2048, 1}, other:1:int) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x2048xbf16>{2048, 1}, other:1:int) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x32xf32>{32, 1}, other:<4096x32xf32>{1, 0}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x8xf32>{8, 1}, other:<4096x8xf32>{1, 0}) -> <4096x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x32xf32>{32, 1}, other:<4096x32xf32>{32, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::add(self:<4096x18432xbf16>{18432, 1}, other:1:int) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::add(self:<1x32xf32>{32, 1}, other:<1x32xbf16>{32, 1}) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::add(self:<1xf32>{1}, other:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::add(self:<35856x2048xbf16>{2048, 1}, other:1:int) -> <35856x2048xbf16>{2048, 1}
+aten::split 5
+        %torch.2_8_0:3% aten::split(self:<4096x36864xbf16>{36864, 1}, split_size:18432:int, dim:-1:int) -> <4096x18432xbf16>{36864, 1}, <4096x18432xbf16>{36864, 1}+18432
+        %torch.2_8_0:3% aten::split(self:<4096x4096xbf16>{4096, 1}, split_size:2048:int, dim:-1:int) -> <4096x2048xbf16>{4096, 1}, <4096x2048xbf16>{4096, 1}+2048
+        %torch.2_8_0:3% aten::split(self:<38688x4096xbf16>{4096, 1}, split_size:2048:int, dim:-1:int) -> <38688x2048xbf16>{4096, 1}, <38688x2048xbf16>{4096, 1}+2048
+        %torch.2_8_0:3% aten::split(self:<8192x1xf32>{1, 1}, split_size:4096:int) -> <4096x1xf32>{1, 1}, <4096x1xf32>{1, 1}+4096
+        %torch.2_8_0:3% aten::split(self:<35856x4096xbf16>{4096, 1}, split_size:2048:int, dim:-1:int) -> <35856x2048xbf16>{4096, 1}, <35856x2048xbf16>{4096, 1}+2048
+aten::silu 4
+        %torch.2_8_0:3% aten::silu(self:<4096x18432xbf16>{36864, 1}) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::silu(self:<4096x2048xbf16>{4096, 1}) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::silu(self:<38688x2048xbf16>{4096, 1}) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::silu(self:<35856x2048xbf16>{4096, 1}) -> <35856x2048xbf16>{2048, 1}
+aten::sigmoid 5
+        %torch.2_8_0:3% aten::sigmoid(self:<4096x32xf32>{32, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::sigmoid(self:<38688x2048xbf16>{4096, 1}) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::sigmoid(self:<4096x2048xbf16>{4096, 1}) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::sigmoid(self:<4096x18432xbf16>{36864, 1}) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::sigmoid(self:<35856x2048xbf16>{4096, 1}) -> <35856x2048xbf16>{2048, 1}
+aten::topk 4
+        %torch.2_8_0:3% aten::topk(self:<4096x2x16xf32>{32, 16, 1}, k:8:int) -> <4096x2x8xf32>{16, 8, 1}, <4096x2x8xi64>{16, 8, 1}
+        %torch.2_8_0:3% aten::topk(self:<4096x2xf32>{2, 1}, k:1:int, dim:-1:int, largest:True:bool, sorted:False:bool) -> <4096x1xf32>{1, 1}, <4096x1xi64>{1, 1}
+        %torch.2_8_0:3% aten::topk(self:<4096x32xf32>{32, 1}, k:8:int) -> <4096x8xf32>{8, 1}, <4096x8xi64>{8, 1}
+        %torch.2_8_0:3% aten::topk(self:<4096x32xf32>{32, 1}, k:8:int, dim:1:int) -> <4096x8xf32>{8, 1}, <4096x8xi64>{8, 1}
+aten::sum 19
+        %torch.2_8_0:3% aten::sum(self:<4096x2x8xf32>{16, 8, 1}, dim:list{-1:int}) -> <4096x2xf32>{2, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096x8xf32>{8, 1}, dim:list{-1:int}, keepdim:True:bool) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096x32xbool>{32, 1}, dim:list{0:int}) -> <32xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<4096x32xf32>{32, 1}, dim:list{-1:int}, keepdim:True:bool) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096x1x32xbool>{32, 32, 1}, dim:list{0:int}, dtype:torch_float32:dtype) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::sum(self:<1x32xf32>{32, 1}, dim:list{1:int}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::sum(self:<19621x8xbool>{8, 1}, dim:list{1:int}) -> <19621xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<4x19621xbool>{1, 4}, dim:list{1:int}) -> <4xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<4xi64>{1}) -> <1xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<4096x1x129280xf32>{129280, 129280, 1}, dim:list{-1:int}) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::sum(self:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::sum(self:<38688x2048xf32>{2048, 1}, dim:list{-1:int}, keepdim:True:bool) -> <38688x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096x32xf32>{32, 1}, dim:list{1:int}, keepdim:True:bool) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<4096x8xf32>{8, 1}, dim:list{1:int}, keepdim:True:bool) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<1x32xbf16>{32, 1}, dim:list{-1:int}, keepdim:True:bool) -> <1x1xbf16>{1, 1}
+        %torch.2_8_0:3% aten::sum(self:<18722x8xbool>{8, 1}, dim:list{1:int}) -> <18722xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<4x18722xbool>{1, 4}, dim:list{1:int}) -> <4xi64>{1}
+        %torch.2_8_0:3% aten::sum(self:<35856x2048xf32>{2048, 1}, dim:list{-1:int}, keepdim:True:bool) -> <35856x1xf32>{1, 1}
+aten::scatter_ 1
+        %torch.2_8_0:3% aten::scatter_(self:<4096x2xf32>{2, 1}, dim:1:int, index:<4096x1xi64>{1, 1}, value:1:int) -> <4096x2xf32>{2, 1}
+aten::bitwise_not 1
+        %torch.2_8_0:3% aten::bitwise_not(self:<4096x32xbool>{32, 1}) -> <4096x32xbool>{32, 1}
+aten::masked_fill 1
+        %torch.2_8_0:3% aten::masked_fill(self:<4096x32xf32>{32, 1}, mask:<4096x32xbool>{32, 1}, value:-inf:float) -> <4096x32xf32>{32, 1}
+aten::gather 3
+        %torch.2_8_0:3% aten::gather(self:<4096x32xf32>{32, 1}, dim:1:int, index:<4096x8xi64>{8, 1}) -> <4096x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::gather(self:<19621x7168xbf16>{7168, 1}, dim:0:int, index:<38688x7168xi64>{1, 0}) -> <38688x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::gather(self:<18722x7168xbf16>{7168, 1}, dim:0:int, index:<35856x7168xi64>{1, 0}) -> <35856x7168xbf16>{7168, 1}
+aten::div 10
+        %torch.2_8_0:3% aten::div(self:<4096x8xf32>{8, 1}, other:<4096x1xf32>{1, 1}) -> <4096x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::div(self:<4096x32xf32>{32, 1}, other:<4096x1xf32>{1, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::div(self:<1xf32>{1}, other:0_001:float) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<4xi64>{1}, other:16:int) -> <4xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<2xf32>{1}, other:8:int) -> <2xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<1xf32>{1}, other:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<1xf32>{1}, other:1:int) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<1xf32>{0}, other:1:int) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::div(self:<4096x1x32xf32>{0, 32, 1}, other:4096:int) -> <4096x1x32xf32>{32, 32, 1}
+        %torch.2_8_0:3% aten::div(self:<1x1xbf16>{1, 1}, other:32:int) -> <1x1xbf16>{1, 1}
+aten::scatter 3
+        %torch.2_8_0:3% aten::scatter(self:<4096x32xf32>{32, 1}, dim:1:int, index:<4096x8xi64>{8, 1}, src:<4096x8xf32>{8, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::scatter(self:<4096x32xi32>{32, 1}, dim:1:int, index:<4096x8xi64>{8, 1}, value:1:int) -> <4096x32xi32>{32, 1}
+        %torch.2_8_0:3% aten::scatter(self:<4096x32xf32>{32, 1}, dim:-1:int, index:<4096x8xi64>{8, 1}, src:<4096x8xf32>{8, 1}) -> <4096x32xf32>{32, 1}
+aten::div_ 3
+        %torch.2_8_0:3% aten::div_(self:<1x32xf32>{32, 1}, other:1024_0:float) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::div_(self:<4096x1x129280xf32>{129280, 129280, 1}, other:<4096x1x1xf32>{1, 1, 1}+4096) -> <4096x1x129280xf32>{129280, 129280, 1}
+        %torch.2_8_0:3% aten::div_(self:<1xf32>{1}, other:1:int) -> <1xf32>{1}
+aten::mean 2
+        %torch.2_8_0:3% aten::mean(self:<4096x1x32xf32>{32, 32, 1}, dim:list{0:int}) -> <1x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::mean(self:<1xf32>{1}) -> <1xf32>{1}
+aten::mul_ 5
+        %torch.2_8_0:3% aten::mul_(self:<1xf32>{1}, other:0_001:float) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::mul_(self:<1xf32>{1}, other:1:int) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::mul_(self:<4096x1x129280xf32>{129280, 129280, 1}, other:<4096x1x1xf32>{1, 4096, 1}) -> <4096x1x129280xf32>{129280, 129280, 1}
+        %torch.2_8_0:3% aten::mul_(self:<2668239872xbf16>{1}, other:0_125:float) -> <2668239872xbf16>{1}
+        %torch.2_8_0:3% aten::mul_(self:<176160768xbf16>{1}, other:0_125:float) -> <176160768xbf16>{1}
+aten::zeros 17
+        %torch.2_8_0:3% aten::zeros(size:list{2:int}, device:cuda_3:device, pin_memory:False:bool) -> <2xf32>{1}
+        %torch.2_8_0:3% aten::zeros(size:list{8:int}, dtype:torch_int64:dtype, device:cuda:device, pin_memory:False:bool) -> <8xi64>{1}
+        %torch.2_8_0:3% aten::zeros(size:list{19621:int, 4:int}, dtype:torch_int64:dtype, device:cuda_3:device, pin_memory:False:bool) -> <19621x4xi64>{4, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{19621:int, 4:int}, dtype:torch_float32:dtype, device:cuda_3:device, pin_memory:False:bool) -> <19621x4xf32>{4, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{19621:int, 7168:int}, dtype:torch_bfloat16:dtype, device:cuda_3:device, pin_memory:False:bool) -> <19621x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{4:int}, dtype:torch_int64:dtype, layout:torch_strided:layout, device:cpu:device) -> <4xi64>{1}
+        %torch.2_8_0:3% aten::zeros(size:list{19621:int, 8:int}, dtype:torch_int64:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <19621x8xi64>{8, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{4096:int, 32:int}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{4096:int, 32:int}, dtype:torch_bool:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <4096x32xbool>{32, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{1:int, 1:int, 4096:int, 4096:int}, dtype:torch_bool:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <1x1x4096x4096xbool>{16777216, 16777216, 4096, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{320:int}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <320xf32>{1}
+        %torch.2_8_0:3% aten::zeros(size:list{8:int, 24:int}, dtype:torch_float32:dtype, device:cuda_3:device, pin_memory:False:bool) -> <8x24xf32>{24, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{}, dtype:torch_int32:dtype, device:cuda:device, pin_memory:False:bool) -> <1xi32>{1}
+        %torch.2_8_0:3% aten::zeros(size:list{18722:int, 4:int}, dtype:torch_int64:dtype, device:cuda_3:device, pin_memory:False:bool) -> <18722x4xi64>{4, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{18722:int, 4:int}, dtype:torch_float32:dtype, device:cuda_3:device, pin_memory:False:bool) -> <18722x4xf32>{4, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{18722:int, 7168:int}, dtype:torch_bfloat16:dtype, device:cuda_3:device, pin_memory:False:bool) -> <18722x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::zeros(size:list{18722:int, 8:int}, dtype:torch_int64:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <18722x8xi64>{8, 1}
+aten::add_ 37
+        %torch.2_8_0:3% aten::add_(self:<1xf32>{1}, other:<1xf32>{1}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::add_(self:<32xbf16>{1}, other:<32xi64>{1}) -> <32xbf16>{1}
+        %torch.2_8_0:3% aten::add_(self:<1xi32>{1}, other:<1xi32>{1}) -> <1xi32>{1}
+        %torch.2_8_0:3% aten::add_(self:<129280x7168xbf16>{7168, 1}, other:<129280x7168xbf16>{7168, 1}) -> <129280x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::add_(self:<7168xbf16>{1}+926679040, other:<7168xbf16>{1}) -> <7168xbf16>{1}+926679040
+        %torch.2_8_0:3% aten::add_(self:<7168x2048xbf16>{2048, 1}+44040192, other:<7168x2048xbf16>{2048, 1}) -> <7168x2048xbf16>{2048, 1}+44040192
+        %torch.2_8_0:3% aten::add_(self:<7168x2048xbf16>{2048, 1}, other:<7168x2048xbf16>{2048, 1}) -> <7168x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::add_(self:<7168x2048xbf16>{2048, 1}+29360128, other:<7168x2048xbf16>{2048, 1}) -> <7168x2048xbf16>{2048, 1}+29360128
+        %torch.2_8_0:3% aten::add_(self:<7168x2048xbf16>{2048, 1}+14680064, other:<7168x2048xbf16>{2048, 1}) -> <7168x2048xbf16>{2048, 1}+14680064
+        %torch.2_8_0:3% aten::add_(self:<4096x7168xbf16>{7168, 1}+146800640, other:<4096x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}+146800640
+        %torch.2_8_0:3% aten::add_(self:<4096x7168xbf16>{7168, 1}+88080384, other:<4096x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}+88080384
+        %torch.2_8_0:3% aten::add_(self:<4096x7168xbf16>{7168, 1}+58720256, other:<4096x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}+58720256
+        %torch.2_8_0:3% aten::add_(self:<4096x7168xbf16>{7168, 1}+117440512, other:<4096x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}+117440512
+        %torch.2_8_0:3% aten::add_(self:<7168x2048xbf16>{2048, 1}+926686208, other:<7168x2048xbf16>{2048, 1}) -> <7168x2048xbf16>{2048, 1}+926686208
+        %torch.2_8_0:3% aten::add_(self:<4096x7168xbf16>{7168, 1}+941366272, other:<4096x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}+941366272
+        %torch.2_8_0:3% aten::add_(self:<32x7168xbf16>{7168, 1}+970726400, other:<32x7168xbf16>{7168, 1}) -> <32x7168xbf16>{7168, 1}+970726400
+        %torch.2_8_0:3% aten::add_(self:<7168xbf16>{1}+970955776, other:<7168xbf16>{1}) -> <7168xbf16>{1}+970955776
+        %torch.2_8_0:3% aten::add_(self:<7168x16384xbf16>{16384, 1}+1040629760, other:<7168x16384xbf16>{16384, 1}) -> <7168x16384xbf16>{16384, 1}+1040629760
+        %torch.2_8_0:3% aten::add_(self:<512xbf16>{1}+987740160, other:<512xbf16>{1}) -> <512xbf16>{1}+987740160
+        %torch.2_8_0:3% aten::add_(self:<32768x512xbf16>{512, 1}+970962944, other:<32768x512xbf16>{512, 1}) -> <32768x512xbf16>{512, 1}+970962944
+        %torch.2_8_0:3% aten::add_(self:<1536xbf16>{1}+1029618176, other:<1536xbf16>{1}) -> <1536xbf16>{1}+1029618176
+        %torch.2_8_0:3% aten::add_(self:<24576x1536xbf16>{1536, 1}+991869440, other:<24576x1536xbf16>{1536, 1}) -> <24576x1536xbf16>{1536, 1}+991869440
+        %torch.2_8_0:3% aten::add_(self:<576x7168xbf16>{7168, 1}+987740672, other:<576x7168xbf16>{7168, 1}) -> <576x7168xbf16>{7168, 1}+987740672
+        %torch.2_8_0:3% aten::add_(self:<1536x7168xbf16>{7168, 1}+1029619712, other:<1536x7168xbf16>{7168, 1}) -> <1536x7168xbf16>{7168, 1}+1029619712
+        %torch.2_8_0:3% aten::add_(self:<7168xbf16>{1}+1158070272, other:<7168xbf16>{1}) -> <7168xbf16>{1}+1158070272
+        %torch.2_8_0:3% aten::add_(self:<7168x18432xbf16>{18432, 1}+1158077440, other:<7168x18432xbf16>{18432, 1}) -> <7168x18432xbf16>{18432, 1}+1158077440
+        %torch.2_8_0:3% aten::add_(self:<7168xbf16>{1}+1554439168, other:<7168xbf16>{1}) -> <7168xbf16>{1}+1554439168
+        %torch.2_8_0:3% aten::add_(self:<36864x7168xbf16>{7168, 1}+1290198016, other:<36864x7168xbf16>{7168, 1}) -> <36864x7168xbf16>{7168, 1}+1290198016
+        %torch.2_8_0:3% aten::add_(self:<7168x16384xbf16>{16384, 1}+1624113152, other:<7168x16384xbf16>{16384, 1}) -> <7168x16384xbf16>{16384, 1}+1624113152
+        %torch.2_8_0:3% aten::add_(self:<512xbf16>{1}+1571223552, other:<512xbf16>{1}) -> <512xbf16>{1}+1571223552
+        %torch.2_8_0:3% aten::add_(self:<32768x512xbf16>{512, 1}+1554446336, other:<32768x512xbf16>{512, 1}) -> <32768x512xbf16>{512, 1}+1554446336
+        %torch.2_8_0:3% aten::add_(self:<1536xbf16>{1}+1613101568, other:<1536xbf16>{1}) -> <1536xbf16>{1}+1613101568
+        %torch.2_8_0:3% aten::add_(self:<24576x1536xbf16>{1536, 1}+1575352832, other:<24576x1536xbf16>{1536, 1}) -> <24576x1536xbf16>{1536, 1}+1575352832
+        %torch.2_8_0:3% aten::add_(self:<576x7168xbf16>{7168, 1}+1571224064, other:<576x7168xbf16>{7168, 1}) -> <576x7168xbf16>{7168, 1}+1571224064
+        %torch.2_8_0:3% aten::add_(self:<1536x7168xbf16>{7168, 1}+1613103104, other:<1536x7168xbf16>{7168, 1}) -> <1536x7168xbf16>{7168, 1}+1613103104
+        %torch.2_8_0:3% aten::add_(self:<7168xbf16>{1}+1741553664, other:<7168xbf16>{1}) -> <7168xbf16>{1}+1741553664
+        %torch.2_8_0:3% aten::add_(self:<129280x7168xbf16>{7168, 1}+1741560832, other:<129280x7168xbf16>{7168, 1}) -> <129280x7168xbf16>{7168, 1}+1741560832
+c10d::allgather_ 3
+        %torch.2_8_0:3% c10d::allgather_(output_tensors:list{list{<1xi64>{1}, <1xi64>{1}+1, <1xi64>{1}+2, <1xi64>{1}+3, <1xi64>{1}+4, <1xi64>{1}+5, <1xi64>{1}+6, <1xi64>{1}+7}}, input_tensors:list{<1xi64>{1}}, process_group:ProcessGroup:distributed, async_op:False:bool) -> list{list{<1xi64>{1}, <1xi64>{1}+1, <1xi64>{1}+2, <1xi64>{1}+3, <1xi64>{1}+4, <1xi64>{1}+5, <1xi64>{1}+6, <1xi64>{1}+7}}, Work:distributed
+        %torch.2_8_0:3% c10d::allgather_(output_tensors:list{list{<5xu8>{1}, <5xu8>{1}+5, <5xu8>{1}+10, <5xu8>{1}+15, <5xu8>{1}+20, <5xu8>{1}+25, <5xu8>{1}+30, <5xu8>{1}+35}}, input_tensors:list{<5xu8>{1}}, process_group:ProcessGroup:distributed, async_op:False:bool) -> list{list{<5xu8>{1}, <5xu8>{1}+5, <5xu8>{1}+10, <5xu8>{1}+15, <5xu8>{1}+20, <5xu8>{1}+25, <5xu8>{1}+30, <5xu8>{1}+35}}, Work:distributed
+        %torch.2_8_0:3% c10d::allgather_(output_tensors:list{list{<108xu8>{1}, <108xu8>{1}+108, <108xu8>{1}+216, <108xu8>{1}+324, <108xu8>{1}+432, <108xu8>{1}+540, <108xu8>{1}+648, <108xu8>{1}+756}}, input_tensors:list{<108xu8>{1}}, process_group:ProcessGroup:distributed, async_op:False:bool) -> list{list{<108xu8>{1}, <108xu8>{1}+108, <108xu8>{1}+216, <108xu8>{1}+324, <108xu8>{1}+432, <108xu8>{1}+540, <108xu8>{1}+648, <108xu8>{1}+756}}, Work:distributed
+aten::gt 31
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+1, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+2, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+3, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+4, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+5, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+6, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<1xi64>{1}+7, other:<1xi64>{1}) -> <1xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+1, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+2, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+3, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+4, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+5, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+6, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+7, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+8, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+9, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+10, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+11, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+12, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+13, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+14, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+15, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+16, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+17, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+18, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+19, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+20, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+21, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+22, other:0_0:float) -> <8xbool>{1}
+        %torch.2_8_0:3% aten::gt(self:<8xf32>{24}+23, other:0_0:float) -> <8xbool>{1}
+aten::resize_ 2
+        %torch.2_8_0:3% aten::resize_(self:<5xu8>{1}, size:list{5:int}) -> <5xu8>{1}
+        %torch.2_8_0:3% aten::resize_(self:<108xu8>{1}, size:list{108:int}) -> <108xu8>{1}
+aten::record_stream 34
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<32xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<32xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xbool>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xbool>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8x8xi32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8x8xi32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8x10xi32>{10, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<8x10xi32>{10, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xi32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xi32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<4096x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<19621x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x7168xbf16>{7168, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722xi32>{1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x8xi64>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=9:Stream) -> None:
+        %torch.2_8_0:3% aten::record_stream(self:<18722x8xf32>{8, 1}, s:torch_Stream_device_type=cuda,_device_inde_=3,_stream_id=0:Stream) -> None:
+aten::ne 2
+        %torch.2_8_0:3% aten::ne(self:<19621x8xi64>{8, 1}, other:-1:int) -> <19621x8xbool>{8, 1}
+        %torch.2_8_0:3% aten::ne(self:<18722x8xi64>{8, 1}, other:-1:int) -> <18722x8xbool>{8, 1}
+aten::index 31
+        %torch.2_8_0:3% aten::index(self:<19621x8xi64>{8, 1}, indices:list{<19621x8xbool>{8, 1}}) -> <38661xi64>{1}
+        %torch.2_8_0:3% aten::index(self:<19621x8xf32>{8, 1}, indices:list{<19621x8xbool>{8, 1}}) -> <38661xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<4096x129280xf32>{129280, 1}, indices:list{<4096xi64>{1}, <4096xi64>{1}}) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<19621x4xf32>{1, 19621}, indices:list{<38661xi64>{1}, <38661xi64>{1}}) -> <38661xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+1, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+2, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+3, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+4, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+5, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+6, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+7, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+8, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+9, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+10, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+11, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+12, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+13, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+14, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+15, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+16, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+17, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+18, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+19, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+20, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+21, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+22, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<8xf32>{24}+23, indices:list{<8xbool>{1}}) -> <0xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<18722x8xi64>{8, 1}, indices:list{<18722x8xbool>{8, 1}}) -> <35849xi64>{1}
+        %torch.2_8_0:3% aten::index(self:<18722x8xf32>{8, 1}, indices:list{<18722x8xbool>{8, 1}}) -> <35849xf32>{1}
+        %torch.2_8_0:3% aten::index(self:<18722x4xf32>{1, 18722}, indices:list{<35849xi64>{1}, <35849xi64>{1}}) -> <35849xf32>{1}
+aten::repeat_interleave 2
+        %torch.2_8_0:3% aten::repeat_interleave(repeats:<19621xi64>{1}) -> <38661xi64>{1}
+        %torch.2_8_0:3% aten::repeat_interleave(repeats:<18722xi64>{1}) -> <35849xi64>{1}
+aten::index_select 4
+        %torch.2_8_0:3% aten::index_select(self:<19621xi64>{1}, dim:0:int, index:<38661xi64>{1}) -> <38661xi64>{1}
+        %torch.2_8_0:3% aten::index_select(self:<19621x7168xbf16>{7168, 1}, dim:0:int, index:<38688xi64>{1}) -> <38688x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::index_select(self:<18722xi64>{1}, dim:0:int, index:<35849xi64>{1}) -> <35849xi64>{1}
+        %torch.2_8_0:3% aten::index_select(self:<18722x7168xbf16>{7168, 1}, dim:0:int, index:<35856xi64>{1}) -> <35856x7168xbf16>{7168, 1}
+aten::index_put_ 9
+        %torch.2_8_0:3% aten::index_put_(self:<19621x4xi64>{4, 1}, indices:list{<38661xi64>{1}, <38661xi64>{1}}, values:<1xi64>{1}) -> <19621x4xi64>{4, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<19621x4xf32>{4, 1}, indices:list{<38661xi64>{1}, <38661xi64>{1}}, values:<38661xf32>{1}) -> <19621x4xf32>{4, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<4x19621xbool>{1, 4}, indices:list{<4x19621xbool>{19621, 1}}, values:<1xbool>{1}) -> <4x19621xbool>{1, 4}
+        %torch.2_8_0:3% aten::index_put_(self:<4096x1xi64>{1, 4096}, indices:list{<4096x1xbool>{1, 1}}, values:<1xi64>{1}) -> <4096x1xi64>{1, 4096}
+        %torch.2_8_0:3% aten::index_put_(self:<4096x1xf32>{1, 1}, indices:list{<4096x1xbool>{1, 1}}, values:<1xf32>{1}) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<4096x129280xf32>{129280, 1}, indices:list{<4096xi64>{1}, <4096xi64>{1}}, values:<4096xf32>{1}) -> <4096x129280xf32>{129280, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<18722x4xi64>{4, 1}, indices:list{<35849xi64>{1}, <35849xi64>{1}}, values:<1xi64>{1}) -> <18722x4xi64>{4, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<18722x4xf32>{4, 1}, indices:list{<35849xi64>{1}, <35849xi64>{1}}, values:<35849xf32>{1}) -> <18722x4xf32>{4, 1}
+        %torch.2_8_0:3% aten::index_put_(self:<4x18722xbool>{1, 4}, indices:list{<4x18722xbool>{18722, 1}}, values:<1xbool>{1}) -> <4x18722xbool>{1, 4}
+aten::ceil 1
+        %torch.2_8_0:3% aten::ceil(self:<4xf32>{1}) -> <4xf32>{1}
+aten::le 4
+        %torch.2_8_0:3% aten::le(self:<4xi64>{1}, other:19621:int) -> <4xbool>{1}
+        %torch.2_8_0:3% aten::le(self:<4x19621xi64>{19621, 1}, other:<4x1xi64>{1, 1}) -> <4x19621xbool>{19621, 1}
+        %torch.2_8_0:3% aten::le(self:<4xi64>{1}, other:18722:int) -> <4xbool>{1}
+        %torch.2_8_0:3% aten::le(self:<4x18722xi64>{18722, 1}, other:<4x1xi64>{1, 1}) -> <4x18722xbool>{18722, 1}
+aten::neg 3
+        %torch.2_8_0:3% aten::neg(self:<4xi64>{1}) -> <4xi64>{1}
+        %torch.2_8_0:3% aten::neg(self:<4096x32xf32>{32, 1}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::neg(self:<4096x8xf32>{8, 1}) -> <4096x8xf32>{8, 1}
+aten::remainder 1
+        %torch.2_8_0:3% aten::remainder(self:<4xi64>{1}, other:16:int) -> <4xi64>{1}
+aten::cumsum 2
+        %torch.2_8_0:3% aten::cumsum(self:<4x19621xi32>{1, 4}, dim:1:int) -> <4x19621xi64>{19621, 1}
+        %torch.2_8_0:3% aten::cumsum(self:<4x18722xi32>{1, 4}, dim:1:int) -> <4x18722xi64>{18722, 1}
+aten::permute 6
+        %torch.2_8_0:3% aten::permute(self:<19621x4xbool>{4, 1}, dims:list{1:int, 0:int}) -> <4x19621xbool>{1, 4}
+        %torch.2_8_0:3% aten::permute(self:<19621x4xf32>{4, 1}, dims:list{1:int, 0:int}) -> <4x19621xf32>{1, 4}
+        %torch.2_8_0:3% aten::permute(self:<4x19621xf32>{19621, 1}, dims:list{1:int, 0:int}) -> <19621x4xf32>{1, 19621}
+        %torch.2_8_0:3% aten::permute(self:<18722x4xbool>{4, 1}, dims:list{1:int, 0:int}) -> <4x18722xbool>{1, 4}
+        %torch.2_8_0:3% aten::permute(self:<18722x4xf32>{4, 1}, dims:list{1:int, 0:int}) -> <4x18722xf32>{1, 4}
+        %torch.2_8_0:3% aten::permute(self:<4x18722xf32>{18722, 1}, dims:list{1:int, 0:int}) -> <18722x4xf32>{1, 18722}
+aten::masked_select 4
+        %torch.2_8_0:3% aten::masked_select(self:<4x19621xi64>{0, 1}, mask:<4x19621xbool>{19621, 1}) -> <38688xi64>{1}
+        %torch.2_8_0:3% aten::masked_select(self:<4x19621xf32>{19621, 1}, mask:<4x19621xbool>{19621, 1}) -> <38688xf32>{1}
+        %torch.2_8_0:3% aten::masked_select(self:<4x18722xi64>{0, 1}, mask:<4x18722xbool>{18722, 1}) -> <35856xi64>{1}
+        %torch.2_8_0:3% aten::masked_select(self:<4x18722xf32>{18722, 1}, mask:<4x18722xbool>{18722, 1}) -> <35856xf32>{1}
+te::split_quantize 8
+        %te.2_5_0:3% te::split_quantize(<38688x7168xbf16>{7168, 1}, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer}) -> tuple{<7168x8560xu8>, <67x7168xf32>, <8560x7168xu8>, <56x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, <10208x7168xu8>, <56x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, <10112x7168xu8>, <56x10112xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<38688x2048xbf16>{2048, 1}, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer}) -> tuple{<2048x8560xu8>, <67x2048xf32>, <8560x2048xu8>, <16x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10208xu8>, <80x2048xf32>, <10208x2048xu8>, <16x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, <9808x2048xu8>, <16x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10112xu8>, <79x2048xf32>, <10112x2048xu8>, <16x10112xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<38688x7168xbf16>{7168, 1}, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer}) -> tuple{<7168x8560xu8>, <67x7168xf32>, <8560x7168xu8>, <56x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, <10208x7168xu8>, <56x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, <10112x7168xu8>, <56x10112xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<38688x4096xbf16>{4096, 1}, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer}) -> tuple{<4096x8560xu8>, <67x4096xf32>, <8560x4096xu8>, <32x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10208xu8>, <80x4096xf32>, <10208x4096xu8>, <32x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10112xu8>, <79x4096xf32>, <10112x4096xu8>, <32x10112xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<35856x7168xbf16>{7168, 1}, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer}) -> tuple{<7168x4656xu8>, <37x7168xf32>, <4656x7168xu8>, <56x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, <10048x7168xu8>, <56x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, <11344x7168xu8>, <56x11344xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<35856x2048xbf16>{2048, 1}, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer, <True, True, False>:Float8BlockQuantizer}) -> tuple{<2048x4656xu8>, <37x2048xf32>, <4656x2048xu8>, <16x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10048xu8>, <79x2048xf32>, <10048x2048xu8>, <16x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, <9808x2048xu8>, <16x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x11344xu8>, <89x2048xf32>, <11344x2048xu8>, <16x11344xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<35856x7168xbf16>{7168, 1}, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer}) -> tuple{<7168x4656xu8>, <37x7168xf32>, <4656x7168xu8>, <56x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, <10048x7168xu8>, <56x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, <11344x7168xu8>, <56x11344xf32>, 1D:Mode, GEMM_READY:Format}
+        %te.2_5_0:3% te::split_quantize(<35856x4096xbf16>{4096, 1}, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer, <True, True, True>:Float8BlockQuantizer}) -> tuple{<4096x4656xu8>, <37x4096xf32>, <4656x4096xu8>, <32x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10048xu8>, <79x4096xf32>, <10048x4096xu8>, <32x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x11344xu8>, <89x4096xf32>, <11344x4096xu8>, <32x11344xf32>, 1D:Mode, GEMM_READY:Format}
+te::get_num_cublas_streams 1
+        %te.2_5_0:3% te::get_num_cublas_streams() -> 4:int
+te::te_general_grouped_gemm 12
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}}, True:bool, list{tuple{<7168x8560xu8>, <67x7168xf32>, <8560x7168xu8>, <56x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, <10208x7168xu8>, <56x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, <10112x7168xu8>, <56x10112xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<38688x4096xbf16>{4096, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, False:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}}, True:bool, list{tuple{<2048x8560xu8>, <67x2048xf32>, <8560x2048xu8>, <16x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10208xu8>, <80x2048xf32>, <10208x2048xu8>, <16x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, <9808x2048xu8>, <16x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10112xu8>, <79x2048xf32>, <10112x2048xu8>, <16x10112xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<38688x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, False:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<7168x8560xu8>, <67x7168xf32>, <8560x7168xu8>, <56x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, <10208x7168xu8>, <56x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, <10112x7168xu8>, <56x10112xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<38688x2048xbf16>{2048, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x8560xu8>, <67x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10208xu8>, <80x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10112xu8>, <79x2048xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<7168x8560xu8>, <67x7168xf32>, <8560x7168xu8>, <56x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, <10208x7168xu8>, <56x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, <10112x7168xu8>, <56x10112xf32>, 1D:Mode, GEMM_READY:Format}}, True:bool, list{<7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, False:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<4096x8560xu8>, <67x4096xf32>, <8560x4096xu8>, <32x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10208xu8>, <80x4096xf32>, <10208x4096xu8>, <32x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10112xu8>, <79x4096xf32>, <10112x4096xu8>, <32x10112xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<38688x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x8560xu8>, <67x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10208xu8>, <80x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10112xu8>, <79x7168xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<4096x8560xu8>, <67x4096xf32>, <8560x4096xu8>, <32x8560xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10208xu8>, <80x4096xf32>, <10208x4096xu8>, <32x10208xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10112xu8>, <79x4096xf32>, <10112x4096xu8>, <32x10112xf32>, 1D:Mode, GEMM_READY:Format}}, True:bool, list{<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{8560:int, 10208:int, 9808:int, 10112:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, False:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}}, True:bool, list{tuple{<7168x4656xu8>, <37x7168xf32>, <4656x7168xu8>, <56x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, <10048x7168xu8>, <56x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, <11344x7168xu8>, <56x11344xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<35856x4096xbf16>{4096, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, False:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}}, True:bool, list{tuple{<2048x4656xu8>, <37x2048xf32>, <4656x2048xu8>, <16x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10048xu8>, <79x2048xf32>, <10048x2048xu8>, <16x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, <9808x2048xu8>, <16x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x11344xu8>, <89x2048xf32>, <11344x2048xu8>, <16x11344xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<35856x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, False:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<2048x7168xu8>, <16x56xf32>, <7168x2048xu8>, <56x16xf32>, 2D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<7168x4656xu8>, <37x7168xf32>, <4656x7168xu8>, <56x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, <10048x7168xu8>, <56x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, <11344x7168xu8>, <56x11344xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<35856x2048xbf16>{2048, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<2048x4656xu8>, <37x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x10048xu8>, <79x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x9808xu8>, <77x2048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<2048x11344xu8>, <89x2048xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<7168x4656xu8>, <37x7168xf32>, <4656x7168xu8>, <56x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, <10048x7168xu8>, <56x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, <9808x7168xu8>, <56x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, <11344x7168xu8>, <56x11344xf32>, 1D:Mode, GEMM_READY:Format}}, True:bool, list{<7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}, <7168x2048xbf16>{2048, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, False:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}, tuple{<7168x4096xu8>, <56x32xf32>, <4096x7168xu8>, <32x56xf32>, 2D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<4096x4656xu8>, <37x4096xf32>, <4656x4096xu8>, <32x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10048xu8>, <79x4096xf32>, <10048x4096xu8>, <32x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x11344xu8>, <89x4096xf32>, <11344x4096xu8>, <32x11344xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{<35856x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, True:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+        %te.2_5_0:3% te::te_general_grouped_gemm(list{tuple{<7168x4656xu8>, <37x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x10048xu8>, <79x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x9808xu8>, <77x7168xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<7168x11344xu8>, <89x7168xf32>, 1D:Mode, GEMM_READY:Format}}, False:bool, list{tuple{<4096x4656xu8>, <37x4096xf32>, <4656x4096xu8>, <32x4656xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x10048xu8>, <79x4096xf32>, <10048x4096xu8>, <32x10048xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x9808xu8>, <77x4096xf32>, <9808x4096xu8>, <32x9808xf32>, 1D:Mode, GEMM_READY:Format}, tuple{<4096x11344xu8>, <89x4096xf32>, <11344x4096xu8>, <32x11344xf32>, 1D:Mode, GEMM_READY:Format}}, True:bool, list{<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}}, DType_kBFloat16:DType, list{4656:int, 10048:int, 9808:int, 11344:int}, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, DType_kBFloat16:DType, False:bool, list{<0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}}, True:bool, list{<33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}, <33554432xu8>{1}}, 33554432:int, False:bool, True:bool, 0:int) -> <0xf32>{1}, <0xf32>{1}, <0xf32>{1}, <0xf32>{1}
+aten::scatter_add_ 2
+        %torch.2_8_0:3% aten::scatter_add_(self:<19621x7168xbf16>{7168, 1}, dim:0:int, index:<38688x7168xi64>{1, 0}, src:<38688x7168xbf16>{7168, 1}) -> <19621x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::scatter_add_(self:<18722x7168xbf16>{7168, 1}, dim:0:int, index:<35856x7168xi64>{1, 0}, src:<35856x7168xbf16>{7168, 1}) -> <18722x7168xbf16>{7168, 1}
+aten::mm 3
+        %torch.2_8_0:3% aten::mm(self:<4096x7168xbf16>{7168, 1}, mat2:<7168x129280xbf16>{1, 7168}) -> <4096x129280xbf16>{129280, 1}
+        %torch.2_8_0:3% aten::mm(self:<4096x129280xbf16>{129280, 1}, mat2:<129280x7168xbf16>{7168, 1}) -> <4096x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::mm(self:<129280x4096xbf16>{1, 129280}, mat2:<4096x7168xbf16>{7168, 1}) -> <129280x7168xbf16>{7168, 1}
+aten::max 1
+        %torch.2_8_0:3% aten::max(self:<4096x1x129280xf32>{129280, 129280, 1}, dim:-1:int) -> <4096x1xf32>{1, 1}, <4096x1xi64>{1, 1}
+c10d::allreduce_ 6
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<4096x1xf32>{1, 1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<4096x1xf32>{1, 1}}, Work:distributed
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<8192x1xf32>{1, 1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<8192x1xf32>{1, 1}}, Work:distributed
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<2xf32>{1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<2xf32>{1}}, Work:distributed
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<1x32xbf16>{32, 1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<1x32xbf16>{32, 1}}, Work:distributed
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<1xi32>{1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<1xi32>{1}}, Work:distributed
+        %torch.2_8_0:3% c10d::allreduce_(tensors:list{<1xf32>{1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, sparse_indices:None:, async_op:False:bool) -> list{<1xf32>{1}}, Work:distributed
+aten::sub_ 2
+        %torch.2_8_0:3% aten::sub_(self:<4096x1x129280xf32>{129280, 129280, 1}, other:<4096x1x1xf32>{1, 1, 1}) -> <4096x1x129280xf32>{129280, 129280, 1}
+        %torch.2_8_0:3% aten::sub_(self:<4096xf32>{1}, other:<4096xf32>{1}) -> <4096xf32>{1}
+aten::lt 1
+        %torch.2_8_0:3% aten::lt(self:<4096x1xi64>{1, 4096}, other:0:int) -> <4096x1xbool>{1, 4096}
+aten::ge 1
+        %torch.2_8_0:3% aten::ge(self:<4096x1xi64>{1, 4096}, other:129280:int) -> <4096x1xbool>{1, 4096}
+aten::bitwise_or 1
+        %torch.2_8_0:3% aten::bitwise_or(self:<4096x1xbool>{1, 4096}, other:<4096x1xbool>{1, 4096}) -> <4096x1xbool>{1, 1}
+aten::sub 3
+        %torch.2_8_0:3% aten::sub(self:<4096x1xi64>{1, 4096}, other:0:int) -> <4096x1xi64>{1, 4096}
+        %torch.2_8_0:3% aten::sub(self:<4096x1xf32>{1, 1}, other:<4096x1xf32>{1, 1}) -> <4096x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::sub(self:<1x1xbf16>{1, 1}, other:<1x32xbf16>{32, 1}) -> <1x32xbf16>{32, 1}
+aten::exp 1
+        %torch.2_8_0:3% aten::exp(self:<4096x1x129280xf32>{129280, 129280, 1}, out:<4096x1x129280xf32>{129280, 129280, 1}) -> <4096x1x129280xf32>{129280, 129280, 1}
+aten::cat 8
+        %torch.2_8_0:3% aten::cat(tensors:list{<4096x1xf32>{1, 1}, <4096x1xf32>{1, 1}}) -> <8192x1xf32>{1, 1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<1xf32>{1}, <1xf32>{1}}) -> <2xf32>{1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<38688x2048xf32>{2048, 1}, <38688x2048xf32>{2048, 1}}, dim:-1:int) -> <38688x4096xf32>{4096, 1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<4096x2048xbf16>{2048, 1}, <4096x2048xbf16>{2048, 1}}, dim:-1:int) -> <4096x4096xbf16>{4096, 1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<4096x1x512xbf16>{512, 512, 1}, <4096x1x64xbf16>{64, 64, 1}}, dim:2:int) -> <4096x1x576xbf16>{576, 576, 1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<4096x18432xbf16>{18432, 1}, <4096x18432xbf16>{18432, 1}}, dim:-1:int) -> <4096x36864xbf16>{36864, 1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<1xf32>{1}}) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::cat(tensors:list{<35856x2048xf32>{2048, 1}, <35856x2048xf32>{2048, 1}}, dim:-1:int) -> <35856x4096xf32>{4096, 1}
+aten::log 1
+        %torch.2_8_0:3% aten::log(self:<4096x1xf32>{1, 1}+4096) -> <4096x1xf32>{1, 1}
+aten::stack 3
+        %torch.2_8_0:3% aten::stack(tensors:list{<1xf32>{1}, <1xf32>{1}}) -> <2xf32>{1}
+        %torch.2_8_0:3% aten::stack(tensors:list{<32xbf16>{1}}) -> <1x32xbf16>{32, 1}
+        %torch.2_8_0:3% aten::stack(tensors:list{<32xf32>{1}}) -> <1x32xf32>{32, 1}
+aten::isnan 2
+        %torch.2_8_0:3% aten::isnan(self:<2xf32>{1}) -> <2xbool>{1}
+        %torch.2_8_0:3% aten::isnan(self:<1xbf16>{1}) -> <1xbool>{1}
+aten::any 1
+        %torch.2_8_0:3% aten::any(self:<2xbool>{1}) -> <1xbool>{1}
+aten::unbind 2
+        %torch.2_8_0:3% aten::unbind(self:<2xf32>{1}) -> <1xf32>{1}, <1xf32>{1}
+        %torch.2_8_0:3% aten::unbind(self:<1x32xf32>{32, 1}) -> <32xf32>{1}
+aten::ones 2
+        %torch.2_8_0:3% aten::ones(size:list{1:int}, device:cuda_3:device, pin_memory:False:bool) -> <1xf32>{1}
+        %torch.2_8_0:3% aten::ones(size:list{1:int}, dtype:torch_float32:dtype, device:cuda_3:device, pin_memory:False:bool) -> <1xf32>{1}
+aten::select_backward 1
+        %torch.2_8_0:3% aten::select_backward(grad_output:<1xf32>{1}, input_sizes:list{2:int}, dim:0:int, index:0:int) -> <2xf32>{1}
+aten::rsub 5
+        %torch.2_8_0:3% aten::rsub(self:<4096xf32>{1}, other:1_0:float) -> <4096xf32>{1}
+        %torch.2_8_0:3% aten::rsub(self:<38688x2048xbf16>{2048, 1}, other:1:int) -> <38688x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::rsub(self:<4096x2048xbf16>{2048, 1}, other:1:int) -> <4096x2048xbf16>{2048, 1}
+        %torch.2_8_0:3% aten::rsub(self:<4096x18432xbf16>{18432, 1}, other:1:int) -> <4096x18432xbf16>{18432, 1}
+        %torch.2_8_0:3% aten::rsub(self:<35856x2048xbf16>{2048, 1}, other:1:int) -> <35856x2048xbf16>{2048, 1}
+te::rmsnorm_bwd 9
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096xf32>{1}, <7168xbf16>{1}+926679040, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, <7168xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096xf32>{1}, <7168xbf16>{1}+970955776, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, <7168xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x512xbf16>{512, 1}, <4096x512xbf16>{512, 1}, <4096xf32>{1}, <512xbf16>{1}+987740160, 0:int, False:bool) -> <4096x512xbf16>{512, 1}, <512xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x1536xbf16>{1536, 1}, <4096x1536xbf16>{1536, 1}, <4096xf32>{1}, <1536xbf16>{1}+1029618176, 0:int, False:bool) -> <4096x1536xbf16>{1536, 1}, <1536xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096xf32>{1}, <7168xbf16>{1}+1158070272, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, <7168xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096xf32>{1}, <7168xbf16>{1}+1554439168, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, <7168xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x512xbf16>{512, 1}, <4096x512xbf16>{512, 1}, <4096xf32>{1}, <512xbf16>{1}+1571223552, 0:int, False:bool) -> <4096x512xbf16>{512, 1}, <512xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x1536xbf16>{1536, 1}, <4096x1536xbf16>{1536, 1}, <4096xf32>{1}, <1536xbf16>{1}+1613101568, 0:int, False:bool) -> <4096x1536xbf16>{1536, 1}, <1536xbf16>{1}
+        %te.2_5_0:3% te::rmsnorm_bwd(<4096x7168xbf16>{7168, 1}, <4096x7168xbf16>{7168, 1}, <4096xf32>{1}, <7168xbf16>{1}+1741553664, 0:int, False:bool) -> <4096x7168xbf16>{7168, 1}, <7168xbf16>{1}
+aten::squeeze 3
+        %torch.2_8_0:3% aten::squeeze(self:<38688x1xf32>{1, 1}, dim:-1:int) -> <38688xf32>{1}
+        %torch.2_8_0:3% aten::squeeze(self:<4096x1x1x64xbf16>{64, 64, 64, 1}, dim:-2:int) -> <4096x1x64xbf16>{64, 64, 1}
+        %torch.2_8_0:3% aten::squeeze(self:<35856x1xf32>{1, 1}, dim:-1:int) -> <35856xf32>{1}
+aten::new_zeros 5
+        %torch.2_8_0:3% aten::new_zeros(self:<38688x7168xbf16>{7168, 1}, size:list{19621:int, 7168:int}, dtype:torch_bfloat16:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <19621x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::new_zeros(self:<38661xf32>{1}, size:list{19621:int, 8:int}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <19621x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::new_zeros(self:<4096x8xf32>{8, 1}, size:list{4096:int, 32:int}) -> <4096x32xf32>{32, 1}
+        %torch.2_8_0:3% aten::new_zeros(self:<35856x7168xbf16>{7168, 1}, size:list{18722:int, 7168:int}, dtype:torch_bfloat16:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <18722x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::new_zeros(self:<35849xf32>{1}, size:list{18722:int, 8:int}, dtype:torch_float32:dtype, layout:torch_strided:layout, device:cuda_3:device) -> <18722x8xf32>{8, 1}
+aten::index_add 2
+        %torch.2_8_0:3% aten::index_add(self:<19621x7168xbf16>{7168, 1}, dim:0:int, index:<38688xi64>{1}, source:<38688x7168xbf16>{7168, 1}) -> <19621x7168xbf16>{7168, 1}
+        %torch.2_8_0:3% aten::index_add(self:<18722x7168xbf16>{7168, 1}, dim:0:int, index:<35856xi64>{1}, source:<35856x7168xbf16>{7168, 1}) -> <18722x7168xbf16>{7168, 1}
+aten::masked_scatter 2
+        %torch.2_8_0:3% aten::masked_scatter(self:<4x19621xf32>{19621, 1}, mask:<4x19621xbool>{19621, 1}, source:<38688xf32>{1}) -> <4x19621xf32>{19621, 1}
+        %torch.2_8_0:3% aten::masked_scatter(self:<4x18722xf32>{18722, 1}, mask:<4x18722xbool>{18722, 1}, source:<35856xf32>{1}) -> <4x18722xf32>{18722, 1}
+aten::index_put 2
+        %torch.2_8_0:3% aten::index_put(self:<19621x8xf32>{8, 1}, indices:list{<19621x8xbool>{8, 1}}, values:<38661xf32>{1}, accumulate:True:bool) -> <19621x8xf32>{8, 1}
+        %torch.2_8_0:3% aten::index_put(self:<18722x8xf32>{8, 1}, indices:list{<18722x8xbool>{8, 1}}, values:<35849xf32>{1}, accumulate:True:bool) -> <18722x8xf32>{8, 1}
+aten::sigmoid_backward 1
+        %torch.2_8_0:3% aten::sigmoid_backward(grad_output:<4096x32xf32>{32, 1}, output:<4096x32xf32>{32, 1}) -> <4096x32xf32>{32, 1}
+aten::scatter_add 1
+        %torch.2_8_0:3% aten::scatter_add(self:<4096x32xf32>{32, 1}, dim:1:int, index:<4096x8xi64>{8, 1}, src:<4096x8xf32>{8, 1}) -> <4096x32xf32>{32, 1}
+te::fused_attn_bwd 1
+        %te.2_5_0:3% te::fused_attn_bwd(4096:int, 4096:int, 0_1352337788608801:float, 0_0:float, True:bool, NVTE_QKV_Layout_NVTE_SBHD_SBHD_SBHD:NVTE_QKV_Layout, NVTE_Bias_Type_NVTE_NO_BIAS:NVTE_Bias_Type, NVTE_Mask_Type_NVTE_CAUSAL_MASK:NVTE_Mask_Type, tuple{-1:int, 0:int}, False:bool, <2xi32>{1}, <2xi32>{1}, <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x128xbf16>{16384, 16384, 128, 1}, <4096x1x128x128xbf16>{16384, 16384, 128, 1}, <4096x1x128x128xbf16>{16384, 16384, 128, 1}, torch_bfloat16:dtype, DType_kBFloat16:DType, list{<1x128x4096x1xf32>{524288, 4096, 1, 1}, <2xi64>{1}}, None:, None:, None:, None:, None:) -> <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x192xbf16>{24576, 24576, 192, 1}, <4096x1x128x128xbf16>{16384, 16384, 128, 1}, None:
+aten::embedding_dense_backward 1
+        %torch.2_8_0:3% aten::embedding_dense_backward(grad_output:<1x4096x7168xbf16>{7168, 7168, 1}, indices:<1x4096xi64>{4096, 1}, num_weights:129280:int, padding_idx:-1:int, scale_grad_by_freq:False:bool) -> <129280x7168xbf16>{7168, 1}
+aten::linalg_vector_norm 2
+        %torch.2_8_0:3% aten::linalg_vector_norm(self:<2668239872xbf16>{1}) -> <1xbf16>{1}
+        %torch.2_8_0:3% aten::linalg_vector_norm(self:<176160768xbf16>{1}) -> <1xbf16>{1}
+c10d::reduce_scatter_tensor_coalesced_ 2
+        %torch.2_8_0:3% c10d::reduce_scatter_tensor_coalesced_(outputs:list{<333529984xbf16>{1}+1000589952}, inputs:list{<2668239872xbf16>{1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, async_op:False:bool) -> Work:distributed
+        %torch.2_8_0:3% c10d::reduce_scatter_tensor_coalesced_(outputs:list{<176160768xbf16>{1}}, inputs:list{<176160768xbf16>{1}}, process_group:ProcessGroup:distributed, reduce_op:ReduceOp:distributed, async_op:False:bool) -> Work:distributed
+aten::sign 1
+        %torch.2_8_0:3% aten::sign(self:<1x32xbf16>{32, 1}) -> <1x32xbf16>{32, 1}
+te::multi_tensor_l2norm 1
+        %te.2_5_0:3% te::multi_tensor_l2norm(65536:int, <1xi32>{1}, list{list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}, <1536xf32>{1}, <7168xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}}, False:bool) -> <1xf32>{1}, <0xf32>{1}
+aten::pow 1
+        %torch.2_8_0:3% aten::pow(self:<1xf32>{1}, exponent:2_0:float) -> <1xf32>{1}
+te::multi_tensor_scale 4
+        %te.2_5_0:3% te::multi_tensor_scale(65536:int, <1xi32>{1}, list{list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}, <1536xf32>{1}, <7168xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}, <1536xf32>{1}, <7168xf32>{1}}}, 1_6138424766523753e-05:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_scale(65536:int, <1xi32>{1}, list{list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}}, 1_6138424766523753e-05:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_scale(65536:int, <1xi32>{1}, list{list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}, <1536xf32>{1}, <7168xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}, <1536xf32>{1}, <7168xf32>{1}}}, 2_0873490810730615e-05:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_scale(65536:int, <1xi32>{1}, list{list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}}, 2_0873490810730615e-05:float) -> None:
+profiler::_record_function_enter_new 2
+        %torch.2_8_0:3% profiler::_record_function_enter_new(name:Optimizer_step#FusedAdam_step:str) -> Work:distributed
+        %torch.2_8_0:3% profiler::_record_function_enter_new(name:enumerate(DataLoader)#_MultiProcessingDataLoaderIter___ne_t__:str) -> Work:distributed
+te::multi_tensor_adam 6
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}}, 1e-05:float, 0_9:float, 0_95:float, 1e-08:float, 1:int, 1:int, 1:int, 0_1:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}}, 1e-05:float, 0_9:float, 0_95:float, 1e-08:float, 1:int, 1:int, 1:int, 0_0:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}}, 1e-05:float, 0_9:float, 0_95:float, 1e-08:float, 1:int, 1:int, 1:int, 0_1:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}, list{<29028224xf32>{1}, <11010048xf32>{1}, <117440512xf32>{1}, <132120576xf32>{1}, <43921920xf32>{1}}}, 9_779754323328192e-06:float, 0_9:float, 0_95:float, 1e-08:float, 2:int, 1:int, 1:int, 0_1:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}, list{<1536xf32>{1}, <7168xf32>{1}}}, 9_779754323328192e-06:float, 0_9:float, 0_95:float, 1e-08:float, 2:int, 1:int, 1:int, 0_0:float) -> None:
+        %te.2_5_0:3% te::multi_tensor_adam(65536:int, <1xi32>{1}, list{list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}, list{<14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <14680064xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}, <29360128xf32>{1}}}, 9_779754323328192e-06:float, 0_9:float, 0_95:float, 1e-08:float, 2:int, 1:int, 1:int, 0_1:float) -> None:
+profiler::_record_function_exit 1
+        %torch.2_8_0:3% profiler::_record_function_exit(_0:Work:distributed) -> None:
+c10d::allgather_into_tensor_coalesced_ 2
+        %torch.2_8_0:3% c10d::allgather_into_tensor_coalesced_(outputs:list{<2668239872xbf16>{1}}, inputs:list{<333529984xbf16>{1}+1000589952}, process_group:ProcessGroup:distributed) -> Work:distributed
+        %torch.2_8_0:3% c10d::allgather_into_tensor_coalesced_(outputs:list{<176160768xbf16>{1}}, inputs:list{<176160768xbf16>{1}}, process_group:ProcessGroup:distributed) -> Work:distributed
+c10d::_allgather_base_ 1
+        %torch.2_8_0:3% c10d::_allgather_base_(output_tensor:<192xf32>{1}, input_tensor:<24xf32>{1}+72, process_group:ProcessGroup:distributed, async_op:False:bool) -> <192xf32>{1}, Work:distributed
+c10d::barrier 1
+        %torch.2_8_0:3% c10d::barrier(tensor:<1xu8>{1}, process_group:ProcessGroup:distributed, device_ids:list{}, async_op:False:bool) -> Work:distributed
+c10d::broadcast_ 3
+        %torch.2_8_0:3% c10d::broadcast_(tensors:list{<1x4096xi64>{4096, 1}}, process_group:ProcessGroup:distributed, root_rank:0:int, root_tensor:0:int, async_op:False:bool) -> list{<1x4096xi64>{4096, 1}}, Work:distributed
+        %torch.2_8_0:3% c10d::broadcast_(tensors:list{<1x4096xf32>{4096, 1}}, process_group:ProcessGroup:distributed, root_rank:0:int, root_tensor:0:int, async_op:False:bool) -> list{<1x4096xf32>{4096, 1}}, Work:distributed
+        %torch.2_8_0:3% c10d::broadcast_(tensors:list{<1x1x4096x4096xbool>{16777216, 16777216, 4096, 1}}, process_group:ProcessGroup:distributed, root_rank:0:int, root_tensor:0:int, async_op:False:bool) -> list{<1x1x4096x4096xbool>{16777216, 16777216, 4096, 1}}, Work:distributed
+aten::isinf 1
+        %torch.2_8_0:3% aten::isinf(self:<1xbf16>{1}) -> <1xbool>{1}

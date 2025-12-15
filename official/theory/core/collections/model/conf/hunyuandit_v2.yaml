@@ -1,0 +1,11 @@
+model:
+  name: hunyuandit_v2
+  size: DiT_g_2
+  num_layers: 40
+  hidden_size: 1408
+  patch_size: 2
+  input_size: (32, 32)
+  num_attention_heads: 16
+  mlp_ratio: 4.3637
+  in_channels: 4
+  text_states_dim: 1024

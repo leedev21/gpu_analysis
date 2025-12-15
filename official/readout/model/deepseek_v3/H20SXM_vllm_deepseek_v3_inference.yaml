@@ -1,0 +1,398 @@
+config:
+  env:
+    hardware: H20SXM
+    software: deepseek_internal
+    n_nodes: 4
+    world_size: 32
+  model: deepseek_v3
+  exec:
+    workload:
+      deepseek:
+        # shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, gradient_accumulation_steps, first_k_dense_replace]
+        decoding: 20
+        fwd:
+          - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+          - layer::GPTDecoder;[first_k_dense_replace, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, kv_cache]
+          - layer::MOEDecoder;[num_layers_moe, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, kv_cache]
+          - layer::Post&Sampler;[micro_batch_size*seq_length, hidden_size, vocab_size]
+    runtime:
+      fwd&bwd:
+        ATTN:
+          workload: layer::Attn
+          stream: 7
+          waiting: COMBINE
+          sm: 108
+        COMBINE:
+          workload: layer::Combine
+          stream: 16
+          waiting: MLP
+          sm: 24
+        device: 0
+      main:
+        prefill:
+          run: fwd
+          device: 0
+        decoding:
+          run: fwd
+          device: 0
+  inference:
+    num_micro_batches: 2
+    micro_batch_size: 4
+    tensor_model_parallel_size: 1
+    expert_model_parallel_size: 8
+    seq_length: 1000
+  feature:
+    transformer_impl: vllm
+    fp8: true
+    precision: bf16
+    fusion: True
+    main_params_dtype: fp8
+module:
+  Embedding:
+    fwd:
+      - 0_1_fwd_module::VocabParallelEmbedding:
+        - param_name: deepseek-v3.model.embed_tokens
+        - name: aten::embedding
+          inputs: (weight:<129280x7168xbf16>{7168, 1}, indices:<4096xint64>{1})
+          outputs: <4096x7168xbf16>{7168, 1}
+          decoding:
+            inputs: (weight:<129280x7168xbf16>{7168, 1}, indices:<1xint64>{1})
+            outputs: <1x7168xbf16>{7168, 1}
+          duration: -1
+  Attention:
+    fwd:
+      - 0_1_fwd_module::RMSNorm:
+        - param_name: deepseek-v3.model.layers.0.input_layernorm
+        - name: _C::rms_norm
+          inputs: (result:<4096x7168xbf16>{7168, 1}, input:<4096x7168xbf16>{7168, 1}, weight:<7168xbf16>{1}, epsilon:1e-06:float)
+          decoding:
+            inputs: (result:<1x7168xbf16>{7168, 1}, input:<1x7168xbf16>{7168, 1}, weight:<7168xbf16>{1}, epsilon:1e-06:float)
+      - 0_1_fwd_module::DeepseekV2MLAAttention:
+        - param_name: deepseek-v3.model.layers.0.self_attn
+        - name: vllm::_per_token_group_quant_fp8_colmajor
+          inputs: (<4096x7168xbf16>{7168, 1}, <4096x7168xfloat8_e4m3fn>{7168, 1}, <4096x56xf32>{1, 4096}, 128:int, 7168:int, 7168:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+          outputs: None:NoneType
+          decoding:
+            inputs: (<1x7168xbf16>{7168, 1}, <1x7168xfloat8_e4m3fn>{7168, 1}, <1x56xf32>{1, 1}, 128:int, 7168:int, 7168:int, 1:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+          duration: -1
+        - name: _C::cutlass_scaled_mm
+          inputs: (out:<4096x1536xbf16>{1536, 1}, a:<4096x7168xfloat8_e4m3fn>{7168, 1}, b:<7168x1536xfloat8_e4m3fn>{1, 7168}, a_scales:<4096x56xf32>{1, 4096}, b_scales:<56x12xf32>{1, 56}, bias:None:NoneType)
+          outputs: None:NoneType
+          decoding:
+            inputs: (out:<1x1536xbf16>{1536, 1}, a:<1x7168xfloat8_e4m3fn>{7168, 1}, b:<7168x1536xfloat8_e4m3fn>{1, 7168}, a_scales:<1x56xf32>{1, 1}, b_scales:<56x12xf32>{1, 56}, bias:None:NoneType)
+          duration: -1
+        - 0_1_fwd_module::RMSNorm:
+          - param_name: deepseek-v3.model.layers.0.self_attn.q_a_layernorm
+          - name: _C::rms_norm
+            inputs: (result:<4096x1536xbf16>{1536, 1}, input:<4096x1536xbf16>{1536, 1}, weight:<1536xbf16>{1}, epsilon:1e-06:float)
+            outputs: None:NoneType
+            decoding:
+              inputs: (result:<1x7168xbf16>{7168, 1}, input:<1x7168xbf16>{7168, 1}, weight:<7168xbf16>{1}, epsilon:1e-06:float)
+            duration: -1
+        - 0_1_fwd_module::ReplicatedLinear:
+          - param_name: deepseek-v3.model.layers.0.self_attn.kv_a_proj_with_mqa
+          - name: vllm::_per_token_group_quant_fp8
+            inputs: (<4096x7168xbf16>{7168, 1}, <4096x7168xfloat8_e4m3fn>{7168, 1}, <4096x56xf32>{56, 1}, 128:int, 7168:int, 7168:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            decoding:
+              inputs: (<1x7168xbf16>{7168, 1}, <1x7168xfloat8_e4m3fn>{7168, 1}, <1x56xf32>{56, 1}, 128:int, 7168:int, 7168:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            duration: -1
+          - name: vllm::_w8a8_block_fp8_matmul
+            inputs: (<4096x7168xfloat8_e4m3fn>{7168, 1}, <576x7168xfloat8_e4m3fn>{7168, 1}, <4096x576xbf16>{576, 1}, <4096x56xf32>{56, 1}, <5x56xf32>{56, 1}, 4096:int, 576:int, 7168:int, 128:int, 128:int, 7168:int, 1:int, 1:int, 7168:int, 576:int, 1:int, 56:int, 1:int, 1:int, 56:int, BLOCK_SIZE_M:64:int, BLOCK_SIZE_N:128:int, BLOCK_SIZE_K:128:int, GROUP_SIZE_M:64:int, num_warps:4:int, num_stages:3:int, debug:False:bool)
+            outputs: None:NoneType
+            decoding:
+              inputs: (<1x7168xfloat8_e4m3fn>{7168, 1}, <576x7168xfloat8_e4m3fn>{7168, 1}, <1x576xbf16>{576, 1}, <1x56xf32>{56, 1}, <5x56xf32>{56, 1}, 1:int, 576:int, 7168:int, 128:int, 128:int, 7168:int, 1:int, 1:int, 7168:int, 576:int, 1:int, 56:int, 1:int, 1:int, 56:int, BLOCK_SIZE_M:64:int, BLOCK_SIZE_N:32:int, BLOCK_SIZE_K:128:int, GROUP_SIZE_M:64:int, num_warps:4:int, num_stages:5:int, debug:False:bool)
+            duration: -1
+        - name: aten::split_with_sizes
+          inputs: (self:<4096x576xbf16>{576, 1}, split_sizes:['512:int', '64:int'], dim:-1:int)
+          outputs: ['<4096x512xbf16>{576, 1}', '<4096x64xbf16>{576, 1}+512']
+          decoding:
+            inputs: (self:<1x576xbf16>{576, 1}, split_sizes:['512:int', '64:int'], dim:-1:int)
+            outputs: ['<1x512xbf16>{576, 1}', '<1x64xbf16>{576, 1}+512']
+          support_by_backend: True
+          duration: -1
+        - 0_1_fwd_module::RMSNorm:
+          - param_name: deepseek-v3.model.layers.0.self_attn.kv_a_layernorm
+          - name: _C::rms_norm
+            inputs: (result:<4096x512xbf16>{512, 1}, input:<4096x512xbf16>{512, 1}, weight:<512xbf16>{1}, epsilon:1e-06:float)
+            outputs: None:NoneType
+            decoding:
+              inputs: (result:<1x512xbf16>{576, 1}, input:<1x512xbf16>{576, 1}, weight:<512xbf16>{1}, epsilon:1e-06:float)
+            duration: -1
+        - 0_1_fwd_module::Attention:
+          - param_name: deepseek-v3.model.layers.0.self_attn.mla_attn
+          - 0_1_fwd_module::ColumnParallelLinear:
+            - param_name: deepseek-v3.model.layers.0.self_attn.q_b_proj
+            - name: vllm::_per_token_group_quant_fp8_colmajor
+              inputs: (<4096x1536xbf16>{1536, 1}, <4096x1536xfloat8_e4m3fn>{1536, 1}, <4096x12xf32>{1, 4096}, 128:int, 1536:int, 1536:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+              outputs: None:NoneType
+              duration: -1
+            - name: _C::cutlass_scaled_mm
+              inputs: (out:<4096x24576xbf16>{24576, 1}, a:<4096x1536xfloat8_e4m3fn>{1536, 1}, b:<1536x24576xfloat8_e4m3fn>{1, 1536}, a_scales:<4096x12xf32>{1, 4096}, b_scales:<12x192xf32>{1, 12}, bias:None:NoneType)
+              outputs: None:NoneType
+              duration: -1
+          - name: aten::bmm
+            inputs: (self:<128x1x128xbf16>{192, 24576, 1}, mat2:<128x128x512xbf16>{256, 1, 32768})
+            outputs: <128x1x512xbf16>{512, 512, 1}
+            duration: -1
+          - 0_1_fwd_module::DeepseekScalingRotaryEmbedding:
+            - param_name: deepseek-v3.model.layers.0.self_attn.rotary_emb
+            - inputs: (['<4096xint64>{1}', '<4096x128x64xbf16>{24576, 192, 1}+128', '<4096x1x64xbf16>{576, 64, 1}+512'], {})
+          - name: _C_cache_ops::concat_and_cache_mla
+            inputs: (kv_c:<4096x512xbf16>{512, 1}, k_pe:<4096x64xbf16>{576, 1}+512, kv_cache:<90605x64x576xbf16>{36864, 576, 1}, slot_mapping:<4096xint64>{1}, kv_cache_dtype:auto:str, scale:<i32>)
+            outputs: None:NoneType
+            duration: -1
+        - name: aten::max
+          inputs: (self:<1xi32>{1})
+          outputs: <i32>
+          duration: -1
+        - name: aten::gt
+          inputs: (self:<i32>, other:0:int)
+          outputs: <i32>
+          duration: -1
+        - 0_1_fwd_module::ColumnParallelLinear:
+          - param_name: deepseek-v3.model.layers.0.self_attn.kv_b_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x512xbf16>{512, 1}, <4096x512xfloat8_e4m3fn>{512, 1}, <4096x4xf32>{1, 4096}, 128:int, 512:int, 512:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x32768xbf16>{32768, 1}, a:<4096x512xfloat8_e4m3fn>{512, 1}, b:<512x32768xfloat8_e4m3fn>{1, 512}, a_scales:<4096x4xf32>{1, 4096}, b_scales:<4x256xf32>{1, 4}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+        - name: aten::cat
+          inputs: (tensors:['<4096x128x128xbf16>{32768, 256, 1}', '<4096x128x64xbf16>{576, 0, 1}+512'], dim:-1:int)
+          outputs: <4096x128x192xbf16>{24576, 192, 1}
+          duration: -1
+        - name: aten::pad
+          inputs: (self:<4096x128x128xbf16>{32768, 256, 1}+128, pad:['0:int', '64:int'], mode:constant:str, value:0_0:float)
+          outputs: <4096x128x192xbf16>{24576, 192, 1}
+          duration: -1
+        - name: _vllm_fa2_C::varlen_fwd
+          inputs: (q:<4096x128x192xbf16>{24576, 192, 1}, k:<4096x128x192xbf16>{24576, 192, 1}, v:<4096x128x192xbf16>{24576, 192, 1}, out:None:NoneType, cu_seqlens_q:<2xi32>{1}, cu_seqlens_k:<2xi32>{1}, seqused_k:None:NoneType, leftpad_k:None:NoneType, block_table:None:NoneType, alibi_slopes:None:NoneType, max_seqlen_q:4096:int, max_seqlen_k:4096:int, p_dropout:0_0:float, softmax_scale:0_1352337788608801:float, zero_tensors:False:bool, is_causal:True:bool, window_size_left:-1:int, window_size_right:-1:int, softcap:0_0:float, return_softmax:False:bool, gen:None:NoneType)
+          outputs: ['<4096x128x192xbf16>{24576, 192, 1}', '<128x4096xf32>{4096, 1}']
+          decoding:
+            inputs: (_0:<1x1x128x576xbf16>{73728, 73728, 576, 1}, _1:<90605x64x1x576xbf16>{36864, 576, 576, 1}, _2:None:NoneType, _3:512:int, _4:<1xi32>{1}, _5:<1x65xi32>{65, 1}, _6:0_1352337788608801:float, _7:True:bool, _8:<39x8xi32>{8, 1}, _9:<2xi32>{1})
+            outputs: ['<1x1x128x512xbf16>{65536, 65536, 512, 1}', '<1x128x1xf32>{128, 1, 128}']
+          duration: -1
+        - 0_1_fwd_module::RowParallelLinear:
+          - param_name: deepseek-v3.model.layers.0.self_attn.o_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x16384xbf16>{16384, 1}, <4096x16384xfloat8_e4m3fn>{16384, 1}, <4096x128xf32>{1, 4096}, 128:int, 16384:int, 16384:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x7168xbf16>{7168, 1}, a:<4096x16384xfloat8_e4m3fn>{16384, 1}, b:<16384x7168xfloat8_e4m3fn>{1, 16384}, a_scales:<4096x128xf32>{1, 4096}, b_scales:<128x56xf32>{1, 128}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+  RMSNorm:
+    fwd:
+      - 0_1_fwd_module::RMSNorm:
+        - param_name: deepseek-v3.model.layers.0.post_attention_layernorm
+        - name: _C::fused_add_rms_norm
+          inputs: (input:<4096x7168xbf16>{7168, 1}, residual:<4096x7168xbf16>{7168, 1}, weight:<7168xbf16>{1}, epsilon:1e-06:float)
+          outputs: None:NoneType
+          duration: -1
+  MLP:
+    fwd:
+      - 0_1_fwd_module::DeepseekV2MLP:
+        - param_name: deepseek-v3.model.layers.0.mlp
+        - 0_1_fwd_module::MergedColumnParallelLinear:
+          - param_name: deepseek-v3.model.layers.0.mlp.gate_up_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x7168xbf16>{7168, 1}, <4096x7168xfloat8_e4m3fn>{7168, 1}, <4096x56xf32>{1, 4096}, 128:int, 7168:int, 7168:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x36864xbf16>{36864, 1}, a:<4096x7168xfloat8_e4m3fn>{7168, 1}, b:<7168x36864xfloat8_e4m3fn>{1, 7168}, a_scales:<4096x56xf32>{1, 4096}, b_scales:<56x288xf32>{1, 56}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+        - 0_1_fwd_module::SiluAndMul:
+          - param_name: deepseek-v3.model.layers.0.mlp.act_fn
+          - name: _C::silu_and_mul
+            inputs: (out:<4096x18432xbf16>{18432, 1}, input:<4096x36864xbf16>{36864, 1})
+            outputs: None:NoneType
+            duration: -1
+        - 0_1_fwd_module::RowParallelLinear:
+          - param_name: deepseek-v3.model.layers.0.mlp.down_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x18432xbf16>{18432, 1}, <4096x18432xfloat8_e4m3fn>{18432, 1}, <4096x144xf32>{1, 4096}, 128:int, 18432:int, 18432:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x7168xbf16>{7168, 1}, a:<4096x18432xfloat8_e4m3fn>{18432, 1}, b:<18432x7168xfloat8_e4m3fn>{1, 18432}, a_scales:<4096x144xf32>{1, 4096}, b_scales:<144x56xf32>{1, 144}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+  SharedExperts:
+    fwd:
+      - 0_1_fwd_module::DeepseekV2MLP:
+        - param_name: deepseek-v3.model.layers.3.mlp.shared_experts
+        - 0_1_fwd_module::MergedColumnParallelLinear:
+          - param_name: deepseek-v3.model.layers.3.mlp.shared_experts.gate_up_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x7168xbf16>{7168, 1}, <4096x7168xfloat8_e4m3fn>{7168, 1}, <4096x56xf32>{1, 4096}, 128:int, 7168:int, 7168:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x4096xbf16>{4096, 1}, a:<4096x7168xfloat8_e4m3fn>{7168, 1}, b:<7168x4096xfloat8_e4m3fn>{1, 7168}, a_scales:<4096x56xf32>{1, 4096}, b_scales:<56x32xf32>{1, 56}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+        - 0_1_fwd_module::SiluAndMul:
+          - param_name: deepseek-v3.model.layers.3.mlp.shared_experts.act_fn
+          - name: _C::silu_and_mul
+            inputs: (out:<4096x2048xbf16>{2048, 1}, input:<4096x4096xbf16>{4096, 1})
+            outputs: None:NoneType
+            duration: -1
+        - 0_1_fwd_module::RowParallelLinear:
+          - param_name: deepseek-v3.model.layers.3.mlp.shared_experts.down_proj
+          - name: vllm::_per_token_group_quant_fp8_colmajor
+            inputs: (<4096x2048xbf16>{2048, 1}, <4096x2048xfloat8_e4m3fn>{2048, 1}, <4096x16xf32>{1, 4096}, 128:int, 2048:int, 2048:int, 4096:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+            outputs: None:NoneType
+            duration: -1
+          - name: _C::cutlass_scaled_mm
+            inputs: (out:<4096x7168xbf16>{7168, 1}, a:<4096x2048xfloat8_e4m3fn>{2048, 1}, b:<2048x7168xfloat8_e4m3fn>{1, 2048}, a_scales:<4096x16xf32>{1, 4096}, b_scales:<16x56xf32>{1, 16}, bias:None:NoneType)
+            outputs: None:NoneType
+            duration: -1
+  FusedMoE:
+    fwd:
+      - 0_1_fwd_module::ReplicatedLinear:
+        - param_name: deepseek-v3.model.layers.3.mlp.gate
+        - inputs: (['<4096x7168xbf16>{7168, 1}'], {})
+        - name: aten::linear
+          inputs: (input:<4096x7168xbf16>{7168, 1}, weight:<256x7168xbf16>{7168, 1})
+          outputs: <4096x256xbf16>{256, 1}
+          duration: -1
+      - 0_1_fwd_module::FusedMoE:
+        - param_name: deepseek-v3.model.layers.3.mlp.experts
+        - name: aten::sigmoid
+          inputs: (self:<4096x256xbf16>{256, 1})
+          outputs: <4096x256xbf16>{256, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<4096x256xbf16>{256, 1}, other:<1x256xbf16>{256, 1})
+          outputs: <4096x256xbf16>{256, 1}
+          duration: -1
+        - name: aten::topk
+          inputs: (self:<4096x8x32xbf16>{256, 32, 1}, k:2:int)
+          outputs: ['<4096x8x2xbf16>{16, 2, 1}', '<4096x8x2xint64>{16, 2, 1}']
+          duration: -1
+        - name: aten::sum
+          inputs: (self:<4096x8x2xbf16>{16, 2, 1}, dim:['-1:int'])
+          outputs: <4096x8xbf16>{8, 1}
+          duration: -1
+        - name: aten::topk
+          inputs: (self:<4096x8xbf16>{8, 1}, k:4:int, dim:-1:int, largest:True:bool, sorted:False:bool)
+          outputs: ['<4096x4xbf16>{4, 1}', '<4096x4xint64>{4, 1}']
+          duration: -1
+        - name: aten::zeros_like
+          inputs: (self:<4096x8xbf16>{8, 1}, pin_memory:False:bool)
+          outputs: <4096x8xbf16>{8, 1}
+          support_by_backend: True
+          duration: -1
+        - name: aten::scatter_
+          inputs: (self:<4096x8xbf16>{8, 1}, dim:1:int, index:<4096x4xint64>{4, 1}, value:1:int)
+          outputs: <4096x8xbf16>{8, 1}
+          duration: -1
+        - name: aten::bitwise_not
+          inputs: (self:<4096x256xbool>{256, 1})
+          outputs: <4096x256xbool>{256, 1}
+          duration: -1
+        - name: aten::masked_fill
+          inputs: (self:<4096x256xbf16>{256, 1}, mask:<4096x256xbool>{256, 1}, value:-inf:float)
+          outputs: <4096x256xbf16>{256, 1}
+          duration: -1
+        - name: aten::topk
+          inputs: (self:<4096x256xbf16>{256, 1}, k:8:int, dim:-1:int, largest:True:bool, sorted:False:bool)
+          outputs: ['<4096x8xbf16>{8, 1}', '<4096x8xint64>{8, 1}']
+          duration: -1
+        - name: aten::gather
+          inputs: (self:<4096x256xbf16>{256, 1}, dim:1:int, index:<4096x8xint64>{8, 1})
+          outputs: <4096x8xbf16>{8, 1}
+          duration: -1
+        - name: aten::sum
+          inputs: (self:<4096x8xbf16>{8, 1}, dim:['-1:int'], keepdim:True:bool)
+          outputs: <4096x1xbf16>{1, 1}
+          duration: -1
+        - name: aten::div
+          inputs: (self:<4096x8xbf16>{8, 1}, other:<4096x1xbf16>{1, 1})
+          outputs: <4096x8xbf16>{8, 1}
+          duration: -1
+        - name: vllm::grouped_topk
+          inputs: (hidden_states:<4096x7168xbf16>{7168, 1}, gating_output:<4096x256xbf16>{256, 1}, topk:8:int, renormalize:True:bool, num_expert_group:8:int, topk_group:4:int, scoring_func:sigmoid:str, e_score_correction_bias:<256xbf16>{1})
+          outputs: ['<4096x8xf32>{8, 1}', '<4096x8xi32>{8, 1}']
+          duration: -1
+        - name: _moe_C::sgl_moe_align_block_size
+          inputs: (topk_ids:<4096x8xi32>{8, 1}, num_experts:256:int, block_size:64:int, sorted_token_ids:<48896xi32>{1}, experts_ids:<764xi32>{1}, num_tokens_post_pad:<1xi32>{1})
+          outputs: None:NoneType
+          duration: -1
+        - name: vllm::_per_token_group_quant_fp8
+          inputs: (<4096x7168xbf16>{7168, 1}, <4096x7168xfloat8_e4m3fn>{7168, 1}, <4096x56xf32>{56, 1}, 128:int, 7168:int, 7168:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+          outputs: None:NoneType
+          duration: -1
+        - name: vllm::fused_moe_kernel
+          inputs: (<4096x7168xfloat8_e4m3fn>{7168, 1}, <256x4096x7168xfloat8_e4m3fn>{29360128, 7168, 1}, <4096x8x4096xbf16>{32768, 4096, 1}, <4096x56xf32>{56, 1}, <256x32x56xf32>{1792, 56, 1}, <4096x8xf32>{8, 1}, <48896xi32>{1}, <764xi32>{1}, <1xi32>{1}, 4096:int, 7168:int, 48896:int, 32768:int, 7168:int, 1:int, 29360128:int, 1:int, 7168:int, 4096:int, 1:int, 56:int, 1:int, 1792:int, 1:int, 56:int, 128:int, 128:int, MUL_ROUTED_WEIGHT:False:bool, top_k:8:int, compute_type:bf16:dtype, use_fp8_w8a8:True:bool, use_int8_w8a16:False:bool, BLOCK_SIZE_M:64:int, BLOCK_SIZE_N:128:int, BLOCK_SIZE_K:128:int, GROUP_SIZE_M:32:int, num_warps:4:int, num_stages:3:int, debug:False:bool)
+          outputs: None:NoneType
+          duration: -1
+        - name: _C::silu_and_mul
+          inputs: (out:<32768x2048xbf16>{2048, 1}, input:<32768x4096xbf16>{4096, 1})
+          outputs: None:NoneType
+          duration: -1
+        - name: vllm::_per_token_group_quant_fp8
+          inputs: (<32768x2048xbf16>{2048, 1}, <32768x2048xfloat8_e4m3fn>{2048, 1}, <32768x16xf32>{16, 1}, 128:int, 2048:int, 2048:int, 1e-10:float, fp8_min:-448_0:float, fp8_max:448_0:float, BLOCK:128:int, num_warps:1:int, num_stages:1:int, debug:False:bool)
+          outputs: None:NoneType
+          duration: -1
+        - name: _moe_C::moe_sum
+          inputs: (input:<4096x8x7168xbf16>{57344, 7168, 1}, output:<4096x7168xbf16>{7168, 1})
+          outputs: None:NoneType
+          duration: -1
+      - name: aten::mul
+        inputs: (self:<4096x7168xbf16>{7168, 1}, other:2_5:float)
+        outputs: <4096x7168xbf16>{7168, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<4096x7168xbf16>{7168, 1}, other:<4096x7168xbf16>{7168, 1})
+        outputs: <4096x7168xbf16>{7168, 1}
+        duration: -1
+  Post:
+    fwd:
+      - 0_1_fwd_module::RMSNorm:
+        - param_name: deepseek-v3.model.norm
+        - name: _C::fused_add_rms_norm
+          inputs: (input:<4096x7168xbf16>{7168, 1}, residual:<4096x7168xbf16>{7168, 1}, weight:<7168xbf16>{1}, epsilon:1e-06:float)
+          outputs: None:NoneType
+          duration: -1
+      - 0_1_fwd_module::LogitsProcessor:
+        - param_name: deepseek-v3.logits_processor
+        - name: aten::index_select
+          inputs: (self:<4096x7168xbf16>{7168, 1}, dim:0:int, index:<1xint64>{1})
+          outputs: <1x7168xbf16>{7168, 1}
+          duration: -1
+        - name: aten::linear
+          inputs: (input:<1x7168xbf16>{7168, 1}, weight:<129280x7168xbf16>{7168, 1})
+          outputs: <1x129280xbf16>{129280, 1}
+          duration: -1
+      - 0_1_fwd_module::Sampler:
+        - param_name: deepseek-v3.sampler
+        - name: aten::div_
+          inputs: (self:<1x129280xf32>{129280, 1}, other:<1x1xbf16>{1, 1})
+          outputs: <1x129280xf32>{129280, 1}
+          duration: -1
+        - name: aten::softmax
+          inputs: (self:<1x129280xf32>{129280, 1}, dim:-1:int, dtype:torch_float32:dtype)
+          outputs: <1x129280xf32>{129280, 1}
+          duration: -1
+        - name: aten::log_softmax
+          inputs: (self:<1x129280xf32>{129280, 1}, dim:-1:int, dtype:torch_float32:dtype)
+          outputs: <1x129280xf32>{129280, 1}
+        - name: aten::to
+          inputs: (self:<1xi32>{1}, dtype:torch_int64:dtype)
+          outputs: <1xint64>{1}
+          duration: -1
+        - name: aten::index
+          inputs: (self:<1x129280xf32>{129280, 1}, indices:['<1xint64>{1}'])
+          outputs: <1x129280xf32>{129280, 1}
+          duration: -1
+        - name: aten::argmax
+          inputs: (self:<1x129280xf32>{129280, 1}, dim:-1:int)
+          outputs: <1xint64>{1}
+          duration: -1

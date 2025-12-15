@@ -1,0 +1,5 @@
+nccl::all_reduce	op_name	OP::AllReduce	None
+nccl::all_gather	op_name	OP::AllGather	None
+nccl::broadcast	op_name	OP::Broadcast	None
+nccl::reduce_scatter	op_name	OP::ReduceScatter	None
+nccl::send_recv	op_name	OP::SendRecv	None

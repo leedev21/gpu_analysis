@@ -1,0 +1,142 @@
+DualPipe:
+  fwd&bwd:
+    MLP(B):
+      workload: layer::MOE
+      stage: bwd
+      stream: 7
+      waiting: COMBINE(B)
+      sm: 112
+    MLP(W):
+      workload: layer::MOE
+      stage: weight
+      stream: 7
+      sm: 112
+    MLP(F):
+      workload: layer::MOE
+      stage: fwd
+      stream: 7
+      waiting: DISPATCH(F)
+      sm: 112
+    ATTN(B):
+      workload: layer::Attn
+      stage: bwd
+      stream: 7
+      waiting: DISPATCH(B)
+      sm: 112
+    ATTN(W):
+      workload: layer::Attn
+      stage: weight
+      stream: 7
+      sm: 112
+    ATTN(F):
+      workload: layer::Attn
+      stage: fwd
+      stream: 7
+      waiting: PP(F)
+      sm: 112
+    DISPATCH(F):
+      workload: layer::Dispatch
+      stage: fwd
+      stream: 27
+      waiting: ATTN(F)
+      sm: 20
+    DISPATCH(B):
+      workload: layer::Dispatch
+      stage: fwd
+      stream: 27
+      waiting: MLP(B)
+      sm: 20
+    COMBINE(F):
+      workload: layer::Combine
+      stage: fwd
+      stream: 27
+      waiting: MLP(F)
+      sm: 20
+    PP(F):
+      workload: layer::Combine
+      stage: fwd
+      stream: 27
+      sm: 20
+    PP(B):
+      workload: layer::Combine
+      stage: fwd
+      stream: 27
+      waiting: ATTN(B)
+      sm: 20
+    COMBINE(B):
+      workload: layer::Combine
+      stage: bwd
+      stream: 27
+      sm: 20
+    device: 0
+prefill:
+  fwd:
+    ATTN:
+      workload: layer::Attn
+      stage: fwd
+      stream: 7
+      waiting: COMBINE
+      sm: 108
+    MLP:
+      workload: layer::MOE
+      stage: fwd
+      stream: 7
+      waiting: DISPATCH
+      sm: 108
+    SHARED:
+      workload: layer::MLP
+      stage: fwd
+      stream: 7
+      sm: 108
+    DISPATCH:
+      workload: layer::Dispatch
+      stage: fwd
+      stream: 16
+      waiting: ATTN
+      sm: 24
+    COMBINE:
+      workload: layer::Combine
+      stage: fwd
+      stream: 16
+      waiting: MLP
+      sm: 24
+    device: 0
+decoding:
+  fwd:
+    ATTN-0:
+      workload: layer::Attn
+      stage: fwd
+      stream: 7
+      waiting: SHARED
+      sm: 132
+    ATTN-1:
+      workload: layer::Attn
+      stage: fwd
+      stream: 7
+      waiting: MLP
+      sm: 132
+    MLP:
+      workload: layer::MOE
+      stage: fwd
+      stream: 7
+      waiting: DISPATCH
+      sm: 132
+    SHARED:
+      workload: layer::MLP
+      stage: fwd
+      stream: 7
+      waiting: COMBINE
+      sm: 132
+    DISPATCH:
+      workload: layer::Dispatch
+      stage: fwd
+      stream: 16
+      waiting: ATTN-1
+      sm: 0
+    COMBINE:
+      workload: layer::Combine
+      stage: fwd
+      stream: 16
+      waiting: MLP
+      sm: 0
+    device: 0

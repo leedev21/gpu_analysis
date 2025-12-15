@@ -1,0 +1,36 @@
+- name: aten::fill_
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _val: 1
+
+- name: aten::copy_
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+    - _tensor: [M, N]
+
+- name: aten::contiguous
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, N]
+
+- name: aten::slice
+  size:
+    M: [1, 2, 8, 128, 1024, 4096]
+    N: [32, 128, 1024, 8192]
+    start: [0, 1, 4]
+    end: [8, 16, 32, -1]
+    dim: [0, 1]
+  input:
+    - _tensor: [M, N]
+    - dim: dim
+      start: start
+      end: end
+      step: 1

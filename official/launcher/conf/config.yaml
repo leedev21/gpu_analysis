@@ -1,0 +1,20 @@
+defaults:
+  - _self_
+  - model: gpt/gpt2
+  - module: null
+  - op: test
+  - training: base
+  - run: test
+  - task: distributions
+  - override hydra/job_logging: stdout
+
+hydra:
+  run:
+    dir: '.'
+  output_subdir: null
+
+stages:
+  - op
+
+load_case_file: null
+load_size_from_file: null

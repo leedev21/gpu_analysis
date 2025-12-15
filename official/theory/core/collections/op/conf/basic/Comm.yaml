@@ -1,0 +1,12 @@
+op::AllGather:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+    G: [8]
+  schema:
+    - input:<H> -> G*<H>
+    - input:<NxKxH> -> G*<NxKxH>
+  flops: 0
+  io: 2

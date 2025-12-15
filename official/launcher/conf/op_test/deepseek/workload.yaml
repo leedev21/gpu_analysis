@@ -1,0 +1,20 @@
+  _name: atenIndexSelect
+  size:
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+    N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+  _name: atenEmbedding
+  case: [seq_length, ]
+  _name: vllmRmsNormPerTokenGroupQuantFp8
+  case: [seq_length, ]
+  _name: atenLinearQuant
+  case: [seq_length, ]
+  _name: vllmRmsNorm
+  case: [seq_length, ]
+  _name: teRmsNormFwd
+  case: [seq_length, ]
+  _name: vllmRotaryEmbedding
+  case: [seq_length, ]
+  _name: atenMax
+  case: [seq_length, ]
+  _name: atenGt
+  case: [seq_length, ]

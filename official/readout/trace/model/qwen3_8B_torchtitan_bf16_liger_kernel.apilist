@@ -1,0 +1,898 @@
+{
+    "api::CustomOpDef": [
+        {
+            "idx": 0,
+            "use_count": 1,
+            "inputs": "(args:tuple{<151936x4096xf32>{4096, 1}, 1_0:float}, kwargs:__:dict)",
+            "outputs": "<151936x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 1,
+            "use_count": 3,
+            "inputs": "(args:tuple{<151936x4096xf32>{4096, 1}, 0_0:float}, kwargs:__:dict)",
+            "outputs": "<151936x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 2,
+            "use_count": 1,
+            "inputs": "(args:tuple{<64xf32>{1}, 128_0:float}, kwargs:__:dict)",
+            "outputs": "<64xf32>{1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 3,
+            "use_count": 1,
+            "inputs": "(args:tuple{1000000_0:float, <64xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<64xf32>{1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 4,
+            "use_count": 1,
+            "inputs": "(args:tuple{<64xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<64xf32>{1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 5,
+            "use_count": 1,
+            "inputs": "(args:tuple{<64xf32>{1}, 1_0:float}, kwargs:__:dict)",
+            "outputs": "<64xf32>{1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 6,
+            "use_count": 2,
+            "inputs": "(args:tuple{<151936x4096xf32>{4096, 1}, 0_02:float}, kwargs:__:dict)",
+            "outputs": "<151936x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 7,
+            "use_count": 72,
+            "inputs": "(args:tuple{<4096x4096xf32>{4096, 1}, 0_02:float}, kwargs:__:dict)",
+            "outputs": "<4096x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 8,
+            "use_count": 72,
+            "inputs": "(args:tuple{<4096x4096xf32>{4096, 1}, 0_0:float}, kwargs:__:dict)",
+            "outputs": "<4096x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 9,
+            "use_count": 72,
+            "inputs": "(args:tuple{<1024x4096xf32>{4096, 1}, 0_02:float}, kwargs:__:dict)",
+            "outputs": "<1024x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 10,
+            "use_count": 72,
+            "inputs": "(args:tuple{<1024x4096xf32>{4096, 1}, 0_0:float}, kwargs:__:dict)",
+            "outputs": "<1024x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 11,
+            "use_count": 72,
+            "inputs": "(args:tuple{<12288x4096xf32>{4096, 1}, 0_02:float}, kwargs:__:dict)",
+            "outputs": "<12288x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 12,
+            "use_count": 72,
+            "inputs": "(args:tuple{<12288x4096xf32>{4096, 1}, 0_0:float}, kwargs:__:dict)",
+            "outputs": "<12288x4096xf32>{4096, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 13,
+            "use_count": 36,
+            "inputs": "(args:tuple{<4096x12288xf32>{12288, 1}, 0_02:float}, kwargs:__:dict)",
+            "outputs": "<4096x12288xf32>{12288, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 14,
+            "use_count": 36,
+            "inputs": "(args:tuple{<4096x12288xf32>{12288, 1}, 0_0:float}, kwargs:__:dict)",
+            "outputs": "<4096x12288xf32>{12288, 1}",
+            "state": [
+                "start"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 15,
+            "use_count": 2,
+            "inputs": "(args:tuple{<151936x4096xf32>{4096, 1}, <151936x4096xf32>{4096, 1}}, kwargs:__:dict)",
+            "outputs": "<151936x4096xf32>{4096, 1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 16,
+            "use_count": 2,
+            "inputs": "(args:tuple{<151936x4096xf32>{4096, 1}, list{0:int, 1:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 17,
+            "use_count": 400,
+            "inputs": "(args:tuple{<1xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 18,
+            "use_count": 72,
+            "inputs": "(args:tuple{<4096x4096xf32>{4096, 1}, <4096x4096xf32>{4096, 1}}, kwargs:__:dict)",
+            "outputs": "<4096x4096xf32>{4096, 1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 19,
+            "use_count": 72,
+            "inputs": "(args:tuple{<4096x4096xf32>{4096, 1}, list{0:int, 1:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 20,
+            "use_count": 72,
+            "inputs": "(args:tuple{<1024x4096xf32>{4096, 1}, <1024x4096xf32>{4096, 1}}, kwargs:__:dict)",
+            "outputs": "<1024x4096xf32>{4096, 1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 21,
+            "use_count": 72,
+            "inputs": "(args:tuple{<1024x4096xf32>{4096, 1}, list{0:int, 1:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 22,
+            "use_count": 72,
+            "inputs": "(args:tuple{<128xf32>{1}, <128xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<128xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 23,
+            "use_count": 72,
+            "inputs": "(args:tuple{<128xf32>{1}, list{0:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 24,
+            "use_count": 72,
+            "inputs": "(args:tuple{<12288x4096xf32>{4096, 1}, <12288x4096xf32>{4096, 1}}, kwargs:__:dict)",
+            "outputs": "<12288x4096xf32>{4096, 1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 25,
+            "use_count": 72,
+            "inputs": "(args:tuple{<12288x4096xf32>{4096, 1}, list{0:int, 1:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 26,
+            "use_count": 36,
+            "inputs": "(args:tuple{<4096x12288xf32>{12288, 1}, <4096x12288xf32>{12288, 1}}, kwargs:__:dict)",
+            "outputs": "<4096x12288xf32>{12288, 1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 27,
+            "use_count": 36,
+            "inputs": "(args:tuple{<4096x12288xf32>{12288, 1}, list{0:int, 1:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 28,
+            "use_count": 73,
+            "inputs": "(args:tuple{<4096xf32>{1}, <4096xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<4096xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 29,
+            "use_count": 73,
+            "inputs": "(args:tuple{<4096xf32>{1}, list{0:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 30,
+            "use_count": 1,
+            "inputs": "(args:tuple{list{<1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}, <1xf32>{1}}, 0:int}, kwargs:__:dict)",
+            "outputs": "<399xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 31,
+            "use_count": 1,
+            "inputs": "(args:tuple{<399xf32>{1}, <399xf32>{1}}, kwargs:__:dict)",
+            "outputs": "<399xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        },
+        {
+            "idx": 32,
+            "use_count": 1,
+            "inputs": "(args:tuple{<399xf32>{1}, list{0:int}}, kwargs:__:dict)",
+            "outputs": "<1xf32>{1}",
+            "state": [
+                "bwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_library/custom_ops.py"
+        }
+    ],
+    "api::ModIndex": [
+        {
+            "idx": 0,
+            "use_count": 20,
+            "inputs": "(<2x4096xi64>{4096, 1}, list{<1xi64>{1}, <1xi64>{1}})",
+            "outputs": "<1xi64>{1}",
+            "state": [
+                "fwd:qwen3.model.embed_tokens_Embedding"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/torch/_dynamo/_trace_wrapped_higher_order_op.py"
+        }
+    ],
+    "api::LigerRMSNormFunction": [
+        {
+            "idx": 0,
+            "use_count": 730,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x4096xbf16>{16777216, 4096, 1}, <4096xbf16>{1}, 1e-06:float, 0_0:float, llama:str, True:bool, None:)",
+            "outputs": "<2x4096x4096xbf16>{16777216, 4096, 1}",
+            "state": [
+                "fwd:qwen3.model.layers.34.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.30.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.29.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.33.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.6.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.9.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.16.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.18.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.2.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.5.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.1.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.9.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.24.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.32.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.20.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.20.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.34.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.23.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.12.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.7.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.17.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.4.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.31.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.35.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.19.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.0.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.24.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.31.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.32.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.0.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.14.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.23.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.10.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.22.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.17.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.29.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.10.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.13.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.27.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.27.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.13.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.11.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.28.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.25.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.16.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.30.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.1.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.21.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.3.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.22.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.8.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.12.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.5.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.4.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.15.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.33.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.6.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.25.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.19.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.7.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.28.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.26.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.11.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.14.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.26.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.21.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.2.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.35.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.18.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.8.input_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.15.post_attention_layernorm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.3.input_layernorm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        },
+        {
+            "idx": 1,
+            "use_count": 360,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x32x128xbf16>{16777216, 4096, 128, 1}, <128xbf16>{1}, 1e-06:float, 0_0:float, llama:str, True:bool, None:)",
+            "outputs": "<2x4096x32x128xbf16>{16777216, 4096, 128, 1}",
+            "state": [
+                "fwd:qwen3.model.layers.29.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.24.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.34.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.12.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.6.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.5.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.30.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.31.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.1.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.17.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.3.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.7.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.13.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.18.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.19.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.28.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.21.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.2.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.32.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.25.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.11.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.8.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.35.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.23.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.22.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.15.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.0.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.33.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.14.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.26.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.27.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.16.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.20.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.9.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.10.self_attn.q_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.4.self_attn.q_norm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        },
+        {
+            "idx": 2,
+            "use_count": 360,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x8x128xbf16>{4194304, 1024, 128, 1}, <128xbf16>{1}, 1e-06:float, 0_0:float, llama:str, True:bool, None:)",
+            "outputs": "<2x4096x8x128xbf16>{4194304, 1024, 128, 1}",
+            "state": [
+                "fwd:qwen3.model.layers.1.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.4.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.19.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.15.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.29.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.35.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.8.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.23.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.9.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.26.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.22.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.30.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.14.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.0.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.12.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.34.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.21.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.28.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.3.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.5.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.31.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.20.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.13.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.6.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.17.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.18.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.32.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.27.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.16.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.33.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.7.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.2.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.11.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.24.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.10.self_attn.k_norm_LigerRMSNorm",
+                "fwd:qwen3.model.layers.25.self_attn.k_norm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        },
+        {
+            "idx": 3,
+            "use_count": 730,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x4096xbf16>{16777216, 4096, 1})",
+            "outputs": "tuple{<2x4096x4096xbf16>{16777216, 4096, 1}, <4096xbf16>{1}, None:, None:, None:, None:, None:}",
+            "state": [
+                "bwd:qwen3.model.layers.19.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.13.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.9.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.30.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.4.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.26.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.32.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.30.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.1.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.22.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.26.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.15.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.18.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.5.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.0.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.22.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.21.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.12.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.23.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.35.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.3.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.7.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.10.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.3.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.35.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.0.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.29.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.24.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.8.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.20.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.31.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.16.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.15.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.7.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.27.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.25.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.24.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.4.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.12.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.28.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.19.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.33.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.17.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.11.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.1.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.8.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.34.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.14.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.10.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.31.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.20.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.16.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.29.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.2.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.34.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.25.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.18.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.6.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.6.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.2.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.14.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.9.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.32.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.17.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.28.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.5.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.23.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.11.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.13.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.21.input_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.27.post_attention_layernorm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.33.post_attention_layernorm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        },
+        {
+            "idx": 4,
+            "use_count": 360,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x8x128xbf16>{4194304, 1024, 128, 1})",
+            "outputs": "tuple{<2x4096x8x128xbf16>{4194304, 1024, 128, 1}, <128xbf16>{1}, None:, None:, None:, None:, None:}",
+            "state": [
+                "bwd:qwen3.model.layers.24.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.18.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.9.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.17.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.34.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.11.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.23.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.35.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.15.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.27.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.19.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.7.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.29.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.20.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.6.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.1.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.13.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.4.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.14.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.22.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.21.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.5.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.8.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.32.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.25.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.28.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.31.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.2.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.33.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.3.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.10.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.30.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.26.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.16.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.12.self_attn.k_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.0.self_attn.k_norm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        },
+        {
+            "idx": 5,
+            "use_count": 360,
+            "inputs": "(LigerRMSNormFunctionBackward:autograd, <2x4096x32x128xbf16>{16777216, 4096, 128, 1})",
+            "outputs": "tuple{<2x4096x32x128xbf16>{16777216, 4096, 128, 1}, <128xbf16>{1}, None:, None:, None:, None:, None:}",
+            "state": [
+                "bwd:qwen3.model.layers.5.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.8.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.31.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.12.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.34.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.25.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.6.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.17.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.32.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.35.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.7.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.15.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.27.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.24.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.26.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.23.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.18.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.29.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.19.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.33.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.16.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.9.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.13.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.4.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.14.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.3.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.11.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.28.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.20.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.21.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.10.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.22.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.2.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.1.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.30.self_attn.q_norm_LigerRMSNorm",
+                "bwd:qwen3.model.layers.0.self_attn.q_norm_LigerRMSNorm"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rms_norm.py"
+        }
+    ],
+    "api::LigerRopeFunction": [
+        {
+            "idx": 0,
+            "use_count": 360,
+            "inputs": "(LigerRopeFunctionBackward:autograd, <2x32x4096x128xbf16>{16777216, 128, 4096, 1}, <2x8x4096x128xbf16>{4194304, 128, 1024, 1}, <1x4096x128xbf16>{524288, 128, 1}, <1x4096x128xbf16>{524288, 128, 1}, None:, 1:int)",
+            "outputs": "tuple{<2x32x4096x128xbf16>{16777216, 128, 4096, 1}, <2x8x4096x128xbf16>{4194304, 128, 1024, 1}}",
+            "state": [
+                "fwd:qwen3.model.layers.12.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.35.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.9.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.21.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.29.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.34.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.4.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.3.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.7.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.27.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.5.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.8.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.20.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.31.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.0.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.28.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.17.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.16.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.25.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.11.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.30.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.24.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.18.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.23.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.19.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.15.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.22.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.26.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.14.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.10.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.32.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.2.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.13.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.33.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.6.self_attn.v_proj_Linear",
+                "fwd:qwen3.model.layers.1.self_attn.v_proj_Linear"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rope.py"
+        },
+        {
+            "idx": 1,
+            "use_count": 360,
+            "inputs": "(LigerRopeFunctionBackward:autograd, <2x32x4096x128xbf16>{16777216, 128, 4096, 1}, <2x8x4096x128xbf16>{4194304, 524288, 128, 1})",
+            "outputs": "tuple{<2x32x4096x128xbf16>{16777216, 128, 4096, 1}, <2x8x4096x128xbf16>{4194304, 128, 1024, 1}, None:, None:, None:, None:}",
+            "state": [
+                "bwd:qwen3.model.layers.13.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.2.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.33.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.8.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.25.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.19.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.0.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.31.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.12.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.27.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.26.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.21.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.29.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.23.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.20.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.11.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.28.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.32.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.3.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.14.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.4.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.1.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.24.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.10.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.7.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.17.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.30.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.22.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.16.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.9.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.6.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.18.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.15.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.34.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.35.self_attn.o_proj_Linear",
+                "bwd:qwen3.model.layers.5.self_attn.o_proj_Linear"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/rope.py"
+        }
+    ],
+    "api::LigerSiLUMulFunction": [
+        {
+            "idx": 0,
+            "use_count": 360,
+            "inputs": "(LigerSiLUMulFunctionBackward:autograd, <2x4096x12288xbf16>{50331648, 12288, 1}, <2x4096x12288xbf16>{50331648, 12288, 1})",
+            "outputs": "<2x4096x12288xbf16>{50331648, 12288, 1}",
+            "state": [
+                "fwd:qwen3.model.layers.26.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.27.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.3.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.10.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.20.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.2.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.22.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.32.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.28.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.34.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.21.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.14.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.31.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.12.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.19.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.1.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.8.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.24.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.9.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.30.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.11.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.16.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.17.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.29.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.25.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.33.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.7.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.4.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.0.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.23.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.6.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.15.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.13.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.18.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.5.mlp.up_proj_Linear",
+                "fwd:qwen3.model.layers.35.mlp.up_proj_Linear"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/swiglu.py"
+        },
+        {
+            "idx": 1,
+            "use_count": 360,
+            "inputs": "(LigerSiLUMulFunctionBackward:autograd, <2x4096x12288xbf16>{50331648, 12288, 1})",
+            "outputs": "tuple{<2x4096x12288xbf16>{50331648, 12288, 1}, <2x4096x12288xbf16>{50331648, 12288, 1}}",
+            "state": [
+                "bwd:qwen3.model.layers.33.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.25.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.17.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.29.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.3.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.4.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.21.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.30.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.26.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.9.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.12.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.28.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.15.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.27.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.16.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.23.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.18.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.32.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.2.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.22.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.7.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.35.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.8.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.31.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.5.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.10.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.1.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.19.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.6.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.24.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.34.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.11.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.20.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.0.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.14.mlp.down_proj_Linear",
+                "bwd:qwen3.model.layers.13.mlp.down_proj_Linear"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/swiglu.py"
+        }
+    ],
+    "api::LigerCrossEntropyFunction": [
+        {
+            "idx": 0,
+            "use_count": 10,
+            "inputs": "(LigerCrossEntropyFunctionBackward:autograd, <8192x151936xf32>{151936, 1}, <8192xi64>{1}, None:, -100:int, 0_0:float, 0_0:float, mean:str, None:, False:bool)",
+            "outputs": "tuple{<1xf32>{1}, None:}",
+            "state": [
+                "fwd:qwen3_FSDPQwen3ForCausalLM"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/cross_entropy.py"
+        },
+        {
+            "idx": 1,
+            "use_count": 10,
+            "inputs": "(LigerCrossEntropyFunctionBackward:autograd, <1xf32>{1}, None:)",
+            "outputs": "tuple{<8192x151936xf32>{151936, 1}, None:, None:, None:, None:, None:, None:, None:, None:}",
+            "state": [
+                "fwd:qwen3_FSDPQwen3ForCausalLM"
+            ],
+            "file": "/usr/local/lib/python3.12/dist-packages/liger_kernel/ops/cross_entropy.py"
+        }
+    ]
+}

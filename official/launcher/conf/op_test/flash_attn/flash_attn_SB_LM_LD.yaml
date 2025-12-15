@@ -1,0 +1,232 @@
+# flash_attn::flash_attn.flash_attn_qkvpacked_func
+- name: flash_attn::flash_attn.flash_attn_qkvpacked_func
+  size:
+    B: [1, 2, 4, 8]
+    M: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NH: [8, 32]
+    D: [128, 192, 257]
+    Drop: [0.0]
+    S: [0.01]
+    C: [True]
+    W: [[-1, -1]]
+    De: [True]
+  input:
+    - [B, M, 3, NH, D]
+    - dropout_p: Drop
+      softmax_scale: S
+      causal: C
+      window_size: W
+      alibi_slopes: null
+      deterministic: De
+
+
+# flash_attn::flash_attn.flash_attn_func
+## prefill
+- name: flash_attn::flash_attn.flash_attn_func
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [8, 32]
+    NHK: [8, 32]
+    D: [128, 192, 257]
+    Drop: [0.0]
+    S: [0.01]
+    C: [True]
+    W: [[-1, -1]]
+    De: [True]
+  input:
+    - [B, MQKV, NHQ, D]
+    - [B, MQKV, NHK, D]
+    - [B, MQKV, NHK, D]
+    - dropout_p: Drop
+      softmax_scale: S
+      causal: C
+      window_size: W
+      alibi_slopes: null
+      deterministic: De
+## decoding
+- name: flash_attn::flash_attn.flash_attn_func
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [8, 32]
+    NHK: [8, 32]
+    D: [128, 192, 257]
+    Drop: [0.0]
+    S: [0.01]
+    C: [True]
+    W: [[-1, -1]]
+    De: [True]
+  input:
+    - [B, MQ, NHQ, D]
+    - [B, MK, NHK, D]
+    - [B, MK, NHK, D]
+    - dropout_p: Drop
+      softmax_scale: S
+      causal: C
+      window_size: W
+      alibi_slopes: null
+      deterministic: De
+
+# aten::scaled_dot_product_attention
+## prefill
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQKV, DQK]
+    - [B, NHK, MQKV, DQK]
+    - [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQKV, DQK]
+    - [B, NHK, MQKV, DQK]
+    - [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQKV, DQK]
+    - [B, NHK, MQKV, DQK]
+    - [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQKV, DQK]
+    - [B, NHK, MQKV, DQK]
+    - [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## decoding
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQ, DQK]
+    - [B, NHK, MK, DQK]
+    - [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQ, DQK]
+    - [B, NHK, MK, DQK]
+    - [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQ, DQK]
+    - [B, NHK, MK, DQK]
+    - [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - [B, NHQ, MQ, DQK]
+    - [B, NHK, MK, DQK]
+    - [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+
+
+# # # - name: flash_attn::flash_attn.flash_attn_with_kvcache
+# #     # q,
+# #     # k_cache,
+# #     # v_cache,
+# #     # k=None,
+# #     # v=None,
+# #     # rotary_cos=None,
+# #     # rotary_sin=None,
+# #     # cache_seqlens: Optional[Union[(int, torch.Tensor)]] = None,
+# #     # cache_batch_idx: Optional[torch.Tensor] = None,
+# #     # block_table: Optional[torch.Tensor] = None,
+# #     # softmax_scale=None,
+# #     # causal=False,
+# #     # window_size=(-1, -1),  # -1 means infinite context window
+# #     # rotary_interleaved=True,
+# #     # alibi_slopes=None,

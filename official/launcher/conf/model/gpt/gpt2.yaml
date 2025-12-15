@@ -1,0 +1,17 @@
+name: GPT2
+size: 0.345
+num_layers: 1
+hidden_size: 768
+ffn_hidden_size: 3072
+num_attention_heads: 12
+# layers:
+    # - Embedding_fwd_step0_rank0
+    # - SelfAttention_fwd_step0_rank0
+    # - MLP_fwd_step0_rank0
+    # - RMSNorm_fwd_step0_rank0
+    # - VocabParallelEmbedding_fwd_step0_rank0
+    # - Embedding_bwd_step0_rank0
+    # - SelfAttention_bwd_step0_rank0
+    # - MLP_bwd_step0_rank0
+    # - RMSNorm_bwd_step0_rank0
+    # - VocabParallelEmbedding_bwd_step0_rank0

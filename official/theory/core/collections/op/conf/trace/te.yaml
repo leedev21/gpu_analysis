@@ -1,0 +1,62 @@
+te::fused_attn_fwd:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+te::fused_attn_bwd:
+  type: std
+  basic: op::AttnBwd
+  mapping:
+    inputs: [12, 13, 14, 15, 16]
+    outputs: [0, 1, 2]
+te::get_num_cublas_streams:
+  type: framework
+te::get_fused_attn_backend:
+  type: framework
+te::rmsnorm_fwd:
+  type: std
+  basic: op::RMSNormFwd
+  mapping:
+    inputs: [0, 1]
+    outputs: [0]
+  dtype: inputs_0
+  gpu_kernel: nvte_rmsnorm_fwd
+te::rmsnorm_bwd:
+  type: std
+  basic: op::RMSNormBwd
+  mapping: [0]
+  gpu_kernel: nvte_rmsnorm_bwd
+te::get_cudnn_version:
+  type: framework
+te::generic_gemm:
+  type: std
+  basic: op::MM
+  gpu_kernel: nvte_cublas_gemm_scaled
+  mapping:
+    inputs: [2, 0]
+    outputs: [0]
+# te::te_general_grouped_gemm:
+#   gpu_kernel: nvte_multi_stream_cublas_gemm
+
+# te::quantize:
+#   gpu_kernel: nvte_quantize_v2
+# te::split_quantize
+
+
+# te::multi_tensor_adam:
+#   gpu_kernel: nvte_multi_tensor_adam_cuda
+# te::multi_tensor_scale:
+#   gpu_kernel: nvte_multi_tensor_scale_cuda
+# te::multi_tensor_l2norm:
+#   gpu_kernel: nvte_multi_tensor_l2norm_cuda
+
+# te::fused_topk_with_score_function_fwd:
+# te::fused_score_for_moe_aux_loss_fwd:
+# te::fused_moe_aux_loss_fwd:
+# te::fused_moe_aux_loss_bwd:
+# te::fused_score_for_moe_aux_loss_bwd:
+# te::fused_topk_with_score_function_bwd:
+# te::scaled_masked_softmax_backward:
+# te::scaled_masked_softmax_forward:

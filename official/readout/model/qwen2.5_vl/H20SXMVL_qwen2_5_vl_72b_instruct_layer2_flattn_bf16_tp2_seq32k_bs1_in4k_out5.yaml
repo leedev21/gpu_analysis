@@ -1,0 +1,37 @@
+config:
+  env:
+    hardware: H20SXM
+    n_devices: 2
+    n_nodes: 1
+    software: nvcr.io/nvidia/pytorch:24.09-py3
+  model: qwen2_5_vl_72b
+  modules:
+    Qwen2_5_VL:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, kv_cache]
+      percent:
+        base: 0.97
+        decoding: 0.458
+      decoding: 128
+      fwd:
+        - layer::GPTDecoder;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, kv_cache]
+  inference:
+    micro_batch_size: 1
+    tensor_model_parallel_size: 2
+    virtual_pipeline_model_parallel_size: null
+    seq_length: 4096
+    input_vision_shape: [1024,1024]
+    task_type: Image
+    num_frames: 16
+  feature:
+    transformer_engine: true
+    fp8: false
+    precision: bf16
+inference_info:
+  summary:
+    step_time: 18s
+    iter_time: 225.9ms
+    clip: 525.4ms
+    decoding_and_allreduce: 1.49ms
+    decoding_time: 0.682ms
+module:
+  Decoder:

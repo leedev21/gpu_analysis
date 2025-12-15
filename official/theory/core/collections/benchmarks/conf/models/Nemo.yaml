@@ -1,0 +1,27 @@
+LLAMA3-8B:
+  model: gpt175b
+  size: 175
+  hw: H100SXM
+  sw: Nemo24.04
+  n_device: 8
+  n_nodes: 1
+  tensor_model_parallel_size: 4
+  pipeline_model_parallel_size: 8
+  micro_batch_size: 1
+  seq_length: 2048
+  global_batch_size: 2688
+  gradient_accumulation_steps: 6
+  precision: fp8
+  trained_samples: 1211105280
+  train_epoch_timing: 234.93810319900513
+  train_step_timing: 0.9296703338623047
+  eval_samples: 11590004
+  validation_epoch_timing: 1.0206727981567383
+  validation_step_timing: 0.20831823348999023
+  dataset: c4
+  log_perplexity: 2.69
+  throughput: 5154997.267404211
+  total_time_min: 3.709
+LLAMA3-70B:
+LLAMA3.1-405B:
+DeepSeekV3:

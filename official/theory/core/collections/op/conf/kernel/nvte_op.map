@@ -1,0 +1,57 @@
+SDPA_prepare:fwd	op_name	OP::SDPA_prepare:fwd	2D	nvte_fused_attn_fwd
+SDPA_fmha:fwd	op_name	OP::SDPA_fmha:fwd	2D:1D	nvte_fused_attn_fwd
+SDPA_prepare:bwd	op_name	OP::SDPA_prepare:bwd	2D	nvte_fused_attn_bwd
+SDPA_fmha:bwd	op_name	OP::SDPA_fmha:bwd	2D:1D	nvte_fused_attn_bwd
+nvte_layernorm1p_fwd	op_name	OP::layer_norm1p:fwd	1D
+nvte_layernorm1p_bwd	op_name	OP::layer_norm1p:bwd	1D
+nvte_layernorm_fwd	op_name	OP::layer_norm:fwd	1D
+nvte_layernorm_bwd	op_name	OP::layer_norm:bwd	1D
+nvte_cublas_gemm	op_name	OP::Gemm	2D
+nvte_rmsnorm_fwd	op_name	OP::rmsnorm:fwd	1D
+nvte_rmsnorm_bwd	op_name	OP::rmsnorm:bwd	1D
+nvte_rope_fwd	op_name	OP::rope:fwd	1D
+nvte_rope_bwd	op_name	OP::rope:bwd	1D
+nvte_silu	op_name	OP::rope:bwd	1D
+nvte_dsilu	op_name	OP::rope:bwd	1D
+nvte_swiglu	op_name	OP::rope:bwd	1D
+nvte_gelu	op_name	OP::triton__0d1d2d3d	SFU
+nvte_dgelu	op_name	OP::triton__0d1d2d3d4d;OP::triton__0d1d2d3d;OP::triton__0d1d2d3d	SFU
+nvtenvte_dswiglu	op_name	OP::rope:bwd	1D
+scaled_aligned_causal_masked_softmax_warp_forward
+scaled_aligned_causal_masked_softmax_warp_backward
+scaled_softmax_warp_forward
+scaled_masked_softmax_warp_backward
+dispatch_scaled_softmax_forward
+dispatch_scaled_masked_softmax_forward
+dispatch_scaled_masked_softmax_backward
+scaled_softmax_forward
+scaled_softmax_backward
+scaled_masked_softmax_forward
+scaled_masked_softmax_backward
+scaled_upper_triang_masked_softmax_forward
+scaled_upper_triang_masked_softmax_backward
+multi_cast_transpose
+
+
+    return ModuleSpec(
+        module=TransformerLayer,
+        submodules=TransformerLayerSubmodules(
+            self_attention=ModuleSpec(
+                module=SelfAttention,
+                params={"attn_mask_type": AttnMaskType.causal},
+                submodules=SelfAttentionSubmodules(
+                    linear_qkv=TELayerNormColumnParallelLinear,
+                    core_attention=TEDotProductAttention,
+                    linear_proj=TERowParallelLinear,
+                    # TENorm significantly harms convergence when used
+                    # for QKLayerNorm; we instead use the Apex implementation.
+                    q_layernorm=FusedLayerNorm if qk_layernorm else IdentityOp,
+                    k_layernorm=FusedLayerNorm if qk_layernorm else IdentityOp,
+                ),
+            ),
+            self_attn_bda=get_bias_dropout_add,
+            pre_mlp_layernorm=TENorm if num_experts else IdentityOp,
+            mlp=mlp,
+            mlp_bda=get_bias_dropout_add,
+        ),
+    )

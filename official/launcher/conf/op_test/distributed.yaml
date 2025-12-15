@@ -1,0 +1,222 @@
+# 1. all_gather ✅
+# Gathers tensors from the whole group in a list.
+
+# Complex and uneven sized tensors are supported.
+- name: torch.distributed::all_gather
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [4, 8]     # group size
+    Async: [true, false]   # async
+  input:
+    - tensor_list:  # Output list. It should contain correctly-sized tensors to be used for output of the collective. Uneven sized tensors are supported.
+        _tensor_list: [[M, K], ]
+        n_tensor: N
+      tensor:  # Tensor to be broadcast from current process.
+        _tensor: [M, K]
+        distributions: _input_normal
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op
+  output: [tensor_list]
+
+# 2. all_gather_into_tensor ✅
+# Gather tensors from all ranks and put them in a single output tensor.
+
+# This function requires all tensors to be the same size on each process.
+- name: torch.distributed::all_gather_into_tensor
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [4, 8]     # group size
+    Async: [true, false]   # async
+  input:
+    - output_tensor:  # Output tensor to accommodate tensor elements from all ranks. It must be correctly sized to have one of the following forms: (i) a concatenation of all the input tensors along the primary dimension; for definition of “concatenation”, see torch.cat(); (ii) a stack of all the input tensors along the primary dimension; for definition of “stack”, see torch.stack(). Examples below may better explain the supported output forms.
+        _tensor: [M*N, K]
+      input_tensor:  # Tensor to be gathered from current rank. Different from the all_gather API, the input tensors in this API must have the same size across all ranks.
+        _tensor: [M, K]
+        distributions: _input_normal
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op
+  output: [output_tensor]
+
+# 3. all_reduce ✅
+# Reduces the tensor data across all machines in a way that all get the final result.
+
+# After the call tensor is going to be bitwise identical in all processes.
+
+# Complex tensors are supported.
+- name: torch.distributed::all_reduce
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [4, 8]     # group size
+    Op: [SUM, MAX, AVG]   # reduce op
+    Async: [true, false]   # async
+  input:
+    - tensor:  # Input and output of the collective. The function operates in-place.
+        _tensor: [M, K]
+      op:  # One of the values from torch.distributed.ReduceOp enum. Specifies an operation used for element-wise reductions.
+        _dist_red_op: Op
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op
+  output: [tensor]
+
+# 4. reduce_scatter ✅
+# Reduces, then scatters a list of tensors to all processes in a group.
+- name: torch.distributed::reduce_scatter
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    Op: [SUM, MAX, AVG]   # reduce op
+    Async: [true, false]   # async
+  input:
+    - output:  # Output tensor.
+        _tensor: [M, K]
+      input_list:  # List of tensors to reduce and scatter.
+        _tensor_list: [[M, K], ]
+        n_tensor: N
+        distributions: _input_normal
+      op:  # One of the values from torch.distributed.ReduceOp enum. Specifies an operation used for element-wise reductions.
+        _dist_red_op: Op
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op.
+  output: [output]
+
+# 5. reduce_scatter_tensor ✅
+# Reduces, then scatters a tensor to all ranks in a group.
+- name: torch.distributed::reduce_scatter_tensor
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    Op: [SUM, MAX, AVG]   # reduce op
+    Async: [true, false]   # async
+  input:
+    - output:  # Output tensor. It should have the same size across all ranks.
+        _tensor: [M, K]
+      input:  # Input tensor to be reduced and scattered. Its size should be output tensor size times the world size. The input tensor can have one of the following shapes: (i) a concatenation of the output tensors along the primary dimension, or (ii) a stack of the output tensors along the primary dimension. For definition of “concatenation”, see torch.cat(). For definition of “stack”, see torch.stack().
+        _tensor: [M*N, K]
+        distributions: _input_normal
+      op:  # One of the values from torch.distributed.ReduceOp enum. Specifies an operation used for element-wise reductions.
+        _dist_red_op: Op
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op.
+  output: [output]
+
+# 6. all_to_all ✅
+# Scatters list of input tensors to all processes in a group and return gathered list of tensors in output list.
+
+# Complex tensors are supported.
+- name: torch.distributed::all_to_all
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    Async: [true, false]   # async
+  input:
+    - output_tensor_list:  # List of tensors to be gathered one per rank.
+        _tensor_list: [[M, K], ]
+        n_tensor: N
+      input_tensor_list:  # List of tensors to scatter one per rank.
+        _tensor_list: [[M, K], ]
+        n_tensor: N
+        distributions: _input_normal
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  # Whether this op should be an async op.
+  output: [output_tensor_list]
+
+# 7. all_to_all_single ✅
+# Split input tensor and then scatter the split list to all processes in a group.
+
+# Later the received tensors are concatenated from all the processes in the group and returned as a single output tensor.
+
+# Complex tensors are supported.
+- name: torch.distributed::all_to_all_single
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    Async: [true, false]   # async
+  input:
+    - output:  # Gathered concatenated output tensor.
+        _tensor: [M*N, K]
+      input:  # Input tensor to scatter.
+        _tensor: [M, K]
+        distributions: _input_normal
+      output_split_sizes:  # Output split sizes for dim 0 if specified None or empty, dim 0 of output tensor must divide equally by world_size.
+        aa
+      input_split_sizes:  # Output split sizes for dim 0 if specified None or empty, dim 0 of output tensor must divide equally by world_size.
+        aa
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N  # distributed group
+      async_op: Async  #  Whether this op should be an async op.
+  output: [output]
+
+# 8. barrier ✅
+# Synchronize all processes.
+
+# This collective blocks processes until the whole group enters this function, if async_op is False, or if async work handle is called on wait().
+- name: torch.distributed::barrier
+  size:
+    Async: [true, false]   # async
+  input:
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  #  Whether this op should be an async op
+      # device_ids: null  # List of device/GPU ids. Only one id is expected.
+
+# 9. broadcast ✅
+# Broadcasts the tensor to the whole group.
+
+# tensor must have the same number of elements in all processes participating in the collective.
+- name: torch.distributed::broadcast
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    SRC: [0]
+    Async: [true, false]   # async
+  input:
+    - tensor:  # Data to be sent if src is the rank of current process, and tensor to be used to save received data otherwise
+        _tensor: [M, K]
+      src: SRC  # Source rank on global process group (regardless of group argument).
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  #  Whether this op should be an async op
+      # group_src:  # Source rank on group. Must specify one of group_src and src but not both.
+      #   _process_group: N
+  output: [tensor]
+
+# 10. gather ✅
+# Gathers a list of tensors in a single process.
+
+# This function requires all tensors to be the same size on each process.
+- name: torch.distributed::gather
+  size:
+    M: [8]     # sequence length * batch size
+    K: [7168]  # hidden size
+    N: [8]     # group size
+    DIST: [0]
+    Async: [true, false]   # async
+  input:
+    - tensor:  # Input tensor.
+        _tensor: [M, K]
+      # gather_list:  # List of appropriately, same-sized tensors to use for gathered data (default is None, must be specified on the destination rank)
+      dst: DIST  # Destination rank on global process group (regardless of group argument). (If both dst and group_dst are None, default is global rank 0)
+      group:  # The process group to work on. If None, the default process group will be used.
+        _process_group: N
+      async_op: Async  #  Whether this op should be an async op
+      # group_dst:  # Destination rank on group. Invalid to specify both dst and group_dst
+      #   _process_group: N
+  output: [tensor]
+
+
+# c10d::recv_: torch.distributed.recv/torch.distributed.irecv(异步)
+# c10d::send: torch.distributed.send/torch.distributed.isend(异步)

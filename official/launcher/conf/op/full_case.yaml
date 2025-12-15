@@ -1,0 +1,7 @@
+defaults:
+  - full_case@full_case_1d: full_case_1d
+  - full_case@full_case_advanced: full_case_advanced
+  - full_case@full_case_2d: full_case_2d
+  - full_case@full_case_sdpa: full_case_sdpa
+# - full_case@full_case_flash_attn: full_case_flash_attn
+  - full_case@full_case_dte: full_case_dte

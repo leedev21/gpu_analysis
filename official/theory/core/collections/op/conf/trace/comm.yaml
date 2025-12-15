@@ -1,0 +1,20 @@
+c10d::allgather_:
+  type: comm
+c10d::allreduce_:
+  type: comm
+c10d::reduce_scatter_tensor_coalesced_:
+  type: comm
+c10d::_allgather_base_:
+  type: comm
+  basic: op::AllGather
+  mapping:
+    inputs: [1]
+    outputs: [0]
+c10d::_reduce_scatter_base_:
+  type: comm
+c10d::allgather_into_tensor_coalesced_:
+  type: comm
+c10d::barrier:
+  type: comm
+c10d::broadcast_:
+  type: comm

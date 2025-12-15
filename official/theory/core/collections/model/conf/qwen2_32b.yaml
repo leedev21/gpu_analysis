@@ -1,0 +1,14 @@
+model:
+  name: qwen2_32b
+  size: 32
+  num_layers: 64
+  hidden_size: 5120
+  ffn_hidden_size: 27648
+  num_attention_heads: 40
+  num_hidden_dim: 128
+  num_query_groups: 8
+  vocab_size: 152064
+  swiglu: true
+  normalization: rmsnorm
+  position_embedding_type: rope
+  attention_type: multihead

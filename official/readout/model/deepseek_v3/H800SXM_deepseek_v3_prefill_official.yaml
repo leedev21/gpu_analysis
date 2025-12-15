@@ -1,0 +1,339 @@
+config:
+  env:
+    hardware: H800SXM
+    software: deepseek_internal
+    n_nodes: 4
+    world_size: 32
+  model: deepseek_v3
+  exec:
+    workload:
+      deepseek:
+        shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, gradient_accumulation_steps]
+        loop: gradient_accumulation_steps
+        fwd:
+          - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+          - layer::GPTDecoder;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+          - layer::ColumnParallelLinear;[micro_batch_size*seq_length, hidden_size, vocab_size]
+          - layer::Loss;[micro_batch_size*seq_length, vocab_size]
+    runtime:
+      fwd&bwd:
+        ATTN:
+          workload: layer::Attn
+          stream: 7
+          waiting: COMBINE
+          sm: 108
+        COMBINE:
+          workload: layer::Combine
+          stream: 16
+          waiting: MLP
+          sm: 24
+        device: 0
+      main:
+        prefill:
+          run: fwd
+          device: 0
+        decoding:
+          run: fwd
+          device: 0
+  inference:
+    global_batch_size: 4
+    num_micro_batches: 2
+    micro_batch_size: 2
+    tensor_model_parallel_size: 1
+    expert_model_parallel_size: 32
+    seq_length: 4096
+  feature:
+    transformer_impl: deepseek
+    fp8: true
+    precision: bf16
+module:
+  Embedding:
+    fwd:
+      - layer::Embedding:
+        - stream: 7
+        - core: 108 SMs
+        - name: aten::embedding
+          kernel: Kernel::indexSelectLargeIndex:fwd:bf16
+          duration: 371us
+        - name: aten::embedding
+          kernel: Kernel::indexSelectLargeIndex:fwd:bf16
+          duration: 372us
+        - name: aten::slice
+          kernel:
+          duration: -1
+  Decoder:
+    fwd:
+      - layer::Combine:
+        - stream: 16
+        - core: 24 SMs
+        - name: cudaStreamWaitEvent
+          duration: -1
+        - name: OP::cached_notify
+          kernel: Kernel::deepseek:internode::cached_notify
+          duration: 1441us
+        - name: OP::combine
+          kernel: Kernel::deepseek:internode::combine:bf16
+          duration: 9494us
+        - name: aten::record_stream
+          duration: -1
+      - layer::Attn:
+        - stream: 7
+        - core: 108 SMs
+        - name: cudaStreamWaitEvent
+          duration: -1
+        - name: OP::Add
+          kernel: Kernel::vectorized_elementwise_kernel:CUDAFunctor_add:bf16
+          duration: 116us
+        - name: OP::layer_norm
+          kernel: Kernel::layer_norm
+          duration: 142us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8
+          duration: 248us
+        - name: OP::layer_norm
+          kernel: Kernel::layer_norm
+          duration: 22us
+        - name: OP::cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 26us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8
+          duration: 939us
+        - name: OP::rope_kv
+          kernel: Kernel::vllm:rotary_embedding_with_kv_cache:fwd:bf16
+          duration: 211us
+        - name: OP::cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 11us
+        - name: OP::Grouped_Gemm
+          kernel: Kernel::cutlass:deepseek:grouped_gemm:fp8
+          duration: 618us
+        - name: OP::flash_attn_fwd
+          kernel: Kernel::cutlass:flash_attn_fwd:fwd
+          duration: 3088us
+        - name: OP::cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 224us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8
+          duration: 1965us
+      - layer::Layer_Norm:
+        - name: OP::layer_norm
+          kernel: Kernel::layer_norm
+          duration: 154us
+      - layer::Router:
+        - name: OP::Gemm
+          kernel: Kernel::cublas:gemm:bf16
+          duration: 98us
+        - name: OP::distribution_elementwise_grid_stride:normal
+          kernel: Kernel::distribution_elementwise_grid_stride_kernel:normal_kernel
+          duration: 9us
+        - name: OP::top2_sum_gate
+          kernel: Kernel::top2_sum_gate
+          duration: 72us
+        - name: OP::cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 97us
+      - layer::Dispatch:
+        - stream: 16
+        - core: 24 SMs
+        - name: OP::get_dispatch_layout
+          kernel: Kernel::deepseek:get_dispatch_layout
+          duration: 173us
+        - name: OP::notify_dispatch
+          kernel: Kernel::deepseek:internode::notify_dispatch
+          duration: 1371us
+        - name: OP::dispatch
+          kernel: Kernel::deepseek:internode::dispatch
+          duration: 4575us
+      - layer::MOE:
+        - stream: 7
+        - core: 108 SMs
+        - name: OP::clean_and_count_expert
+          kernel: Kernel::clean_and_count_expert
+          duration: 110us
+        - name: OP::get_mapping
+          kernel: Kernel::get_fused_mapping
+          duration: 292us
+        - name: OP::expand_with_scales
+          kernel: Kernel::expand_to_fused_with_scales_impl
+          duration: 331us
+        - name: OP::transpose:Grouped_Gemm
+          kernel: Kernel::deepseek:transpose:grouped_gemm
+          duration: 26us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8:GemmType1
+          duration: 3610us
+        - name: OP::swiglu:cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 320us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8:GemmType1
+          duration: 2425us
+        - name: OP::reduce_fused
+          kernel: Kernel::reduce_fused_impl:bf16:fp8
+          duration: 589us
+      - layer::MLP:
+        - stream: 7
+        - core: 108 SMs
+        - name: OP::cast_to_fp8
+          kernel: Kernel::per_token_cast_to_fp8:bf16:fp8
+          duration: 112us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8:GemmType0
+          duration: 494us
+        - name: OP::swiglu:cast_to_fp8
+          kernel: Kernel::swiglu:per_token_cast_to_fp8:bf16:fp8
+          duration: 44us
+        - name: OP::Gemm
+          kernel: Kernel::deepseek:gemm:bf16:fp8::GemmType0
+          duration: 345us
+  Post:
+    fwd:
+      - layer::output:
+        - stream: 7
+        - core: 108 SMs
+        - name: OP::Add
+          kernel: Kernel::vectorized_elementwise_kernel:CUDAFunctor_add:bf16
+          duration: 117us
+        - name: OP::Add
+          kernel: Kernel::vectorized_elementwise_kernel:CUDAFunctor_add:bf16
+          duration: 113us
+        - name: OP::Add
+          kernel: Kernel::vectorized_elementwise_kernel:CUDAFunctor_add:bf16
+          duration: 114us
+        - name: OP::CatArrayBatchedCopy
+          kernel: Kernel::CatArrayBatchedCopy:bf16
+          duration: 253us
+        - name: OP::AllReduce:Sum
+          kernel: Kernel::AllReduce:Sum
+          duration: 198us
+        - name: OP::AllReduce:Sum
+          kernel: Kernel::AllReduce:Sum
+          duration: 50us
+        - name: OP::BUnary:Mul
+          kernel: Kernel::vectorized_elementwise_kernel:BUnaryFunctor:MulFunctor
+          duration: 1us
+        - name: OP::BUnary:Mul
+          kernel: Kernel::vectorized_elementwise_kernel:BUnaryFunctor:MulFunctor
+          duration: 2us
+        - name: OP::layer_norm
+          kernel: Kernel::layer_norm
+          duration: 157us
+        - name: OP::direct_copy
+          kernel: Kernel::elementwise_kernel:direct_copy_kernel_cuda
+          duration: 2us
+        - name: OP::Add
+          kernel: Kernel::elementwise_kernel:CUDAFunctor_add
+          duration: 2us
+        - name: OP::Sum:Reduce
+          kernel: Kernel::sum_functor:ReduceOp
+          duration: 3us
+        - name: OP::Fill
+          kernel: Kernel::vectorized_elementwise_kernel:FillFunctor
+          duration: 1us
+        - name: OP::AllReduce:Sum
+          kernel: Kernel::AllReduce:Sum
+          duration: 68us
+        - name: OP::direct_copy
+          kernel: Kernel::unrolled_elementwise_kernel:direct_copy_kernel_cuda
+          duration: 2us
+        - name: OP::Reduce:Mean
+          kernel: Kernel::ReduceOp:MeanOps
+          duration: 4us
+        - name: OP::Sum:Reduce
+          kernel: Kernel::sum_functor:ReduceOp
+          duration: 3us
+        - name: OP::direct_copy
+          kernel: Kernel::unrolled_elementwise_kernel:direct_copy_kernel_cuda
+          duration: 2us
+        - name: OP::Reduce:Max
+          kernel: Kernel::ReduceOp:MaxOp
+          duration: 7us
+        - name: OP::Sum:Reduce
+          kernel: Kernel::sum_functor:ReduceOp
+          duration: 3us
+        - name: OP::Select:index_select:fwd
+          kernel: Kernel::indexSelectSmallIndex:fwd:bf16
+          duration: 5us
+        - name: OP::Gemm
+          kernel: Kernel::cublas:gemm:bf16
+          duration: 631us
+        - name: OP::apply_penalty
+          kernel: Kernel::vllm:apply_penalty_kernel
+          duration: 31us
+        - name: OP::topk:fill
+          kernel: Kernel::vllm:topk:fill
+          duration: 1us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 10us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 2us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 9us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 2us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 9us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 2us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 10us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 2us
+        - name: OP::topk
+          kernel: Kernel::vllm:topk
+          duration: 2us
+        - name: OP::topk
+          kernel: Kernel::deepseek:vllm:topk
+          duration: 1us
+        - name: OP::topk
+          kernel: Kernel::deepseek:vllm:topk
+          duration: 4us
+        - name: OP::topk
+          kernel: Kernel::deepseek:vllm:topk
+          duration: 1us
+        - name: OP::topk
+          kernel: Kernel::deepseek:vllm:topk
+          duration: 4us
+        - name: OP::gatherTopK:topk
+          kernel: Kernel::vllm:gatherTopK:topk
+          duration: 7us
+        - name: OP::softmax:softmax:fwd
+          kernel: Kernel::cunn_softmax_fwd:fwd
+          duration: 4us
+        - name: OP::softmax:softmax:fwd
+          kernel: Kernel::cunn_softmax_fwd:fwd
+          duration: 4us
+        - name: OP::direct_copy
+          kernel: Kernel::unrolled_elementwise_kernel:direct_copy_kernel_cuda
+          duration: 1us
+        - name: OP::index_kernel_impl
+          kernel: Kernel::elementwise_kernel:index_elementwise_kernel:index_kernel_impl
+          duration: 5us
+        - name: OP::Reduce:Max
+          kernel: Kernel::ReduceOp:MaxOp
+          duration: 8us
+        - name: OP::direct_copy
+          kernel: Kernel::unrolled_elementwise_kernel:direct_copy_kernel_cuda
+          duration: 1us
+        - name: OP::index_put
+          kernel: Kernel::elementwise_kernel:index_elementwise_kernel:index_put_kernel_impl
+          duration: 3us
+        - name: OP::elementwise
+          kernel: Kernel::elementwise_kernel:_scatter_gather_elementwise_kernel
+          duration: 2us
+        - name: OP::elementwise
+          kernel: Kernel::elementwise_kernel:_scatter_gather_elementwise_kernel
+          duration: 2us
+        - name: OP::AllReduce:Sum
+          kernel: Kernel::AllReduce:Sum
+          duration: 200us

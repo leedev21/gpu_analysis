@@ -1,0 +1,70 @@
+_C::rotary_embedding:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C_cache_ops::concat_and_cache_mla:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::fused_add_rms_norm:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::silu_and_mul:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::fused_grouped_topk:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::moe_align_block_size_pad:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::fused_moe_quant_kernel:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::silu_mul_per_token_group_quant_with_size:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_moe_C::moe_sum_pad:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 
+_C::paged_attention_v1:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 

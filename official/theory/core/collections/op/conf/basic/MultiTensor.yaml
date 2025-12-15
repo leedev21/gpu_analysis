@@ -1,0 +1,27 @@
+# multi_tensor_adam
+
+
+customer::amp_C.multi_tensor_adam:
+  type: customer
+  flops: 4
+  io: 2
+customer::amp_C.multi_tensor_l2norm:
+  type: customer
+  flops: 2
+  io: 2
+customer::amp_C.multi_tensor_scale:
+  type: customer
+  flops: 1
+  io: 2
+customer::L2Norm:
+  type: customer
+  flops: 8
+  io: 2
+customer::Scale:
+  type: customer
+  flops: 8
+  io: 2
+customer::Adam:
+  type: customer
+  flops: 8
+  io: 2

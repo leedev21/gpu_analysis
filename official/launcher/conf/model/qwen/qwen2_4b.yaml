@@ -1,0 +1,15 @@
+name: Qwen2
+size: 4
+num_layers: 1
+hidden_size: 2560
+ffn_hidden_size: 6912
+num_attention_heads: 20
+num_query_groups: 20
+vocab_size: 152064
+normalization: RMSNorm
+position_embedding_type: rope
+rotary_percent: 1.0
+rotary_base: 5000000.0
+hidden_dropout: 0.0
+attention_dropout: 0.0
+swiglu: True

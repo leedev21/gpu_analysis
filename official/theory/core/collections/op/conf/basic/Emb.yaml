@@ -1,0 +1,32 @@
+op::EmbeddingFwd:
+  type: std,Emb
+  size:
+    B: [1, 2, 4, 8, 32]
+    N: [1, 4096]
+    V: [129280]
+    H: [3072, 5120, 6144, 7168, 8192]
+  schema:
+    - weight:<VxH>, indices:<BxN> -> <BxNxH>
+  distributions:
+    weight: params
+    indices: int64{high:V, low:0}
+    out0: inpunt
+  precision: bitmatch
+  flops: 0
+  io: 2
+
+op::EmbeddingBwd:
+  type: std,bwd,Emb
+  size:
+    B: [1, 2, 4, 8, 32]
+    N: [1, 4096]
+    V: [129280]
+    H: [3072, 5120, 6144, 7168, 8192]
+  schema:
+    - grad_output:<BxNxH>, indices:<BxN> -> <VxH>
+  distributions:
+    grad_output: grad
+    indices: int64{high:V, low:0}
+    out0: params
+  flops: 0
+  io: 3

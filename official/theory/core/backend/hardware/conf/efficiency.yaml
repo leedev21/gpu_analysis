@@ -1,0 +1,220 @@
+H100SXM:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 13
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  2D_fp8:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 1.5
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+H100PCIE:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 80
+      - 1.02
+      - 13.35
+  2D_fp16: ${H100SXM.2D_fp16}
+  2D_fp8: ${H100SXM.2D_fp8}
+  1D: ${H100SXM.1D}
+  launch: ${H100SXM.launch}
+  North_bandwidth: ${H100SXM.North_bandwidth}
+H800SXM:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 13
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  2D_fp8:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 1.5
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+A100SXM:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 13
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 90
+      - 0.68
+      - 23
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 2
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+A100SXM40G:
+  L3_bandwidth: ${A100SXM.L3_bandwidth}
+  2D_fp16: ${A100SXM.2D_fp16}
+  1D: ${A100SXM.1D}
+  launch: ${A100SXM.launch}
+  North_bandwidth: ${A100SXM.North_bandwidth}
+A100PCIE:
+  L3_bandwidth: ${A100SXM.L3_bandwidth}
+  2D_fp16: ${A100SXM.2D_fp16}
+  1D: ${A100SXM.1D}
+  launch: ${A100SXM.launch}
+  North_bandwidth: ${A100SXM.North_bandwidth}
+H20SXM:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 50
+      - 1.25
+      - 13.2
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 97
+      - 0.9
+      - 21
+  2D_fp8:
+    asymmetric_sigmoid:
+      - 95
+      - 0.9
+      - 21
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 1.5
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+H20HGX141:
+  L3_bandwidth: ${H20SXM.L3_bandwidth}
+  2D_fp16: ${H20SXM.2D_fp16}
+  2D_fp8: ${H20SXM.2D_fp8}
+  1D: ${H20SXM.1D}
+  launch: ${H20SXM.launch}
+  North_bandwidth: ${H20SXM.North_bandwidth}
+L40S:
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 80
+      - 1.7
+      - 11
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 90
+      - 0.9
+      - 22
+  2D_fp8:
+    asymmetric_sigmoid:
+      - 90
+      - 0.9
+      - 22
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 1.5
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+'5090':
+  L3_bandwidth:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 13
+  2D_fp16:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  2D_fp8:
+    asymmetric_sigmoid:
+      - 90
+      - 1.2
+      - 23
+  1D:
+    asymmetric_sigmoid:
+      - 90
+      - 1
+      - 15.0
+  launch:
+    std:
+      - 1.5
+  North_bandwidth:
+    asymmetric_sigmoid:
+      - 60
+      - 1
+      - 15.0
+OP:
+  all2all:
+    asymmetric_sigmoid:
+      - 74.30806667
+      - 0.84321018
+      - 16.15615065
+  allreduce:
+    asymmetric_sigmoid:
+      - 82.0581936
+      - 1.37256833
+      - 16.21339244
+  allgather:
+    asymmetric_sigmoid:
+      - 77.51525765
+      - 1.44859508
+      - 15.34059982
+  reduce_scatter:
+    asymmetric_sigmoid:
+      - 77.02637027
+      - 1.55379369
+      - 15.07427093

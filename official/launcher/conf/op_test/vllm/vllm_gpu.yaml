@@ -1,0 +1,222 @@
+# - name: vllm.ops._C::silu_and_mul
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+#   input:
+#     - [M, N]
+#     - [M, N]
+# - name: aten::log
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+#   input:
+#     - [M, N]
+#   _name: atenLog
+# - name: aten::cumsum
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+#   input:
+#     - [M, N]
+#     - dim: -1
+#   _name: atenCumsum
+# - name: vllm.ops._C::rms_norm
+#   size:
+#     M: [128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [6144, 8192, 13824, 16384]
+#   input:
+#     - input:
+#         _tensor: [M, N]
+#       residual:
+#         _tensor: [M, N]
+#       weight:
+#         _tensor: [N]
+#       epsilon: 0.0001
+#   output: [input, residual]
+#   _name: vllmRmsNorm
+#   _name: teRmsNormFwd
+# - name: aten::mm:
+#   input:
+#     -
+# - name: vllm.ops._C::rms_norm_dynamic_per_token_quant:
+#   input:
+#     - output
+#     - input
+#     - weight
+#     - scales
+#     - epsilon
+#     - scale_ub
+#     - residual
+#   output: [output, scales]
+# - name: vllm::_custom_ops.scaled_fp8_quant
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+#   input:
+#     - [M, N]
+#     - _tensor: [1]
+#       precision: fp32
+  #     max:
+  #     min:
+  #     ...
+  # all_claose:
+  #   - atol:
+  #   - rtol:
+
+# - name: vllm.ops._C::silu_and_mul_quant # 0.8.3尚未支持
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+#     N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+#   input:
+#     - _tensor: [M, N]
+#       precision: e4m3
+#     - [M, N]
+#     - _tensor: [1]
+#       precision: fp32
+# - name: torch.ops._C.fused_add_rms_norm
+
+# # 1. VLLM SiLU + Mul + 分组量化算子 ✅
+# - name: vllm.ops.NATIVE_C::silu_mul_per_token_group_quant
+#   size:
+#     M: [8, 16, 32]   # tokens
+#     N: [64, 128, 256]  # input_dim (must be even)
+#     G: [8, 16, 32]   # group_size
+#   input:
+#     - out:
+#         _tensor: [M, N/2]  # quantized output tensor
+#         precision: e4m3
+#       scale:
+#         _tensor: [M, N/2/G]  # scale tensor
+#         precision: fp32
+#         ulp_dtype: bf16
+#       input:
+#         _tensor: [M, N]  # input tensor
+#         distributions: _input_normal
+#       group_size: G  # quantization group size
+#   output: [out, scale]
+#   _name: vllmSiluMulPerTokenGroupQuant
+#   cpu_name: launcher::runner.module.layers.native.silu_and_mul_per_token_group_quant
+#   cpu_mapping: [[2, ''], [3, '']]
+#   cuda_name: launcher::runner.module.layers.native.silu_and_mul_per_token_group_quant
+#   cuda_mapping: [[2, ''], [3, '']]
+#   _mapping: [0, 1, 2, 3]
+
+# # 13. 线性量化算子 ✅
+#   # cutlass_scaled_mm(A,
+#   #                                B.T,
+#   #                                out_dtype=output_dtype,
+#   #                                scale_a=As,
+#   #                                scale_b=Bs.T)
+# - name: vllm.ops._C::linear_quant
+#   size:
+#     M: [256]  # batch_size
+#     K: [2048]  # input_dim
+#     N: [2048]  # output_dim
+#     GS: [128]  # group_size
+#   input:
+#     - out:
+#         _tensor: [M, N]  # output tensor
+#         precision: bf16
+#       lhs:
+#         _tensor: [M, K]  # left hand side tensor
+#         precision: e4m3
+#         distributions: _input_normal
+#       rhs:
+#         _tensor: [N, K]  # right hand side tensor
+#         precision: e4m3
+#         distributions: _weight_linear
+#       bias: null  # bias tensor (optional)
+#       lhs_scale:
+#         _tensor: [M, K/GS]  # left scale tensor
+#         precision: fp32
+#         distributions: _fp8_scale_t
+#       rhs_scale:
+#         _tensor: [N/GS, K/GS]  # right scale tensor
+#         precision: fp32
+#         distributions: _fp8_scale
+#   output: [out]
+#   precision: bf16
+#   _name: atenLinearQuant
+#   _mapping: [0, 1, 2, -1, 3, 4]
+#   cpu_name: launcher::runner.module.layers.native.baseline_scaled_mm
+#   cpu_mapping: [[1, ''], [2, 'T'], [4, ''], [5, 'T'], [0, 'dtype'], [3, '']]
+#   # cuda_name: vllm.ops._C::cutlass_scaled_mm
+#   # cuda_mapping: [[0, ''], [1, ''], [2, 'T'], [4, ''], [5, 'T'], [3, '']]
+#   # cuda_name: launcher::runner.module.layers.native.baseline_scaled_mm
+#   # cuda_mapping: [[1, ''], [2, 'T'], [4, ''], [5, 'T'], [0, 'dtype'], [3, '']]
+#   cuda_name: launcher::runner.module.layers.triton.w8a8_block_fp8_matmul
+#   cuda_mapping: [[1, ''], [2, ''], [4, ''], [5, ''], [-1, 'rank']]
+
+# 5. VLLM 融合MOE量化内核算子 ✅
+- name: vllm.ops.NATIVE_C::fused_moe_quant_kernel
+  size:
+    B: [8]  # batch_size
+    M: [32768]  # seq_length
+    K: [7168]  # input_dim
+    N: [4096]  # output_dim
+    GS: [128]  # group_size
+    E: [4]  # num_experts
+    TK: [2]  # topk value
+    BS: [64]  # block_size
+    MT: [16]  # max_tokens
+  input:
+    - C: #0
+        _tensor: [M, E, N]  # output tensor (modified in-place)
+        precision: bf16
+      A: #1
+        _tensor: [M, K]  # input tensor A
+        precision: e4m3
+        distributions: _input_normal
+      B: #2
+        _tensor: [E, N, K]  # weight tensor B for all experts
+        precision: e4m3
+        distributions: _weight_linear
+      A_scale: #3
+        _tensor: [M, K/GS]  # A scale tensor (optional)
+        precision: fp32
+        distributions: _fp8_scale_t
+      B_scale: #4
+        _tensor: [E, N/GS, K/GS]  # B scale tensor
+        precision: fp32
+        distributions: _fp8_scale
+      gs: GS  # group size # 5
+      B_zp: #6
+        _tensor: [E, N/GS, K/GS]  # B zero point tensor (optional)
+        precision: fp32
+      topk_weights: #7
+        _tensor: [M, TK]  # topk weights
+        precision: fp32
+      topk_ids: #8
+        _tensor: [M, TK]  # topk expert indices
+        precision: int32
+        high: 1
+        low: 0
+      sorted_token_ids: #9
+        _tensor: [MT]  # sorted token indices
+        precision: int32
+        high: M-1
+        low: 0
+      experts_ids: #10
+        _tensor: [E*TK]  # expert IDs
+        precision: int32
+        high: E-1
+        low: 0
+      num_tokens_post_pad: #11
+        _tensor: [1]  # number of tokens after padding
+        precision: int32
+        high: MT
+        low: 0
+      mul_routed_weight: true  # whether to multiply routed weight #12
+      topk: TK  # topk value #13
+      block_size: BS  # block size #14
+      bias: null  # bias tensor (optional) #15
+      real_token_num: #16
+        _tensor: [1]  # real token number (optional)
+        precision: int32
+        high: M*B
+        low: M*B-1
+  output: [C]  # 无返回值，直接修改C张量
+  _name: vllmInvokeFusedMoeNonGatherQuantKernel
+  _mapping: [0, 1, 2, 3, 4, 5, -1, 7, 8, 9, 10, 11, 13, 14, 15, 6, 12]
+  cuda_name: launcher::runner.module.layers.triton.invoke_fused_moe_kernel
+  cuda_mapping: [[1, ''], [2, ''], [0, ''], [3, ''], [4, ''], [6, ''], [7, ''], [9, ''], [10, ''], [11, ''], [12, ''], [13, '']]

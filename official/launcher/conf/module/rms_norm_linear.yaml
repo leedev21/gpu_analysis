@@ -1,0 +1,82 @@
+layer:
+  name: rms_norm_linear
+  type:
+    - Vllm_Quant_Fused
+    # - Vllm_Quant_Fused_CPU
+    - Torch_QuantNative
+    # - Torch_Quant_CPU
+    # - Torch_Quant_Vllm
+    # - Torch_QuantNative_CPU
+    # - Torch_QuantNative_Vllm
+  config:
+    Vllm:
+      - use_vllm
+      - use_custom_op_native
+    Torch:
+      - use_torch_native
+    Quant:
+      - enable_quant
+    QuantNative:
+      - enable_quant
+      - use_torch_native_quant
+    CPU:
+      - init_cpu
+    Fused:
+      - use_fused_op
+    Linear:
+      - use_linear
+  seq_length:
+    - 31
+    # - 30000
+  input:
+    # - [seq_length, 1536, e4m3, True, null]
+    - [seq_length, 7168, e4m3, False, null]
+  init:
+    # - [1536, 1e-6]
+    - [7168, 1e-6]
+  modules:
+    - rms_norm:
+      - use_torch_native:
+        tag: [use_torch_native]
+        op: RMSNorm
+        device: [cpu, cuda, device]
+      - use_custom_op_native:
+        tag: [use_custom_op_native]
+        op: torch.ops._C.fused_add_rms_norm
+        device: [cpu, cuda, device]
+      - use_vllm:
+        tag: [use_vllm]
+        op: ops.fused_add_rms_norm
+        device: [cuda]
+    - quant:
+      - use_torch_native_quant:
+        tag: [enable_quant, use_torch_native_quant]
+        op: native_per_token_group_quant_fp8
+        device: [cpu, cuda, device]
+      - use_custom_op_native:
+        tag: [use_custom_op_native, enable_quant]
+        op: torch.ops._C.dynamic_per_token_group_fp8_quant
+        device: [cpu, cuda, device]
+      - use_vllm:
+        tag: [use_vllm, enable_quant]
+        op: ops.scaled_fp8_quant
+        device: [cuda]
+      - int8_quant:
+        tag: [use_vllm, enable_quant, use_int8]
+        op: ops.scaled_int8_quant
+        device: [cuda]
+    - rms_norm_quant:
+      - use_vllm:
+        tag: [use_vllm, use_fused_op]
+        op: ops.rms_norm_dynamic_per_token_quant
+        device: [cuda]
+      - use_custom_op_native:
+        tag: [use_custom_op_native, use_fused_op]
+        op: torch.ops._C.fused_add_rms_norm_per_token_group_quant_fp8
+        device: [cpu, cuda, device]
+      - residual_is_null:
+        tag: [use_custom_op_native, residual_is_null, use_fused_op]
+        op: torch.ops._C.rms_norm_per_token_group_quant_fp8
+        device: [cpu, cuda, device]
+  micro_batch_size: 1
+  precision: bf16

@@ -1,0 +1,107 @@
+# - name: aten::_softmax
+#   input:
+#     - [1, 8, 6144, 6144]
+#     - -1
+#     - True
+#   precision: fp16
+# - name: aten::convolution
+#   input:
+#     - [2, 1792, 80, 80]
+#     - [4096, 1792, 2, 2]
+#     - [4096]
+#     - stride: [2, 2]
+#       padding: [0, 0]
+#       dilation: [1, 1]
+#       transposed: false
+#       output_padding: [0, 0]
+#       groups: 1
+#   precision: fp16
+# - name: aten::scaled_dot_product_attention
+#   input:
+#     - [32, 32, 1, 128]
+#     - [32, 32, 27, 128]
+#     - [32, 32, 27, 128]
+#     - is_causal: false
+#       scale: 0.08
+# - name: aten::mm
+#   input:
+#     - [1024, 128]
+#     - [128, 1024]
+# - name: aten::baddbmm
+#   input:
+#     - [128, 512, 512]
+#     - [128, 512, 192]
+#     - [128, 192, 512]
+# - name: aten::bmm
+#   input:
+#     - [8, 4096, 6144]
+#     - [8, 6144, 128]
+# - name: aten::add
+#   input:
+#     - [4096, 6144]
+#     - [4096, 6144]
+# - name: aten::add
+#   input:
+#     - [4096, 6144]
+#     - [6144]
+# - name: aten::sub
+#   input:
+#     - [4096, 6144]
+#     - [6144]
+# - name: aten::gelu
+#   input:
+#     - [1024, 6144]
+# - name: aten::topk
+#   input:
+#     - [1, 6144]
+#     - 2
+#   precision: fp32
+# - name: aten::silu
+#   input:
+#     - [1024, 6144]
+# - name: aten::mul
+#   input:
+#     - [4096, 6144]
+#     - [1, 6144]
+# - name: aten::fill_
+#   input:
+#     - [4096, 6144]
+#     - 1
+# - name: aten::layer_norm
+#   input:
+#     - [1024, 6144]
+#     - _val: [6144]
+# - name: vllm::_custom_ops.fused_add_rms_norm
+#   input:
+#     - [1024, 6144]
+#     - [1024, 6144]
+#     - [6144]
+#     - 1e-6
+# - name: torch.ops::_C.fused_add_rms_norm
+#   input:
+#     - [1024, 6144]
+#     - [1024, 6144]
+#     - [6144]
+#     - 1e-6
+- name: aten::gelu
+  input:
+    - self:
+      _tensor: [1024, 6144]
+
+- name: aten::mm
+  size:
+    M: [5120]
+    K: [4096]
+    N: [640, 1280, 2560, 3456, 6912, 13824]
+  input:
+    - _tensor: [M, K]
+    - _tensor: [K, N]
+
+- name: aten::mm
+  size:
+    M: [1, 2]
+    K: [128]
+    N: [125, 256]
+  input:
+    - _tensor: [M, K]
+    - _tensor: [K, N]

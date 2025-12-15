@@ -1,0 +1,72 @@
+config:
+  env:
+    hardware: H20SXM
+    software: megatron_lm
+    n_nodes: 32
+    world_size: 256
+  model: deepseek_v3
+  exec:
+    workload:
+      deepseek:
+        # shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, gradient_accumulation_steps, first_k_dense_replace]
+        loop: gradient_accumulation_steps
+        fwd:
+          - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+          - layer::GPTDecoder;[first_k_dense_replace, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+          - layer::MOEDecoder;[num_layers_moe, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+          - layer::Post&Loss;[micro_batch_size*seq_length, hidden_size, vocab_size]
+      # optim:
+      #   # shape: [2.62, 1000000000]
+      #   fwd:
+      #     - layer::Adam
+    runtime:
+      fwd&bwd:
+        ATTN:
+          workload: layer::Attn
+          stream: 7
+          waiting: COMBINE
+          sm: 108
+        COMBINE:
+          workload: layer::Combine
+          stream: 16
+          waiting: MLP
+          sm: 24
+        device: 0
+      main:
+        prefill:
+          run: fwd
+          device: 0
+        decoding:
+          run: fwd
+          device: 0
+  training:
+    num_micro_batches: 1
+    micro_batch_size: 1
+    global_batch_size: 15360
+    # dynamic_bs: 3072 - 15360
+    tensor_model_parallel_size: 1
+    expert_model_parallel_size: 1
+    pipeline_model_parallel_size: 1
+    gradient_accumulation_steps: 120
+    # virtual_pipeline_model_parallel_size: 32
+    seq_length: 4096
+  feature:
+    transformer_impl: transformer_engine
+    fp8: true
+    precision: bf16
+    # main_grads_dtype: fp32
+    exp_avg_dtype: bf16
+    exp_avg_sq_dtype: bf16
+    # main_params_dtype: fp32
+    # fusion: True
+    # activations_checkpoint: [transformer, mla]
+    # Embedding_and_output_head: shared
+    # mlp: 1
+    # ub_tp_comm_overlap: None
+    # cpu_offloading: ema
+    # use_distributed_optimizer: False
+    # megatron_amp: bf16
+    # input_with_fp8: True
+
+module:
+  Embedding: null

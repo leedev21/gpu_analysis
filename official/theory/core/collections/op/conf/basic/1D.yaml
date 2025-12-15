@@ -1,0 +1,478 @@
+op::Add:
+  type: std,1D
+  function: x+y
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8, 32]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<BxNxH>, B:<BxNxH> -> <BxNxH>
+    - A:<NxH>, B:<NxH> -> <NxH>
+    - A:<NxH>, B:<Scalar> -> <NxH>
+    - A:<NxH>, B:<H> -> <NxH>
+    - A:<H>, B:<H> -> <H>
+  precision:
+    ulp:
+      fp16: 0
+      fp32: 0
+  flops: 1
+  io: 3
+
+op::Mul:
+  type: std,1D
+  function: x*y
+  size:
+    B: [1, 2, 4, 8, 32]
+    K: [1]
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH>, B:<NxH> -> <NxH>
+    - A:<NxH>, B:<H> -> <NxH>
+    - A:<H>, B:<H> -> <H>
+    - A:<BxNxH>, B:<BxNx1> -> <BxNxH>
+    - A:<NxH>, B:<Nx1> -> <NxH>
+    - A:<BxKxNxH>, B:<Scalar> -> <BxKxNxH>
+    - A:<BxNxH>, B:<Scalar> -> <BxNxH>
+    - A:<NxH>, B:<Scalar> -> <NxH>
+    - A:<H>, B:<Scalar> -> <H>
+  precision:
+    ulp:
+      fp16: 0
+      fp32: 0
+  flops: 1
+  io: 3
+
+op::Div:
+  type: std,1D
+  function: x/y
+  size:
+    B: [1, 2, 4, 8, 32]
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH>, B:<NxH> -> <NxH>
+    - A:<NxH>, B:<Nx1> -> <NxH>
+    - A:<NxH>, B:<H> -> <NxH>
+    - A:<BxNxH>, B:<BxNx1> -> <BxNxH>
+    - A:<NxH>, B:<Nx1> -> <NxH>
+    - A:<BxNxH>, B:<Scalar> -> <BxNxH>
+    - A:<NxH>, B:<Scalar> -> <NxH>
+    - A:<H>, B:<Scalar> -> <H>
+  precision:
+    ulp:
+      fp16: 2
+      fp32: 2
+  flops: 1
+  io: 3
+  support_safety_acc: True
+
+op::Sub:
+  type: std,1D
+  function: x-y
+  size:
+    B: [1, 2, 4, 8, 32]
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH>, B:<NxH> -> <NxH>
+    - A:<NxH>, B:<Nx1> -> <NxH>
+    - A:<NxH>, B:<H> -> <NxH>
+    - A:<BxNxH>, B:<BxNx1> -> <BxNxH>
+    - A:<NxH>, B:<Nx1> -> <NxH>
+    - A:<Nx1>, B:<NxH> -> <NxH>
+    - A:<BxNxH>, B:<Scalar> -> <BxNxH>
+    - A:<NxH>, B:<Scalar> -> <NxH>
+    - A:<H>, B:<Scalar> -> <H>
+  precision:
+    fp32: 0
+
+op::Sum:
+  type: std,1D
+  size:
+    B: [1, 2, 4, 8, 32]
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<BxNxKxMxH> -> <BxNx1xMxH>
+    - input:<NxKxH> -> <NxK>
+    - input:<NxKxH> -> <KxH>
+    - input:<NxH> -> <Nx1>
+    - input:<NxH> -> <N>
+    - input:<NxH> -> <H>
+    - input:<N> -> <1>
+  flops: 1
+  io: 2
+
+op::Mean:
+  type: std,1D
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxKxH> -> <NxK>
+    - input:<NxKxH> -> <KxH>
+    - input:<NxH> -> <Nx1>
+    - input:<NxH> -> <N>
+    - input:<NxH> -> <H>
+    - input:<N> -> <1>
+  flops: 1
+  io: 2
+
+op::Max:
+  type: std,1D
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxKxH> -> <NxK>
+    - input:<NxKxH> -> <KxH>
+    - input:<NxH> -> <Nx1>
+    - input:<NxH> -> <N>
+    - input:<NxH> -> <H>
+    - input:<N> -> <1>
+  flops: 1
+  io: 2
+
+op::Cos:
+  type: std
+  function: cosf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Sin:
+  type: std
+  function: sinf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Exp:
+  type: std
+  function: expf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - A:<NxKxH>, B:<NxKxH> -> <NxKxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Exp2:
+  type: std
+  function: exp2f(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Log:
+  type: std
+  function: logf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+    - input:<NxH> -> <NxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Pow:
+  type: std
+  function: powf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+    - input:<N> -> <N>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Sqrt:
+  type: std
+  function: sqrtf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4, 8]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxBxKxH> -> <NxBxKxH>
+    - input:<NxKxH> -> <NxKxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Ceil:
+  type: std
+  function: ceilf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+    - A:<N> -> <N>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Tanh:
+  type: std
+  function: tanhf(x)
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Silu:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+  distributions:
+    grad_output: input
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::SigmoidFwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+  distributions:
+    grad_output: input
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::SigmoidBwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH>, B:<NxH> -> <NxH>
+  distributions:
+    A: grad
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Topk:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4]
+    K: [8]
+    Top: [2]
+  schema:
+    - A:<NxBxK> -> <NxBxTop>, <NxBxTop>
+    - A:<NxK> -> <NxTop>, <NxTop>
+  distributions:
+    grad_output: input
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Sort:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+  distributions:
+    grad_output: input
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::Sign:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - A:<NxH> -> <NxH>
+  distributions:
+    grad_output: input
+  precision:
+    ulp:
+      fp32: 2
+  flops:
+    SFU: 1
+  io: 2
+
+op::RMSNormFwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - in:<NxH>, weight:<H> -> <NxH>
+    - in:<NxH>, weight:<H> -> <HxN>
+  distributions:
+    in: input
+    weight: weight
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+
+op::RMSNormBwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - grad:<NxH> -> <NxH>, <H>
+  distributions:
+    grad: grad
+  flops:
+    1D: 9
+    SFU: 1
+  io: 3
+
+op::LayerNormFwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - in:<NxH>, weight:<H> -> <N>
+  distributions:
+    in: input
+    weight: weight
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+
+op::LayerNormBwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - grad:<NxH> -> <NxH>
+  distributions:
+    grad: grad
+  flops:
+    1D: 9
+    SFU: 1
+  io: 3
+
+op::Base:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    H: [4096, 8192, 16384]
+  schema:
+    - grad:<NxH> -> <NxH>
+  distributions:
+    grad: grad
+  flops:
+    1D: 9
+    SFU: 1
+  io: 3
+
+op::DTE:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    K: [1, 2, 4, 8]
+    H: [8, 32, 16384]
+  schema:
+    - input:<NxKxH> -> <NxKxH>
+  flops: 0
+  io: 2

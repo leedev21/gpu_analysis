@@ -1,0 +1,88 @@
+api::_Linear:
+  type: std
+api::_LinearBackward:
+  type: std
+api::_LayerNormLinear:
+  type: std
+api::_LayerNormLinearBackward:
+  type: std
+api::ApplyMLARotaryEmbQ:
+  type: std
+api::ApplyMLARotaryEmbKV:
+  type: std
+api::ApplyMLARotaryEmbQBackward:
+  type: std
+api::ApplyMLARotaryEmbKVBackward:
+  type: std
+api::ScaledMaskedSoftmax:
+  type: std
+api::ScaledMaskedSoftmax:
+  type: std
+api::SwiGLUFunction:
+  type: std
+api::SwiGLUFunctionBackward:
+  type: std
+
+RandomSTE:
+  type: std
+MoEAuxLossAutoScalerBackward:
+  type: std
+FusedDispatch:
+  type: std
+api::_moe_permute_mask_map:
+  type: std
+api::WeightedSwiGLUFunction:
+  type: std
+api::_GroupedLinear:
+  type: std
+FusedCombine:
+  type: std
+CrossEntropyFunction:
+  type: std
+FusedCombineBackward:
+  type: std
+FusedDispatchBackward:
+  type: std
+
+
+CompiledFunction:
+  type: compile
+
+TELayerNormColumnParallelLinear:
+  type: std
+# _LayerNormLinear:
+TELinear:
+  type: std
+_OperationFuserAutogradFunction:
+TERowParallelGroupedLinear:
+  type: std
+# WeightedSwiGLUFunction:
+TERowParallelLinear:
+  type: std
+# SwiGLUFunction:
+RouterGatingLinearFunction:
+  type: std
+# ApplyMLARotaryEmbKV:
+# ApplyMLARotaryEmbQ:
+TEColumnParallelGroupedLinear:
+  type: std
+# _LayerNormLinearBackward:
+# ApplyMLARotaryEmbKVBackward:
+# ApplyMLARotaryEmbQBackward:
+# _LinearBackward:
+# SwiGLUFunctionBackward:
+RouterGatingLinearFunctionBackward:
+  type: std
+
+FusedAuxLoss:
+  type: std
+FusedComputeScoresForMoEAuxLoss:
+  type: std
+FusedTopkScoreFunction:
+  type: std
+FusedAuxLossBackward:
+  type: std
+FusedComputeScoresForMoEAuxLossBackward:
+  type: std
+FusedTopkScoreFunctionBackward:
+  type: std

@@ -1,0 +1,206 @@
+config:
+  env:
+    hardware: A100SXM
+    software: nemo
+    n_nodes: 1
+    world_size: 8
+  model: qwen2_72b
+  modules:
+    qwen2:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, gradient_accumulation_steps]
+      loop: gradient_accumulation_steps
+      fwd:
+        - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+        - layer::GPTDecoder;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+        - layer::ColumnParallelLinear;[micro_batch_size*seq_length, hidden_size, vocab_size]
+        - layer::Loss;[micro_batch_size*seq_length, vocab_size]
+    # optim:
+    #   shape: [7, 1000000000]
+    #   fwd:
+    #     - layer::Adam
+  training:
+    micro_batch_size: 1
+    tensor_model_parallel_size: 8
+    virtual_pipeline_model_parallel_size: null
+    sequence_parallel: True
+    seq_length: 4096
+  feature:
+    transformer_engine: true
+    fp8: false
+    precision: bf16
+    ub_tp_comm_overlap: false
+module:
+  Decoder:
+    fwd:
+      - layer::RMSNorm:
+        - name: nvte_rmsnorm_fwd
+          shape: [[1024, 1, 8192]]
+          duration: 55.680us
+      - layer::ColumnParallelLinear:
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 366.176us
+        - name: nvte_cublas_gemm
+          shape: [[6144, 8192], [4096, 8192], [4096, 6144], [6144]]
+          duration: 2.025ms
+      - layer::ROPE:
+        - name: FusedRoPEFunc
+          shape: [[4096, 1, 16, 128], [4096, 1, 1, 128]]
+          duration: 51.904us
+      - layer::ROPE:
+        - name: FusedRoPEFunc
+          shape: [[4096, 1, 16, 128], [4096, 1, 1, 128]]
+          duration: 53.984us
+      - layer::SDPA:
+        - name: aten::contiguous
+          shape: [[1, 4096, 16, 128], [1, 4096, 16, 128], []]
+          duration: 48.160us
+        - name: FlashAttnVarlenFunc
+          shape: [[4096, 16, 128], [4096, 16, 128], [4096, 16, 128], [2], [2]]
+          duration: 585.696us
+      - layer::RowParallelLinear:
+        - name: nvte_cublas_gemm
+          shape: [[8192, 2048], [4096, 2048], [4096, 8192]]
+          duration: 689.024us
+        - name: c10d::_reduce_scatter_base_
+          shape: [[1024, 8192], [4096, 8192]]
+          duration: 362.431us
+      - aten::add:
+          shape: [[1024, 1, 8192], [1024, 1, 8192]]
+          duration: 35.744us
+      - layer::RMSNorm:
+        - name: nvte_rmsnorm_fwd
+          shape: [[1024, 1, 8192]]
+          duration: 56.064us
+      - layer::MLP:
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 369.921us
+        - name: nvte_cublas_gemm
+          shape: [[12288, 8192], [4096, 8192], [4096, 12288]]
+          duration: 3.791ms
+        - name: aten::silu
+          shape: [[4096, 1, 6144]]
+          duration: 147.936us
+        - name: aten::mul
+          shape: [[4096, 1, 6144], [4096, 1, 6144]]
+          duration: 150.464us
+        - name: nvte_cublas_gemm
+          shape: [[8192, 6144], [4096, 6144], [4096, 8192]]
+          duration: 1.919ms
+        - name: c10d::_reduce_scatter_base_
+          shape: [[1024, 8192], [4096, 8192]]
+          duration: 370.752us
+      - aten::add:
+          shape: [[1024, 1, 8192], [1024, 1, 8192]]
+          duration: 34.944us
+      - layer::RMSNorm:
+        - name: nvte_rmsnorm_fwd
+          shape: [[1024, 1, 8192]]
+          duration: 57.152us
+    bwd:
+      - layer::RMSNorm:
+        - name: aten::fill_
+          shape: [[300]]
+          duration: 2.464us
+        - name: nvte_rmsnorm_bwd
+          shape: [[1024, 1, 8192]]
+          duration: 90.399us
+      - aten::add_:
+          shape: [[8192], [8192]]
+          duration: 6.656us
+      - layer::MLP:
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 428.065us
+        - name: nvte_cublas_gemm
+          shape: [[8192, 6144], [4096, 8192], [4096, 6144]]
+          duration: 1.986ms
+        - name: nvte_cublas_gemm
+          shape: [[8192, 6144], [4096, 8192], [4096, 6144]]
+          duration: 1.950ms
+        - name: aten::mul
+          shape: [[4096, 1, 6144], [4096, 1, 6144]]
+          duration: 107.904us
+        - name: aten::mul
+          shape: [[4096, 1, 6144], [4096, 1, 6144]]
+          duration: 149.792us
+        - name: aten::silu_backward
+          shape: [[4096, 1, 6144]]
+          duration: 167.264us
+        - name: aten::cat
+          shape: [[4096, 1, 6144], [4096, 1, 6144]]
+          duration: 227.808us
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 390.016us
+        - name: nvte_cublas_gemm
+          shape: [[12288, 8192], [4096, 12288], [4096, 8192]]
+          duration: 3.728ms
+        - name: c10d::_reduce_scatter_base_
+          shape: [[1024, 8192], [4096, 8192]]
+          duration: 360.224us
+        - name: nvte_cublas_gemm
+          shape: [[4096, 8192], [4096, 12288], [12288, 8192]]
+          duration: 3.887ms
+      - layer::RMSNorm:
+        - name: aten::fill_
+          shape: [[300]]
+          duration: 2.464us
+        - name: nvte_rmsnorm_bwd
+          shape: [[1024, 1, 8192]]
+          duration: 94.432us
+      - aten::add:
+          shape: [[1024, 1, 8192], [1024, 1, 8192]]
+          duration: 38.304us
+      - layer::RowParallelLinear:
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 399.968us
+        - name: nvte_cublas_gemm
+          shape: [[8192, 2048], [4096, 8192], [4096, 2048]]
+          duration: 673.407us
+        - name: nvte_cublas_gemm
+          shape: [[4096, 2048], [4096, 8192], [8192, 2048]]
+          duration: 669.696us
+      - layer::SDPA:
+        - name: FlashAttnVarlenFuncBackward
+          shape: [[4096, 16, 128]]
+          duration: 1.582ms
+      - layer::ROPE:
+        - name: FusedRoPEFuncBackward
+          shape: [[4096, 1, 16, 128]]
+          duration: 61.985us
+      - layer::ROPE:
+        - name: FusedRoPEFuncBackward
+          shape: [[4096, 1, 16, 128]]
+          duration: 60.768us
+      - aten::cat:
+          shape: [[4096, 1, 16, 128], [4096, 1, 16, 128], [4096, 1, 16, 128]]
+          duration: 146.656us
+      - layer::ColumnParallelLinear:
+        - name: c10d::_allgather_base_
+          shape: [[4096, 8192], [1024, 8192]]
+          duration: 410.303us
+        - name: nvte_cublas_gemm
+          shape: [[6144, 8192], [4096, 6144], [4096, 8192]]
+          duration: 2.098ms
+        - name: c10d::_reduce_scatter_base_
+          shape: [[1024, 8192], [4096, 8192]]
+          duration: 363.615us
+        - name: nvte_cublas_gemm
+          shape: [[4096, 8192], [4096, 6144], [6144, 8192], [6144]]
+          duration: 2.143ms
+      - layer::RMSNorm:
+        - name: aten::fill_
+          shape: [[300]]
+          duration: 2.464us
+        - name: nvte_rmsnorm_bwd
+          shape: [[1024, 1, 8192]]
+          duration: 87.712us
+      - aten::to:
+          shape: [[6144], [6144]]
+          duration: 6.784us
+      - aten::add_:
+          shape: [[1024, 1, 8192], [1024, 1, 8192]]
+          duration: 35.968us

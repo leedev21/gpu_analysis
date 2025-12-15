@@ -1,0 +1,278 @@
+B200:
+  compute:
+    fp32: 90
+    2D: 1125
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    2D_fp4: ${multiply:8, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    core_clock: 1.67GHz
+    sm_count: 132
+  storage:
+    L3: 180
+    L3_bandwidth: 8000
+    L2: 50
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 1800
+    HBD: 64
+    North: 100
+B100:
+  compute:
+    fp32: 67
+    2D: 900
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 192
+    L3_bandwidth: 8000
+    L2: -1
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 1800
+    HBD: 64
+    North: 100
+H200SXM:
+  compute:
+    fp32: 67
+    2D: 494.5
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 141
+    L3_bandwidth: 4700
+    L2: -1
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 900
+    HBD: 64
+    North: 100
+H100SXM:
+  compute:
+    fp32: 67
+    2D: 494.5
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.25, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 80
+    L3_bandwidth: 3350
+    L2: 50
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 900
+    HBD: 64
+    North: 100
+H800SXM:
+  compute:
+    fp32: 67
+    2D: 494.5
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    sm_count: 132
+  storage:
+    L3: 80
+    L3_bandwidth: 3350
+    L2: 50
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 400
+    HBD: 8
+    North: 100
+H100PCIE:
+  compute:
+    fp32: 51
+    2D: 378
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 80
+    L3_bandwidth: 2000
+    L2: 50
+  link:
+    D-D_type: pcie
+    H-D: 128
+    D-D: 100
+    HBD: 1
+    North: 100
+A100SXM:
+  compute:
+    fp32: 19.5
+    2D: 156
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: 0.0
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    core_clock: 1.41GHz
+    sm_count: 108
+  storage:
+    L3: 80
+    L3_bandwidth: 2039 # profile: 1448
+    L2: 40
+  link:
+    D-D_type: nvlink
+    H-D: 64
+    D-D: 600
+    HBD: 64
+    North: 64
+A100SXM40G:
+  compute:
+    fp32: ${A100SXM.compute.fp32}
+    2D: ${A100SXM.compute.2D}
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: 0.0
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    core_clock: ${A100SXM.compute.core_clock}
+    sm_count: ${A100SXM.compute.sm_count}
+  storage:
+    L3: 40
+    L3_bandwidth: 1550 # profile: 1448
+    L2: ${A100SXM.storage.L2}
+  link:
+    D-D_type: ${A100SXM.link.D-D_type}
+    H-D: ${A100SXM.link.H-D}
+    D-D: ${A100SXM.link.D-D}
+    HBD: ${A100SXM.link.HBD}
+    North: ${A100SXM.link.North}
+A100PCIE:
+  compute:
+    fp32: 19.5
+    2D: 156
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: 0.0
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 80
+    L3_bandwidth: 1935
+    L2: 40
+  link:
+    D-D_type: pcie
+    H-D: 64
+    D-D: 64
+    HBD: 1
+    North: 64
+H20SXM:
+  compute:
+    fp32: 44
+    2D: 74
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    core_clock: 1.98GHz
+    sm_count: 78
+  storage:
+    L3: 96
+    L3_bandwidth: 4000  # profile: 3746
+    L2: 60
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 900
+    HBD: 64
+    North: 100
+H20HGX141:
+  compute:
+    fp32: 44
+    2D: 74
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+    core_clock: 1.98GHz
+    sm_count: 78
+  storage:
+    L3: 141
+    L3_bandwidth: 4800
+    L2: 60
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 900
+    HBD: 64
+    North: 100
+L40S:
+  compute:
+    fp32: 45.8
+    2D: 183
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 48
+    L3_bandwidth: 864
+    L2: 96
+  link:
+    D-D_type: pcie
+    H-D: 64
+    D-D: 64
+    HBD: 1
+    North: 64
+L20:
+  compute:
+    fp32: 59.8
+    2D: 59
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 48
+    L3_bandwidth: 864
+    L2: 96
+  link:
+    D-D_type: pcie
+    H-D: 64
+    D-D: 64
+    HBD: 1
+    North: 64
+'5090':
+  compute:
+    fp32: 67
+    2D: 550
+    1D: ${multiply:1, ${.fp32}}
+    2D_fp16: ${multiply:2, ${.2D}}
+    2D_fp8: ${multiply:4, ${.2D}}
+    RNG: ${multiply:0.125, ${.1D}}
+    SFU: ${multiply:0.125, ${.1D}}
+  storage:
+    L3: 192
+    L3_bandwidth: 8000
+    L2: -1
+  link:
+    D-D_type: nvlink
+    H-D: 128
+    D-D: 1800
+    HBD: 64
+    North: 100

@@ -1,0 +1,90 @@
+H800_671B_Node256:
+  model: deepseek_v3_A37B
+  size: 671B
+  env:
+    hw: H800SXM
+    n_device: 2048
+    n_nodes: 256
+  training:
+    tensor_model_parallel_size: 1
+    pipeline_model_parallel_size: 16
+    context_model_parallel_size: 1
+    expert_model_parallel_size: 64
+    sequence_parallel: true
+    micro_batch_size: 1
+    precision: fp8
+  feature:
+    DualPipe: True
+    auxiliary_loss_free: True
+    multi_token_prediction: True
+    attention: mla
+    use_distributed_optimizer: True
+    efficient_cross_node_all_to_all: True
+    yarn: True
+  pretrain:
+    cost: 180K hours_per_T_tokens
+    time_per_t_tokens: 3.7day
+    total_time: 2month
+    stage1:
+      trained_samples: 14.8T
+      total_time: 2664K
+      seq_length: 4K
+      cost: $5328K
+      optim:
+        lr:
+          - 0: 0
+          - 2K: 2.2e-4
+          - 10T: 2.2e-4
+          - 4.3T: 2.2e-5
+          - -500B: 2.2e-5
+          - -167B: 7.3e-6
+      global_batch_size:
+        - 0: 3072
+        - 469B: 15360
+      auxiliary_loss_free_γ:
+        - 0: 0.001
+        - 14.3T: 0.0
+      balance_loss_α: 0.0001
+      mtp_loss_λ:
+        - 0: 0.3
+        - 10T: 0.1
+    stage2:
+      trained_samples: -
+      total_time: 119k
+      optim:
+        lr: 7.3e-6
+      cost: $238K
+      phase1:
+        seq_length: 32K
+        global_batch_size: 1920
+      phase2:
+        seq_length: 128K
+        global_batch_size: 480
+  post-train:
+    trained_samples: -
+    total_time: 5K
+    seq_length: -
+    cost: $10K
+  inference:
+    env:
+      hw: H800SXM
+      n_device: 352
+      n_nodes: 44
+    prefill:
+      attention:
+        tensor_model_parallel_size: 4
+        data_parallel_size: 8
+        sequence_parallel: true
+      moe:
+        expert_model_parallel_size: 32
+    decoding:
+      attention:
+        tensor_model_parallel_size: 4
+        data_parallel_size: 80
+        sequence_parallel: true
+      moe:
+        expert_model_parallel_size: 320
+    precision: fp8
+  analysis:
+    memory_usage:
+      activation: 37B

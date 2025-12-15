@@ -1,0 +1,644 @@
+# 1. transformer_engine_torch::generic_gemm ✅
+# Compute GEMM (matrix-matrix multiply)
+- name: transformer_engine_torch::generic_gemm
+  size:
+    M: [4096]     # M
+    K: [7168]     # K
+    N: [2048]     # N
+    P: [e4m3, bf16]     # precision
+    Q: [Float8Quantizer, Float8BlockQuantizer, MXFP8Quantizer, Float8CurrentScalingQuantizer]
+  input:
+    - A:  # The A matrix.
+        _tensor: [M, K]
+        precision: P
+      transa: true  # Whether A matrix is transposed.
+      B:  # The B matrix.
+        _tensor: [K, N]
+        precision: P
+      transb: false  # Whether B matrix is transposed.
+      D: [M, N]  # Output matrix.
+      quantizer: Q  # Float8BlockQuantizer
+      out_dtype: kBFloat16  # TE_DType[torch.bfloat16 if bias is None else bias.dtype]
+      bias: null  # Bias tensor.
+      bias_type: kBFloat16  # TE_DType[torch.bfloat16 if bias is None else bias.dtype]
+      gelu: false  # Output matrix before GELU activation.
+      gelu_in: null
+      grad: false  # Whether this operation is part of the gradient computation.
+      workspace: [33554432]  # Workspace tensor.
+      workspaceSize: 33554432
+      accumulate: false  # Whether to accumulate the result into the D matrix.
+      use_split_accumulator: false  # Whether to use split accumulator in the FP8 GEMM.
+      comm_overlap: null   # tex.CommOverlapType
+      comm_type: null   # tex.CommOverlapType
+      extra_output: null
+      bulk_overlap: false
+  output: [out, bias_grad, gelu_input, extra_output]
+  op_desp: transformer_engine_torch-nvte_cublas_gemm.png
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/gemm.html#_CPPv416nvte_cublas_gemmK10NVTETensorK10NVTETensor10NVTETensorK10NVTETensor10NVTETensorbbb10NVTETensorbbi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/csrc/extensions/gemm.cpp#L89
+  python_lib_api: transformer_engine.pytorch.Linear
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/module/linear.py#L894C7-L894C13
+  cuda_name: [comm_overlap, nvte_cublas_gemm]
+
+# 2. transformer_engine_torch::te_general_grouped_gemm ✅
+# Compute multiple pairs of matrix multiplication, potentially fused with other operations, on multiple streams.
+- name: transformer_engine_torch::te_general_grouped_gemm
+  size:
+    M: [4096]     # M
+    K: [7168]     # H
+    N: [2048]     # N
+  input:
+    - A:  # The list of A matrices.
+        _tensor_list: [[M1, K], [M2, K], ...]
+        precision: e4m3
+      transa: true  # Whether A matrix is transposed.
+      B:  # The list of B matrices.
+        _tensor: [K, N]
+        precision: e4m3
+      transb: false  # Whether B matrix is transposed.
+      D:  # List of output matrices.
+        _tensor: [[M1, N], [M2, N], ...]
+      out_dtype: kBFloat16  # TE_DType[torch.bfloat16 if bias is None else bias.dtype]
+      m_splits: [1616, 944, 928, 1488, 1120, 1584, 1040, 1152]
+      bias: null  # List of bias tensors.
+      bias_type: kBFloat16  # TE_DType[torch.bfloat16 if bias is None else bias.dtype]
+      single_output: true
+      pre_gelu_out: null  # List of output matrix before GELU activation.
+      grad: false  # Whether this operation is part of the gradient computation.
+      workspace: [[M1*N], [M2*N], ...]  # List of workspace tensors.
+      workspaceSize: 33554432
+      accumulate: false  # Whether to accumulate the result into the D matrix.
+      use_split_accumulator: true  # Whether to use split accumulator in the FP8 GEMM.
+      math_sm_count: 0   # Number of GPU SMs to use (default=0: use cuBLAS heuristics)
+  output: [D]
+  op_desp: transformer_engine_torch-nvte_multi_stream_cublas_gemm.png
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/gemm.html#_CPPv429nvte_multi_stream_cublas_gemmPK10NVTETensorPK10NVTETensorP10NVTETensorPK10NVTETensorP10NVTETensorKibbbP10NVTETensorbbi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/6ba98d439190901fec85c2ae3c2cea235d9f2196/transformer_engine/pytorch/csrc/extensions/gemm.cpp#L335
+  python_lib_api: transformer_engine.pytorch.GroupedLinear
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/module/grouped_linear.py#L432
+  cuda_name: [nvte_multi_stream_cublas_gemm]
+
+# 3. transformer_engine_torch::quantize ✅
+# Casts input tensor to quantized output tensor, with advanced quantization options.
+- name: transformer_engine_torch::quantize
+  size:
+    N: [4096]  # sequence length * batch size
+    H: [7168]  # hidden size
+    Q: [Float8Quantizer, Float8BlockQuantizer, MXFP8Quantizer, Float8CurrentScalingQuantizer]
+  input:
+    - tensor: [N, H]  # Input tensor to be cast.
+      quantizer: Q  # Float8BlockQuantizer(rowwise_usage=True,_columnwise_usage=True,_internal=True,_)
+      output:  # Output FP8/MXFP8/BlockwiseFP8 tensor.
+        _tensor: [N, H]
+        precision: e4m3
+      noop_flag: false  # True if not w_columnwise else False
+  output: [output]
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/cast.html#_CPPv416nvte_quantize_v2K10NVTETensor10NVTETensorK22NVTEQuantizationConfig12cudaStream_t
+  kernel:
+    - block_scaled_1d_cast_transpose_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/transpose/quantize_transpose_vector_blockwise.cu#L170
+        priority: 0
+        case: [NVTE_BLOCK_SCALING_1D]
+      block_scaled_cast_transpose_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/transpose/quantize_transpose_square_blockwise.cu#L67
+        priority: 0
+        case: [NVTE_BLOCK_SCALING_2D]
+      block_scaled_cast_transpose_kernel_notaligned:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/transpose/quantize_transpose_square_blockwise.cu#L254
+        priority: 0
+        case: [NVTE_BLOCK_SCALING_2D]
+      cast_mxfp8_2D_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/util/cast_kernels.cuh#L50
+        case: [NVTE_MXFP8_1D_SCALING, NVTE_MXFP8_1D_SCALING]
+        type: [ROWWISE, COLWISE, BIDIMENSIONAL]
+        priority: 2
+      cast_transpose_optimized_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/transpose/cast_transpose.cu#L310
+        case: [NVTE_DELAYED_TENSOR_SCALING, 'output.has_columnwise_data', '!IS_DBIAS', '!IS_DACT', '!IS_ACT', 'output.scaling_mode']
+        priority: 3
+      cast_transpose_general_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/transpose/cast_transpose.cu#L104
+        case: [NVTE_DELAYED_TENSOR_SCALING, 'output.has_columnwise_data', '!IS_DBIAS', '!IS_DACT', '!IS_ACT']
+        priority: 3
+      cast_transpose_fusion_kernel_optimized:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/transpose/cast_transpose_fusion.cu#L721
+        case: [NVTE_DELAYED_TENSOR_SCALING, 'output.has_columnwise_data', 'jit_compiled']
+        priority: 1
+      cast_transpose_fused_kernel_notaligned:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/transpose/cast_transpose_fusion.cu#L273
+        url: TransformerEngine/transformer_engine/common/transpose/cast_transpose_fusion.cu
+        case: [NVTE_DELAYED_TENSOR_SCALING, 'output.has_columnwise_data']
+        priority: 1
+      cast_fp8_1D_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/util/cast_kernels.cuh#L748
+        case: [NVTE_DELAYED_TENSOR_SCALING, '!IS_DBIAS', '!IS_DACT']
+        priority: 1
+      cast_fp8_2D_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/util/cast_kernels.cuh#L558
+        case: [NVTE_DELAYED_TENSOR_SCALING, '!IS_DBIAS', 'IS_DACT']
+        priority: 1
+  url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/csrc/extensions/cast.cpp#L16
+  python_lib_api: transformer_engine.pytorch.tensor.QuantizedTensor
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/5b4d89c3227fa31743bdb186d25f646e4636c668/transformer_engine/pytorch/tensor/float8_blockwise_tensor.py#L23
+  cuda_name: [nvte_compute_amax, nvte_compute_scale_from_amax, nvte_quantize_v2]
+
+# 4. transformer_engine_torch::fused_multi_quantize ❌
+# Fused Multi-tensor Cast + Transpose; chang to split_quantize from te2.5
+- name: transformer_engine_torch::fused_multi_quantize
+  size:
+    N: [4096]  # sequence length * batch size
+    H: [7168]  # hidden size
+    Q: [Float8Quantizer, Float8BlockQuantizer, MXFP8Quantizer, Float8CurrentScalingQuantizer]
+  input:
+    - input_list:  # List of 2D input tensors.
+        _tensor_list: [[N1, H], [N2, H], ...]
+      output_list: null  # List of casted tensors. Dimensions of their rowwise data members match tensors in input_list. Dimensions of their columnwise data members are transposed.
+      quantizer_list: [Q, Q, ]  # Float8BlockQuantizer(rowwise_usage=True,_columnwise_usage=True,_internal=False,_)
+      otype: kBFloat16
+  output:
+    - output_list  # [[N1, H], [N2, H]...]
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/transpose.html#_CPPv425nvte_multi_cast_transpose6size_tPK10NVTETensorP10NVTETensor12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/csrc/extensions/transpose.cpp#L14
+  python_lib_api: transformer_engine.pytorch.GroupedLinear
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/module/grouped_linear.py#L128
+  cuda_name: [nvte_multi_cast_transpose]
+
+# 5. transformer_engine_torch::split_quantize ✅
+# Split and multi-tensor quantize; added on te2.5
+- name: transformer_engine_torch::split_quantize
+  size:
+    N: [4096]  # sequence length * batch size
+    H: [7168]  # hidden size
+    Q: [Float8Quantizer, Float8BlockQuantizer, MXFP8Quantizer, Float8CurrentScalingQuantizer]
+  input:
+    - tensor:  # List of input tensors to be cast.
+        _tensor: [N, H]
+      split_sections: [1616, 944, 928, 1488, 1120, 1584, 1040, 1152]  # List of casted tensors. Dimensions of their rowwise data members match tensors in input_list. Dimensions of their columnwise data members are transposed.
+      quantizer_list: [Q, Q, ]  # Float8BlockQuantizer(rowwise_usage=True,_columnwise_usage=True,_internal=False,_)
+  output:
+    - output_list  # [[N1, H], [N2, H]...]
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/cast.html#_CPPv426nvte_multi_tensor_quantizePK10NVTETensorP10NVTETensorK22NVTEQuantizationConfigK6size_t12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/pytorch/csrc/extensions/cast.cpp#L480
+  kernel:
+    - multi_cast_transpose_kernel:
+        url: https://github.com/NVIDIA/TransformerEngine/blob/4285874da3733c731cae6aadedecd1c876735751/transformer_engine/common/transpose/multi_cast_transpose.cu#L54
+  python_lib_api: transformer_engine.pytorch.GroupedLinear
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/module/grouped_linear.py#L128
+  cuda_name: [nvte_multi_cast_transpose]
+
+# 6. transformer_engine_torch::rmsnorm_fwd ✅
+# RMSNorm
+- name: transformer_engine_torch::rmsnorm_fwd
+  size:
+    N: [4096]  # sequence length * batch size
+    H: [7168]  # hidden size
+    Q: [Float8Quantizer, Float8BlockQuantizer, MXFP8Quantizer, Float8CurrentScalingQuantizer]
+  input:
+    - input: [N, H]  # Input tensor of shape [N, H].
+      weight: [H]  # Gamma tensor of shape [H].
+      eps: 1e-5  # Value added to denominator for numerical stability.
+      ln_out: null  # 
+      quantizer: Q  #
+      otype: kFloat8E4M3  # "out_dtype must be kFloat8E4M3 or kFloat8E5M2"
+      sm_margin: 0  # Number of SMs in the device.
+      zero_centered_gamma: false  # Multiply normalized values γ+1 by instead of γ
+  output:
+    - z  # Output gradient of shape [N, H].
+    - z  # Output gradient of shape [N, H].
+    - rsigma  # Reciprocal of the root mean square of the input calculated over the last dimension. Shape: [N].
+  op_desp: transformer_engine_torch-nvte_rmsnorm_fwd.png
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/normalization.html#_CPPv416nvte_rmsnorm_fwdK10NVTETensorK10NVTETensorKf10NVTETensor10NVTETensor10NVTETensorKiKb12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/common/normalization/rmsnorm/rmsnorm_api.cpp#L23
+  python_lib_api: transformer_engine.pytorch.RMSNorm
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/734bcedd9d86e4be30ce44f1ef67af5f69f3670d/transformer_engine/pytorch/ops/basic/rmsnorm.py#L29
+  cuda_name: [nvte_rmsnorm_fwd, nvte_transpose, nvte_quantize_v2]
+
+# 7. transformer_engine_torch::rmsnorm_bwd ✅
+# Backward of RMSNorm
+- name: transformer_engine_torch::rmsnorm_bwd
+  size:
+    N: [4096]  # sequence length * batch size
+    H: [7168]  # hidden size
+  input:
+    - dz: [N, H]  # Incoming gradient tensor of shape [N, H].
+      x: [N, H]  # Forward input tensor of shape [N, H].
+      rsigma: [N]  # Reciprocal of the root mean square of the input calculated over the last dimension. Shape: [N].
+      gemma: [H]  # Gamma tensor of shape [H].
+      sm_margin: 0  # Number of SMs in the device.
+      zero_centered_gamma: false  # Multiply normalized values γ+1 by instead of γ
+  output:
+    - dx  # Output gradient of shape [N, H].
+    - dgamma  # Gradient for gamma tensor of shape [H].
+  op_desp: transformer_engine_torch-nvte_rmsnorm_bwd.png
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/normalization.html#_CPPv416nvte_rmsnorm_bwdK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor10NVTETensor10NVTETensor10NVTETensorKiKb12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/common/normalization/rmsnorm/rmsnorm_api.cpp#L103
+  python_lib_api: transformer_engine.pytorch.RMSNorm
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/734bcedd9d86e4be30ce44f1ef67af5f69f3670d/transformer_engine/pytorch/ops/basic/rmsnorm.py#L206
+  cuda_name: [nvte_rmsnorm_bwd]
+
+# 8. transformer_engine_torch::fp8_block_scaling_compute_partial_amax ✅
+# Compute partial amax from master weights for fp8 block scaling
+- name: transformer_engine_torch::fp8_block_scaling_compute_partial_amax
+  size:
+    H: [1536]  # sequence length * batch size
+    W: [7168]  # hidden size
+    Offset: [0]     # start_offset
+    G: [128]   # quantization group size
+  input:
+    - tensor: # "tensor must be a float or bfloat16 tensor"
+        _tensor: [H*W]   # quantized output tensor
+      amax:  # amax.dim() == 2, "amax must be a 2D tensor, amax must be a float tensor"
+        _tensor: [H/G, W/G]   # quantized output tensor
+        precision: fp32
+      h: H  # h, w = tensor.shape
+      w: W  # h, w = tensor.shape
+      start_offset: Offset  # True if not w_columnwise else False
+      block_len: G  # block_len == 128, "Currently only block_len = 128 is supported
+  output: [tensor]
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/recipe.html#_CPPv443nvte_fp8_block_scaling_compute_partial_amaxK10NVTETensor10NVTETensor6size_t6size_t6size_t6size_t6size_t6size_t12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/6ba98d439190901fec85c2ae3c2cea235d9f2196/transformer_engine/pytorch/csrc/extensions/fp8_block_scaling_partial_cast.cpp#L11
+  python_lib_api: transformer_engine.pytorch.tensor.utils.cast_master_weights_to_fp8
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/5b4d89c3227fa31743bdb186d25f646e4636c668/transformer_engine/pytorch/tensor/utils.py#L333
+  cuda_name: [nvte_fp8_block_scaling_compute_partial_amax]
+
+# 9. transformer_engine_torch::fp8_block_scaling_partial_cast ✅
+# Partial cast from master weights for fp8 block scaling
+- name: transformer_engine_torch::fp8_block_scaling_partial_cast
+  size:
+    H: [1536]  # sequence length * batch size
+    W: [7168]  # hidden size
+    Offset: [0]     # start_offset
+    G: [128]   # quantization group size
+  input:
+    - inp:  # "input must be a float or bfloat16 tensor"
+        _tensor: [H*W]   # quantized output tensor
+      out:  # "output must be a uint8 tensor"
+        _tensor: [H*W]   # quantized output tensor
+        precision: uint8
+      scale:  # "scale must be a 2D tensor, scale must be a float tensor"
+        _tensor: [H/G, W/G]   # quantized output tensor
+        precision: fp32
+      h: H  # h, w = tensor.shape
+      w: W  # h, w = tensor.shape
+      start_offset: Offset  # True if not w_columnwise else False
+      block_len: G  # block_len == 128, "Currently only block_len = 128 is supported"
+      out_dtype: kFloat8E4M3  # "out_dtype must be kFloat8E4M3 or kFloat8E5M2"
+  output: [out]
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/recipe.html#_CPPv435nvte_fp8_block_scaling_partial_castK10NVTETensor10NVTETensorK10NVTETensor6size_t6size_t6size_t6size_t6size_t6size_tK9NVTEDType12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/6ba98d439190901fec85c2ae3c2cea235d9f2196/transformer_engine/pytorch/csrc/extensions/fp8_block_scaling_partial_cast.cpp#L28
+  python_lib_api: transformer_engine.pytorch.tensor.utils.cast_master_weights_to_fp8
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/5b4d89c3227fa31743bdb186d25f646e4636c668/transformer_engine/pytorch/tensor/utils.py#L333
+  cuda_name: [nvte_fp8_block_scaling_partial_cast]
+
+# 10. transformer_engine_torch::fused_amax_and_scale_update_after_reduction ✅
+# Bulk-update FP8 scaling factors with delayed scaling recipe after amax reduction.
+- name: transformer_engine_torch::fused_amax_and_scale_update_after_reduction
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+  input:
+    - amax_reduction_buffer:  # The contiguous buffer used for amax reduction. Shape: [num_scales * num_tensors]
+        _tensor_list: [H*W]
+        precision: fp32
+      amax_histories:  # List of amax histories of maximum absolute values. Shape: num_tensors x [history_length, num_scales]
+        _tensor_list: [[H, W1], [H, W2], ...]
+        precision: fp32
+      scales:  # List of scaling factors for casting to FP8. Shape: num_tensors x [num_scales]
+        _tensor_list: [[W1], [W2], ...]
+        precision: fp32
+      amax_compute_algo: 'most_recent'  # Method to reduce amax history. Options are “max” and “most_recent”.
+      fp8_dtype: kFloat8E4M3  # FP8 datatype.
+      margin: 0  # Scaling factor margin.
+  output: ['amax_histories', 'scales']
+  op_desp: transformer_engine_torch-nvte_delayed_scaling_recipe_amax_and_scale_update_after_reduction.png
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/recipe.html#_CPPv465nvte_delayed_scaling_recipe_amax_and_scale_update_after_reductionK10NVTETensorNSt6vectorI10NVTETensorEENSt6vectorI10NVTETensorEEPKc9NVTEDTypef12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/5b4d89c3227fa31743bdb186d25f646e4636c668/transformer_engine/pytorch/csrc/extensions/recipe.cpp#L31
+  python_lib_api: transformer_engine.pytorch.fp8.FP8GlobalStateManager
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/5b4d89c3227fa31743bdb186d25f646e4636c668/transformer_engine/pytorch/fp8.py#L419
+  cuda_name: [nvte_delayed_scaling_recipe_amax_and_scale_update_after_reduction]
+
+# 11. transformer_engine_torch::multi_tensor_adam_param_remainder ✅
+# Compute and apply gradient update to parameters for Adam optimize,
+#         where the master parameters only store the remainder bits.
+- name: transformer_engine_torch::multi_tensor_adam_param_remainder
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+    P: [fp32, bf16]
+  input:
+    - chunk_size: 65536  # Number of tensor elements processed by a CUDA block.
+      noop_flag:  # If this single element tensor has non-zero value, kernel will exit immediately.
+        _tensor: [1]
+        precision: int32
+      tensor_lists:  # 2D array of input tensors.
+        _tensor_list:
+          - _tensor_list: [W11, W12, ...]  # p.grad
+            precision: P
+          - _tensor_list: [W21, W22, ...]  # p.data
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg_sq
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # master_param
+            precision: P
+      lr: 1e-05  # Learning rate.
+      beta1: 0.9  # Coefficient for first moment of gradient.
+      beta2: 0.95  # Coefficient for second moment of gradient.
+      epsilon: 1e-08  # Term added to the denominator for numerical stability.
+      step: 1  # Iteration counter.
+      mode: 1  # Whether to use AdamW (L2 penalty applied to params).
+      bias_correction: 1  # Whether to apply correction factor for moment estimates.
+      weight_decay: 0.0  # L2 penalty for weight decay.
+  output: ['tensor_lists']
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.4/user-guide/api/c/multi_tensor.html#_CPPv443nvte_multi_tensor_adam_param_remainder_cudai10NVTETensorPP10NVTETensorK6size_tK6size_tKfKfKfKfKiKiKiKfKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/f1b18ed040b9e474ee639dd67c28ef5764211938/transformer_engine/common/multi_tensor/adam.cu#L687
+  python_lib_api: transformer_engine.pytorch.optimizers.FusedAdam
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/3cd6870ceb809f173a31e3cac5034e56cf879156/transformer_engine/pytorch/optimizers/fused_adam.py#L183C54-L183C87
+  cuda_name: [nvte_multi_tensor_adam_param_remainder_cuda]
+
+# 12. transformer_engine_torch::fused_multi_row_padding ✅
+# Padding multiple tensors.
+# NOTE: Padding mode only support bottom.
+# For example, 3x3 matrix pad to 4x3 matrix.
+# source | 1 | 2 | 3 | | 4 | 5 | 6 | | 7 | 8 | 9 |
+# destination | 1 | 2 | 3 | | 4 | 5 | 6 | | 7 | 8 | 9 | | 0 | 0 | 0 |
+- name: transformer_engine_torch::fused_multi_row_padding
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+  input:
+    - num_tensors: 65536  # Number of tensors.
+      input_list:  # List of 2D input tensors.
+        _tensor: [1]
+        precision: int32
+      output_list:  # List of padded tensors. Dimensions match tensors in input_list.
+      padded_num_rows_list:  # List of padded num rows corresponding to input tensors.
+  output: ['output_list']
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/api/c/padding.html#_CPPv418nvte_multi_padding6size_tPK10NVTETensorP10NVTETensorPKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/common/util/padding.cu#L357
+  python_lib_api: megatron.core.extensions.transformer_engine.Fp8Padding
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/pytorch/module/fp8_padding.py#L39
+  cuda_name: [nvte_multi_padding]
+
+# 13. transformer_engine_torch::multi_tensor_adam ✅
+# Compute and apply gradient update to parameters for Adam optimizer.
+- name: transformer_engine_torch::multi_tensor_adam
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+    P: [fp32, bf16]
+  input:
+    - chunk_size: 65536  # Number of tensor elements processed by a CUDA block.
+      noop_flag:  # If this single element tensor has non-zero value, kernel will exit immediately.
+        _tensor: [1]
+        precision: int32
+      tensor_lists:  # 2D array of input tensors.
+        _tensor_list:
+          - _tensor_list: [W11, W12, ...]  # p.grad
+            precision: P
+          - _tensor_list: [W21, W22, ...]  # p.data
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg_sq
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # master_param
+            precision: P
+      lr: 1e-05  # Learning rate.
+      beta1: 0.9  # Coefficient for first moment of gradient.
+      beta2: 0.95  # Coefficient for second moment of gradient.
+      epsilon: 1e-08  # Term added to the denominator for numerical stability.
+      step: 1  # Iteration counter.
+      mode: 1  # Whether to use AdamW (L2 penalty applied to params).
+      bias_correction: 1  # Whether to apply correction factor for moment estimates.
+      weight_decay: 0.0  # L2 penalty for weight decay.
+  output: ['tensor_lists']
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/api/c/multi_tensor.html#_CPPv427nvte_multi_tensor_adam_cudai10NVTETensorPP10NVTETensorK6size_tK6size_tKfKfKfKfKiKiKiKfKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/pytorch/csrc/extensions/multi_tensor/adam.cpp#L11
+  python_lib_api: transformer_engine.pytorch.optimizers.FusedAdam
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/pytorch/optimizers/fused_adam.py#L182
+  cuda_name: [nvte_multi_tensor_adam_cuda]
+
+# 14. transformer_engine_torch::multi_tensor_scale ✅
+# Check overflow and scale a list of tensors.
+- name: transformer_engine_torch::multi_tensor_scale
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+    P: [fp32, bf16]
+  input:
+    - chunk_size: 65536  # Number of tensor elements processed by a CUDA block.
+      noop_flag:  # If this single element tensor has non-zero value, kernel will exit immediately.
+        _tensor: [1]
+        precision: int32
+      tensor_lists:  # 2D array of input tensors.
+        _tensor_list:
+          - _tensor_list: [W11, W12, ...]  # p.grad
+            precision: P
+          - _tensor_list: [W21, W22, ...]  # p.data
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg_sq
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # master_param
+            precision: P
+      scale: # Scalar for the scaling operation.
+  output: ['tensor_lists']
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/api/c/multi_tensor.html#_CPPv428nvte_multi_tensor_scale_cudai10NVTETensorPP10NVTETensorK6size_tK6size_tfKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/pytorch/csrc/extensions/multi_tensor/scale.cpp#L11
+  python_lib_api: transformer_engine.pytorch.optimizers.multi_tensor_scale
+  python_lib_url: https://github.com/NVIDIA/Megatron-LM/blob/bf341cb4f3fe99458b6ed0a44794d6ac9234347d/megatron/core/optimizer/optimizer.py#L16
+  cuda_name: [nvte_multi_tensor_scale_cuda]
+
+# 15. transformer_engine_torch::multi_tensor_l2norm ✅
+# Computes L2 norm for a list of tensors.
+- name: transformer_engine_torch::multi_tensor_l2norm
+  size:
+    H: [1]  # sequence length * batch size
+    W: [90]  # hidden size
+    P: [fp32, bf16]
+  input:
+    - chunk_size: 65536  # Number of tensor elements processed by a CUDA block.
+      noop_flag:  # If this single element tensor has non-zero value, kernel will exit immediately.
+        _tensor: [1]
+        precision: int32
+      tensor_lists:  # 2D array of input tensors.
+        _tensor_list:
+          - _tensor_list: [W11, W12, ...]  # p.grad
+            precision: P
+          - _tensor_list: [W21, W22, ...]  # p.data
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # exp_avg_sq
+            precision: P
+          - _tensor_list: [W31, W32, ...]  # master_param
+            precision: P
+      output:  # Scratch space. Required size grows with number of inputs.
+      output_per_tensor:  # Fixed size auxilliary scratch space.
+      ret:  # L2 norm of all inputs.
+      ret_per_tensor:  # L2 norm for each tensor.
+      per_tensor:  # Whether to calculate per tensor or cumulative norm.
+      max_chunks_per_tensor:  # Maximum number of chunks in any input tensor.
+  output: ['tensor_lists']
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/api/c/multi_tensor.html#_CPPv429nvte_multi_tensor_l2norm_cudai10NVTETensorPP10NVTETensorK6size_tK6size_t10NVTETensor10NVTETensor10NVTETensor10NVTETensoriiKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/20be25a3d9606897f7c88d817cd301c29137d9bc/transformer_engine/pytorch/csrc/extensions/multi_tensor/l2norm.cpp#L11
+  python_lib_api: transformer_engine.pytorch.optimizers.multi_tensor_l2norm
+  python_lib_url: https://github.com/NVIDIA/Megatron-LM/blob/bf341cb4f3fe99458b6ed0a44794d6ac9234347d/megatron/core/optimizer/clip_grads.py#L11
+  cuda_name: [nvte_multi_tensor_l2norm_cuda]
+
+# 16. transformer_engine_torch::fused_attn_fwd ✅
+# Fused Attention FP8/BF16/FP16 FWD with separate Q, K and V
+- name: transformer_engine_torch::fused_attn_fwd
+  size:
+  input:
+    - max_seqlen_q: 65536  # max sequence length for Q, used for padding; may be larger than max(seqlens_q),
+                           # seqlens_q = cu_seqlens_q[1:] - cu_seqlens_q[:-1]
+      max_seqlen_kv:  # max sequence length for K and V, used for padding;
+                      # may be larger than max(seqlens_kv),
+                      # seqlens_kv = cu_seqlens_kv[1:] - cu_seqlens_kv[:-1]
+      is_training: True  # if True, runs training and produces auxiliary tensors aux_ctx_tensors
+                         # for the backward; if False, runs inference and doesn't produce aux_ctx_tensors
+      attn_scale: # default = None, if not None, use attn_scale as the attention scale for Q*K.T BMM;
+                  # if None, use 1.0/sqrt(head_dim_qk) as the default
+      p_dropout: 0.0  # dropout probability, 0.0 means no dropout, 1.0 means no output;
+      set_zero: True  # if True, initializes the output tensor O to zero using the fast filling method;
+                      # if False, uses PyTorch's .fill_() method
+      qkv_layout:  # layout of Q, K and V;
+                   # {"sb3hd", "sbh3d", "sbhd_sb2hd", "sbhd_sbh2d", "sbhd_sbhd_sbhd",
+                   # "bs3hd", "bsh3d", "bshd_bs2hd", "bshd_bsh2d", "bshd_bshd_bshd",
+                   # "t3hd", "th3d", "thd_t2hd", "thd_th2d", "thd_thd_thd"}
+      bias_type: # default = "no_bias", type of the bias; {"no_bias", "pre_scale_bias", "post_scale_bias", "alibi"}
+      attn_mask_type: # default = "padding", type of the attention mask; {"padding", "causal", "padding_causal", "no_mask"}
+      window_size: [-1, -1]  # sliding window size for local attention, where query at position i attends to keys
+                             # in [i + seqlen_k - seqlen_q - window_size[0], i + seqlen_k - seqlen_q
+                             # + window_size[1]] inclusive. Special cases (-1, -1) and (-1, 0) mean no sliding
+                             # window and causal mask specifically.
+      cu_seqlens_q: #  cumulative sequence lengths for Q; shape [batch_size + 1]
+      cu_seqlens_kv: # cumulative sequence lengths for K and V; shape [batch_size + 1]
+      Q: # input tensor Q; shape sbhd, bshd or thd
+      K: # input tensor K; shape sbhd, bshd or thd
+      V: # input tensor V; shape sbhd, bshd or thd
+      fake_dtype: # data type of Q, K and V - in case of high precision, fake dtype in case of FP8;
+      cu_seqlens_q_padded: # cumulative sequence offsets for Q; shape [batch_size + 1]
+      cu_seqlens_kv_padded: # cumulative sequence offsets for KV; shape [batch_size + 1]
+      page_table_k: null  # page table for K cache; shape [batch_size, max_pages_per_seq_k]
+      page_table_v: null  # page table for V cache; shape [batch_size, max_pages_per_seq_v]
+      s_quantizer: # Quantizer object for the intermediate value S.
+      o_quantizer: # Quantizer object for the output of the attention.
+      Bias: null  # input tensor Bias when attn_bias_type is "pre_scale_bias" or "post_scale_bias";
+                  # shape [1, num_heads, max_seqlen_q, max_seqlen_kv], same data type as q, k and v
+      rng_gen: null  # random number generator; if None, uses the default CUDA generator from PyTorch; otherwise, uses rng_gen
+      rng_elts_per_thread: # Scalar for the scaling operation.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_attn.html#_CPPv419nvte_fused_attn_fwdK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor10NVTETensor10NVTETensorP14NVTETensorPackK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor6size_t6size_tbff15NVTE_QKV_Layout14NVTE_Bias_Type14NVTE_Mask_Type7int64_t7int64_t10NVTETensor12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/csrc/extensions/attention.cpp#L72C25-L72C39
+  python_lib_api: transformer_engine.pytorch.attention.dot_product_attention.backends.FusedAttention
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/attention/dot_product_attention/backends.py#L1357
+  cuda_name: [nvte_extract_seed_and_offset, nvte_fused_attn_fwd]
+
+# 17. transformer_engine_torch::fused_attn_bwd ✅
+# Fused Attention FP8/BF16/FP16 BWD with separate Q, K and V
+- name: transformer_engine_torch::fused_attn_bwd
+  size:
+  input:
+    - max_seqlen_q: 65536  # max sequence length for Q, used for padding; may be larger than max(seqlens_q),
+                           # seqlens_q = cu_seqlens_q[1:] - cu_seqlens_q[:-1]
+      max_seqlen_kv:  # max sequence length for K and V, used for padding;
+                      # may be larger than max(seqlens_kv),
+                      # seqlens_kv = cu_seqlens_kv[1:] - cu_seqlens_kv[:-1]
+      attn_scale: # default = None, if not None, use attn_scale as the attention scale for Q*K.T BMM;
+                  # if None, use 1.0/sqrt(head_dim_qk) as the default
+      p_dropout: 0.0  # dropout probability, 0.0 means no dropout, 1.0 means no output;
+      set_zero: True  # if True, initializes the output tensor O to zero using the fast filling method;
+                      # if False, uses PyTorch's .fill_() method
+      qkv_layout:  # layout of Q, K and V;
+                   # {"sb3hd", "sbh3d", "sbhd_sb2hd", "sbhd_sbh2d", "sbhd_sbhd_sbhd",
+                   # "bs3hd", "bsh3d", "bshd_bs2hd", "bshd_bsh2d", "bshd_bshd_bshd",
+                   # "t3hd", "th3d", "thd_t2hd", "thd_th2d", "thd_thd_thd"}
+      bias_type: # default = "no_bias", type of the bias; {"no_bias", "pre_scale_bias", "post_scale_bias", "alibi"}
+      attn_mask_type: # default = "padding", type of the attention mask; {"padding", "causal", "padding_causal", "no_mask"}
+      window_size: [-1, -1]  # sliding window size for local attention, where query at position i attends to keys
+                             # in [i + seqlen_k - seqlen_q - window_size[0], i + seqlen_k - seqlen_q
+                             # + window_size[1]] inclusive. Special cases (-1, -1) and (-1, 0) mean no sliding
+                             # window and causal mask specifically.
+      deterministic:  # Whether to execute with deterministic behaviours
+      cu_seqlens_q: #  cumulative sequence lengths for Q; shape [batch_size + 1]
+      cu_seqlens_kv: # cumulative sequence lengths for K and V; shape [batch_size + 1]
+      Q: # input tensor Q; shape sbhd, bshd or thd
+      K: # input tensor K; shape sbhd, bshd or thd
+      V: # input tensor V; shape sbhd, bshd or thd
+      O: # The O tensor from forward
+      dO: # The gradient of the O tensor
+      fake_dtype: # data type of Q, K and V - in case of high precision, fake dtype in case of FP8;
+      dqkv_type: # data type of dQ, dK and dV; in tex.DType, not torch.dtype
+      Aux_CTX_Tensors:  # Auxiliary tensors from context when in training mode, e.g. M, ZInv, rng_state.
+      cu_seqlens_q_padded: # cumulative sequence offsets for Q; shape [batch_size + 1]
+      cu_seqlens_kv_padded: # cumulative sequence offsets for KV; shape [batch_size + 1]
+      s_quantizer: # Quantizer object for the intermediate value S.
+      dp_quantizer: #  Quantizer object for the intermediate value dP.
+      dqkv_quantizer: # Quantizer object for the output values of the fused_attn_bwd.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_attn.html#_CPPv419nvte_fused_attn_bwdK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor10NVTETensorPK14NVTETensorPack10NVTETensor10NVTETensor10NVTETensor10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor6size_t6size_tff15NVTE_QKV_Layout14NVTE_Bias_Type14NVTE_Mask_Type7int64_t7int64_tb10NVTETensor12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/csrc/extensions/attention.cpp#L274
+  python_lib_api: transformer_engine.pytorch.attention.dot_product_attention.backends.FusedAttention
+  python_lib_url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/attention/dot_product_attention/backends.py#L1357
+  cuda_name: [nvte_get_qkv_format, nvte_fused_attn_bwd]
+
+# 18. transformer_engine_torch::fused_rope_forward ✅
+# Fused Attention FP8/BF16/FP16 FWD with separate Q, K and V
+- name: transformer_engine_torch::fused_rope_forward
+  size:
+  input:
+    - input:  # Input tensor for fused rope.
+    - freqs:  # The freqs tensor.
+    - start_positions:  # The beginning offsets for applying RoPE embeddings.
+    - qkv_format:  # QKV format.
+    - interleaved:  # Whether to use interleaved rotary position embedding.
+    - cu_seqlens:  # The cumulative sum of sequence lengths tensor. (Required for the thd format, empty tensor for other formats)
+    - cp_size:  # Context parallel world size.
+    - cp_rank:  # Context parallel rank.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_rope.html#_CPPv423nvte_fused_rope_forwardK10NVTETensorK10NVTETensorK10NVTETensorK10NVTETensor10NVTETensorK15NVTE_QKV_FormatKbKiKiKiKiKiKiKiKiKiKiKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/csrc/extensions/apply_rope.cpp#L12
+  cuda_name: [nvte_fused_rope_forward]
+
+# 19. transformer_engine_torch::fused_rope_backward ✅
+# Fused Attention FP8/BF16/FP16 BWD with separate Q, K and V
+- name: transformer_engine_torch::fused_rope_backward
+  size:
+  input:
+    - output_grads:  # Incoming gradient tensor for backward.
+    - freqs:  # The freqs tensor.
+    - qkv_format:  # QKV format.
+    - interleaved:  # Whether to use interleaved rotary position embedding.
+    - cu_seqlens:  # The cumulative sum of sequence lengths tensor. (Required for the thd format, empty tensor for other formats)
+    - cp_size:  # Context parallel world size.
+    - cp_rank:  # Context parallel rank.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_rope.html#_CPPv424nvte_fused_rope_backwardK10NVTETensorK10NVTETensorK10NVTETensor10NVTETensorK15NVTE_QKV_FormatKbKiKiKiKiKiKiKiKiKiKiKi12cudaStream_t
+  url: https://github.com/NVIDIA/TransformerEngine/blob/e0e3d1235d9da00dfca3f1cd3461187950bfd84e/transformer_engine/pytorch/csrc/extensions/apply_rope.cpp#L105
+  cuda_name: [nvte_fused_rope_backward]
+
+
+# 20. transformer_engine_torch::prepare_flash_attn_fwd ✅
+# Prepare QKV tensor for Flash Attention forward kernel.
+- name: transformer_engine_torch::prepare_flash_attn_fwd
+  size:
+  input:
+    - qkvi:  # Input tensor.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_attn.html#_CPPv427nvte_prepare_flash_attn_fwd10NVTETensor10NVTETensor12cudaStream_t
+  cuda_name: [nvte_prepare_flash_attn_fwd]
+
+# 21. transformer_engine_torch::prepare_flash_attn_bwd ✅
+# Prepare QKV tensor for Flash Attention backward kernel.
+- name: transformer_engine_torch::prepare_flash_attn_bwd
+  size:
+  input:
+    - q:  # Input query tensor.
+    - k:  # Input key tensor.
+    - v:  # Input value tensor.
+  op_desp_url: https://docs.nvidia.com/deeplearning/transformer-engine-releases/release-2.5/user-guide/api/c/fused_attn.html#_CPPv427nvte_prepare_flash_attn_bwd10NVTETensor10NVTETensor10NVTETensor10NVTETensor12cudaStream_t
+  cuda_name: [nvte_prepare_flash_attn_bwd]
+
+# dequantize
+# flash_attn_3::fwd; 
+# flash_attn_3::bwd; 

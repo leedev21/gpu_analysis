@@ -1,0 +1,35 @@
+config:
+  env:
+    hardware: A100SXM
+    software: nemo
+    n_nodes: 1
+    world_size: 8
+  model: qwen2_32b
+  modules:
+    qwen2:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, gradient_accumulation_steps]
+      loop: gradient_accumulation_steps
+      fwd:
+        - layer::Embedding;[micro_batch_size*seq_length, vocab_size, hidden_size]
+        - layer::GPTDecoder;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+        - layer::Post&Loss;[micro_batch_size*seq_length, hidden_size, vocab_size]
+    optim:
+      shape: [7, 1000000000]
+      fwd:
+        - layer::Adam
+  training:
+    micro_batch_size: 1
+    global_batch_size: 20
+    tensor_model_parallel_size: 8
+    pipeline_model_parallel_size: 8
+    gradient_accumulation_steps: 8
+    virtual_pipeline_model_parallel_size: 32
+    sequence_parallel: True
+    seq_length: 4096
+  feature:
+    transformer_engine: true
+    fp8: false
+    precision: bf16
+    ub_tp_comm_overlap: false
+module:
+  Decoder:

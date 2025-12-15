@@ -1,0 +1,9 @@
+model:
+  name: falcon_40b
+  size: 72
+  num_layers: 60
+  hidden_size: 8192
+  ffn_hidden_size: 24576
+  num_attention_heads: 128
+  vocab_size: 152064
+  swiglu: true

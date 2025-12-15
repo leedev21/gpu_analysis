@@ -1,0 +1,21 @@
+model:
+  name: wan2.1
+  size: 14
+  num_layers: 40
+  hidden_size: 5120
+  ffn_hidden_size: 13824
+  num_attention_heads: 40
+  num_hidden_dim: 128
+  freq_dim: 256
+  in_dim: 36
+  out_dim: 16
+  num_query_groups: 8
+  vocab_size: 152064
+  normalization: rmsnorm
+  position_embedding_type: rope
+  attention_type: multihead
+  patch_size: [1,2,2]
+  qk_norm: True
+  cross_attn_norm: True
+  sample_fps: 16
+  text_len: 512

@@ -1,0 +1,14 @@
+.vscode/
+cmake_build
+cublas/cpp/
+cublasLt/cpp/
+cuda/cpp/
+cudart/cpp/
+cufft/cpp/
+cupti/cpp/
+curand/cpp/
+cusparse/cpp/
+dnn/cpp/
+nccl/cpp/
+nvml/cpp/
+build/

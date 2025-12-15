@@ -1,0 +1,19 @@
+layer:
+  name: sdpa
+  type: 
+    - Torch
+#    - Megatron
+#    - TE_unfused
+#    - TE_fuse_softmax
+#    - TE_flash-attn
+  seq_length:
+#    - 2048
+#    - 4096
+    - 8192
+#    - 16384
+  shape: 
+    - ['seq_length', 1, 12, 128]
+    - ['seq_length', 1, 12, 128]
+    - ['seq_length', 1, 12, 128]
+  micro_batch_size: 1
+  precision: fp16

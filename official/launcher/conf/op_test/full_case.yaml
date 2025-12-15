@@ -1,0 +1,3 @@
+defaults:
+  - full_case@full_case_1d: full_case_1d
+  - full_case@full_case_2d: full_case_2d

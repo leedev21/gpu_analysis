@@ -1,0 +1,25 @@
+BlockWiseFP8Quant:
+  type: OP::Gemm
+  size:
+    M: [256]  # batch_size
+    K: [2048]  # input_dim
+    N: [2048]  # output_dim
+    GS: [128]  # group_size
+  input:
+    - lhs_scale:
+        _tensor: [M, K/GS]  # left scale tensor
+        precision: fp32
+        distributions: _fp8_scale_t
+      rhs_scale:
+        _tensor: [N/GS, K/GS]  # right scale tensor
+        precision: fp32
+        distributions: _fp8_scale
+  input2:
+    - lhs_scale:
+        _tensor: [M, K/GS]  # left scale tensor
+        precision: fp32
+        distributions: _fp8_scale_t
+      rhs_scale:
+        _tensor: [N/GS, K/GS]  # right scale tensor
+        precision: fp32
+        distributions: _fp8_scale

@@ -1,0 +1,6 @@
+name: GPT175B
+size: 175
+num_layers: 2
+hidden_size: 12288
+ffn_hidden_size: 49152
+num_attention_heads: 96

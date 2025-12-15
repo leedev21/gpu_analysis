@@ -1,0 +1,51 @@
+# - name: remainder
+#   input:
+#     - [8192]
+- name: aten::linalg_vector_norm
+  input:
+    - [151936, 896]
+  # load:
+  #   - linalg_vector_norm_151936x896xf32_0
+#     "Float",
+
+# {
+#                   "args_type" : "Scalar(int)",
+#                   "idx" : 1,
+#                   "isWrite" : false,
+#                   "name" : "ord",
+#                   "value" : 2
+#                },
+#                {
+#                   "args_type" : "Optional[List[int]]",
+#                   "idx" : 2,
+#                   "isWrite" : false,
+#                   "name" : "dim",
+#                   "value" : "None"
+#                },
+#                {
+#                   "args_type" : "bool",
+#                   "idx" : 3,
+#                   "isWrite" : false,
+#                   "name" : "keepdim",
+#                   "value" : false
+#                },
+#                {
+#                   "args_type" : "Optional[int]",
+#                   "idx" : 4,
+#                   "isWrite" : false,
+#                   "name" : "dtype",
+#                   "value" : "None"
+#                },
+#                {
+#                   "args_type" : "Tensor",
+#                   "idx" : 5,
+#                   "isWrite" : true,
+#                   "name" : "out",
+#                   "value" : 
+#                   {
+#                      "dtype" : "Float",
+#                      "is_contiguous" : true,
+#                      "size" : [],
+#                      "strides" : []
+#                   }
+#                }

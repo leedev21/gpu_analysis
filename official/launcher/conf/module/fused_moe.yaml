@@ -1,0 +1,14 @@
+layer:
+  name: fused_moe
+  type:
+    # - Vllm
+    # - Torch
+    - Ref
+  seq_length:
+    - 222
+  shape:
+    - [seq_length, 2048, 1024, 8, 2, 1, False]
+  init:
+    - [2048, 1024, 8, 2, 1]
+  micro_batch_size: 1
+  precision: bf16

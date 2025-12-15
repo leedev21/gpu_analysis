@@ -1,0 +1,221 @@
+vectorized_elementwise_kernel	kernel_name	{'name': "elementwise", 'type': 'vectorized'}
+unrolled_elementwise_kernel	kernel_name	{'name': "elementwise", 'type': 'unrolled'}
+elementwise_kernel	kernel_name	{'name': "elementwise", 'type': 'none'}
+index_elementwise_kernel	kernel_name	{'name': "elementwise", 'type': 'index'}
+elementwise_kernel_with_index	kernel_name	{'name': "elementwise", 'type': 'index'}
+multi_tensor_apply_kernel	kernel_name	{'op_name': "multi_apply", 'type': 'none'}
+DeviceRadixSortSingleTileKernel	kernel_name	{'op_name': "DeviceRadixSortSingleTile", 'type': 'none'}
+DeviceRadixSortExclusiveSumKernel	kernel_name	{'op_name': "DeviceRadixSortExclusiveSum", 'type': 'none'}
+DeviceRadixSortHistogramKernel	kernel_name	{'op_name': "DeviceRadixSortHistogram", 'type': 'none'}
+DeviceRadixSortOnesweepKernel	kernel_name	{'op_name': "DeviceRadixSortOnesweep", 'type': 'none'}
+DeviceReduceSingleTileKernel	kernel_name	{'op_name': "DeviceReduceSingleTile", 'type': 'none'}
+DeviceSelectSweepKernel	kernel_name	{'op_name': "DeviceSelectSweep", 'type': 'none'}
+DeviceCompactInitKernel	kernel_name	{'op_name': "DeviceCompactInit", 'type': 'none'}
+DeviceScanInitKernel	kernel_name	{'op_name': "DeviceScanInit", 'type': 'none'}
+DeviceUniqueByKeySweepKernel	kernel_name	{'op_name': "DeviceUniqueByKeySwee", 'type': 'none'}
+DeviceScanKernel	kernel_name	{'op_name': "DeviceScan", 'type': 'none'}
+krn_partials_per_segment	kernel_name	{'op_name': "krn_partials_per_segment", 'type': 'none'}
+krn_partial_segment_offset	kernel_name	{'op_name': "krn_partial_segment_offset", 'type': 'none'}
+compute_grad_weight	kernel_name	{'op_name': "compute_grad_weight", 'grad_weight': 'none'}
+compute_num_of_partial_segments	kernel_name	{'op_name': "compute_num_of_partial_segments", 'type': 'none'}
+distribution_elementwise_grid_stride_kernel	kernel_name	{'op_name': "distribution_elementwise_grid_stride", 'type': 'none'}
+sum_and_scatter	kernel_name	{'op_name': "sum_and_scatter", 'type': 'none'}
+splitKreduce_kernel	kernel_name	{'op_name': "splitKreduce", 'type': 'none'}
+triu_tril_kernel	kernel_name	{'op_name': "triu_tril", 'type': 'none'}
+gatherTopK	kernel_name	{'op_name': "gatherTopK", 'type': 'none'}
+bitonicSortKVInPlace	kernel_name	{'op_name': "bitonicSortKVInPlace", 'type': 'none'}
+write_indices	kernel_name	{'op_name': "write_indices", 'type': 'none'}
+_scatter_gather_elementwise_kernel	kernel_name	{'op_name': "elementwise", 'type': 'scatter_gather'}
+indexFuncSmallIndex	kernel_name	{'op_name': "indexFuncSmallIndex", 'type': 'none'}
+indexFuncLargeIndex	kernel_name	{'op_name': "indexFuncLargeIndex", 'type': 'none'}
+batched_transpose	kernel_name	{'op_name': "batched_transpose", 'type': 'none'}
+transpose	kernel_name	{'op_name': "transpose", 'type': 'none'}
+reduce_fused_impl	kernel_name	{'op_name': "reduce_fused", 'type': 'none'}
+swiglu_backward	kernel_name	{'op_name': "swiglu_backward", 'type': 'none'}
+swiglu	kernel_name	{'op_name': "swiglu", 'type': 'none'}
+normal_kernel	kernel_name	{'op_name': "normal", 'type': 'none'}
+apply_penalty_kernel	kernel_name	{'op_name': "apply_penalty", 'type': 'none'}
+index_put_kernel_impl	kernel_name	{'op_name': "index_put", 'type': 'none'}
+rotary_kernel	kernel_name	{'op_name': "rope", 'type': 'none'}
+_copy_tensor_kernel	kernel_name	{'op_name': "copy", 'type': 'none'}
+sigmoid_kernel	kernel_name	{'op_name': "sigmoid", 'type': 'none'}
+neg_kernel	kernel_name	{'op_name': "neg", 'type': 'none'}
+per_channel_cast	kernel_name	{'op_name': "per_channel_cast", 'type': 'none'}
+
+Memset	op_name	Memset
+Memcpy	op_name	Memcpy
+grouped_gemm	op_name	Grouped_Gemm
+gemm	op_name	Gemm
+FillFunctor	op_name	Fill
+CUDAFunctor_add	op_name	Add
+AllGather	op_name	AllGather
+ReduceScatter	op_name	ReduceScatter
+Broadcast	op_name	Broadcast
+direct_copy_kernel_cuda	op_name	direct_copy
+epilogue	op_name	epilogue
+SendRecv	op_name	SendRecv
+AllReduce	op_name	AllReduce
+L2NormFunctor	op_name	L2Norm
+BUnaryFunctor	op_name	BUnary
+AUnaryFunctor	op_name	AUnary
+UnaryOpFunctor	op_name	UnaryOp
+MulFunctor	op_name	Mul
+Sqrt	op_name	Sqrt
+sum_functor	op_name	Sum
+DivFunctor	op_name	Div
+ReduceOp	op_name	Reduce
+MaxOp	op_name	Max
+MeanOps	op_name	Mean
+NormTwoOps	op_name	NormTwo
+CatArrayBatchedCopy	op_name	CatArrayBatchedCopy
+compare_scalar_kernel	op_name	compare_scalar
+BinaryOpScalarFunctor	op_name	BinaryOpScalar
+BinaryOpScalarListFunctor	op_name	BinaryOpScalarList
+divides	op_name	Div
+multiplies	op_name	Mul
+std::plus	op_name	Add
+BinaryOpListAlphaFunctor	op_name	BinaryOpListAlpha
+PointwiseOpScalarFunctor	op_name	PointwiseOpScalar
+PointwiseOpScalarListFunctor	op_name	PointwiseOpScalarList
+BitwiseOrFunctor	op_name	BitwiseOr
+CUDAFunctorOnSelf_add	op_name	OnSelf_add
+masked_fill_kernel	op_name	masked_fill
+arange_cuda_out	op_name	arange_cuda_out
+globalKernelBgradAB_v1	op_name	BgradAB
+cleanup	op_name	cleanup
+pow_tensor_scalar_kernel_impl	op_name	pow_tensor_scalar_kernel_impl
+sqrt_kernel_cuda	op_name	sqrt_kernel_cuda
+exp_kernel_cuda	op_name	exp_kernel_cuda
+log_kernel_cuda	op_name	log_kernel_cuda
+index_kernel_impl	op_name	index_kernel_impl
+reciprocal_kernel_cuda	op_name	reciprocal_kernel_cuda
+launch_clamp_scalar	op_name	launch_clamp_scalar
+amp_update_scale_cuda_kernel	op_name	amp_update_scale
+detach	op_name	detach
+allreduce	op_name	AllReduce
+record_param_comms	op_name	record_param_comms
+topk	op_name	topk
+fill	op_name	fill
+AuxiliaryLossBackward	op_name	auxiliary_loss_bwd
+Mul	op_name	Mul
+Sum	op_name	Sum
+Select	op_name	Select
+View	op_name	View
+Div	op_name	Div
+Add	op_name	Add
+Gather	op_name	Gather
+Sigmoid	op_name	Sigmoid
+Matmul	op_name	Matmul
+AccumulateGrad	op_name	AccumulateGrad
+GradAccumulation	op_name	AccumulateGrad
+Linear	op_name	Linear
+GraphRoot	op_name	GraphRoot
+ReshapeAlias	op_name	ReshapeAlias
+Permute	op_name	Permute
+Slice	op_name	Slice
+AuxiliaryLoss	op_name	auxiliary_loss
+layer_norm_kernel	op_name	layer_norm
+
+indexSelectLargeIndex	big_op	{'op_name': "index_select", 'type': 'fwd', 'kernel_name': 'indexSelectLargeIndex'}
+embedding_backward_feature_kernel	big_op	{'op_name': "index_select", 'type': 'bwd', 'kernel_name': 'embedding_backward'}
+fmha_bwd_dot_do_o_kernel	big_op	{'op_name': "SDPA_fmha", 'type': 'bwd', 'kernel_name': 'fmha_bwd_dot_do_o'}
+fmha_bwd_q_dk_dv_loop_seqparallel_kernel	big_op	{'op_name': "SDPA_fmha", 'type': 'bwd', 'kernel_name': 'fmha_bwd_q_dk_dv_loop_seqparallel'}
+fmha_fwd_loop_kernel	big_op	{'op_name': "SDPA_fmha", 'type': 'fwd', 'kernel_name': 'fmha_fwd_loop'}
+prepare_kernel_fwd	big_op	{'op_name': "SDPA_prepare", 'type': 'fwd', 'kernel_name': 'prepare_kernel_fwd'}
+prepare_kernel_bwd	big_op	{'op_name': "SDPA_prepare", 'type': 'bwd', 'kernel_name': 'prepare_kernel_bwd'}
+DistAdamWithParamRemaindersFunctor	big_op	{'op_name': "DistAdam", 'type': 'optim', 'kernel_name': 'DistAdamWithParamRemaindersFunctor'}
+ln_fwd_tuned_kernel	big_op	{'op_name': "layer_norm1p", 'type': 'fwd', 'kernel_name': 'ln_fwd'}
+ln_bwd_tuned_kernel	big_op	{'op_name': "layer_norm1p", 'type': 'bwd', 'kernel_name': 'ln_bwd'}
+ln_bwd_finalize_tuned_kernel	big_op	{'op_name': "layer_norm1p", 'type': 'bwd', 'kernel_name': 'ln_bwd_finalize'}
+ln_fwd_kernel	big_op	{'op_name': "layer_norm", 'type': 'fwd', 'kernel_name': 'ln_fwd'}
+ln_bwd_kernel	big_op	{'op_name': "layer_norm", 'type': 'bwd', 'kernel_name': 'ln_bwd'}
+ln_bwd_finalize_kernel	big_op	{'op_name': "layer_norm", 'type': 'bwd', 'kernel_name': 'ln_bwd_finalize'}
+SoftMaxForward	big_op	{'op_name': "softmax", 'type': 'fwd', 'kernel_name': 'softmax_fwd'}
+fused_dropout_kernel_vec	big_op	{'op_name': "dropout", 'type': 'fwd', 'kernel_name': 'dropout_fwd'}
+fused_rope_forward	big_op	{'op_name': "rope", 'type': 'fwd', 'kernel_name': 'rope_fwd'}
+rmsnorm_bwd_finalize_tuned_kernel	big_op	{'op_name': "rmsnorm", 'type': 'bwd', 'kernel_name': 'rmsnorm_bwd_finalize'}
+indexing_backward_kernel	big_op	{'op_name': "index_select", 'type': 'bwd', 'kernel_name': 'index_select_bwd'}
+flash_fwd_kernel	big_op	{'op_name': "flash_attn", 'type': 'fwd', 'kernel_name': 'flash_attn_fwd'}
+flash_bwd_convert_dq_kernel	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'flash_attn_bwd_convert_dq'}
+rmsnorm_fwd_tuned_kernel	big_op	{'op_name': "rmsnorm", 'type': 'fwd', 'kernel_name': 'rmsnorm_fwd'}
+flash_bwd_dq_dk_dv_loop_seqk_parallel_kernel	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'flash_attn_bwd_dq_dk_dv'}
+flash_bwd_dot_do_o_kernel	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'flash_attn_bwd_dot_do_o'}
+fused_rope_backward	big_op	{'op_name': "rope", 'type': 'bwd', 'kernel_name': 'rope_bwd'}
+rmsnorm_bwd_tuned_kernel	big_op	{'op_name': "rmsnorm", 'type': 'bwd', 'kernel_name': 'rmsnorm_bwd'}
+indexSelectSmallIndex	big_op	{'op_name': "index_select", 'type': 'fwd', 'kernel_name': 'indexSelectSmallIndex'}
+fmha_cutlassB_bf16_aligned_128x128_k128_sm80	big_op	{'op_name': "fmha", 'type': 'bwd', 'kernel_name': 'fmha_bwd_bf16'}
+fmha_cutlassF_bf16_aligned_64x128_rf_sm80	big_op	{'op_name': "fmha", 'type': 'fwd', 'kernel_name': 'fmha_fwd_bf16'}
+nll_loss_forward_reduce_cuda_kernel_2d	big_op	{'op_name': "nll_loss", 'type': 'fwd', 'kernel_name': 'nll_loss_fwd'}
+nll_loss_backward_reduce_cuda_kernel_2d	big_op	{'op_name': "nll_loss", 'type': 'bwd', 'kernel_name': 'nll_loss_bwd'}
+scaled_upper_triang_masked_softmax_warp_backward	big_op	{'op_name': "scaled_upper_triang_masked_softmax", 'type': 'bwd', 'kernel_name': 'scaled_upper_triang_masked_softmax_bwd'}
+scaled_upper_triang_masked_softmax_warp_forward	big_op	{'op_name': "scaled_upper_triang_masked_softmax", 'type': 'fwd', 'kernel_name': 'scaled_upper_triang_masked_softmax_fwd'}
+softmax_warp_backward	big_op	{'op_name': "softmax", 'type': 'bwd', 'kernel_name': 'softmax_warp_bwd'}
+softmax_warp_forward	big_op	{'op_name': "softmax", 'type': 'fwd', 'kernel_name': 'softmax_warp_fwd'}
+cunn_SoftMaxForward	big_op	{'op_name': "softmax", 'type': 'fwd', 'kernel_name': 'cunn_softmax_fwd'}
+cunn_SoftMaxBackward	big_op	{'op_name': "softmax", 'type': 'bwd', 'kernel_name': 'cunn_softmax_bwd'}
+rotary_embedding_with_kv_cache_kernel	big_op	{'op_name': "rope_kv", 'type': 'fwd', 'kernel_name': 'rotary_embedding_with_kv_cache'}
+per_token_cast_to_fp8	big_op	{'op_name': "cast_to_fp8", 'kernel_name': 'per_token_cast_to_fp8'}
+Flash_fwd_kernel	big_op	{'op_name': "flash_attn", 'type': 'fwd', 'kernel_name': 'flash_attn_fwd'}
+top2_sum_gate	big_op	{'op_name': "top2_sum_gate", 'kernel_name': 'top2_sum_gate'}
+clean_and_count_expert	big_op	{'op_name': "clean_and_count_expert", 'kernel_name': 'clean_and_count_expert'}
+get_fused_mapping	big_op	{'op_name': "get_mapping", 'kernel_name': 'get_fused_mapping'}
+internode::dispatch	big_op	{'op_name': "dispatch", 'kernel_name': 'internode::dispatch'}
+expand_to_fused_with_scales_impl	big_op	{'op_name': "expand_with_scales", 'kernel_name': 'expand_to_fused_with_scales_impl'}
+get_dispatch_layout	big_op	{'op_name': "get_dispatch_layout", 'kernel_name': 'get_dispatch_layout'}
+internode::notify_dispatch	big_op	{'op_name': "notify_dispatch", 'kernel_name': 'internode::notify_dispatch'}
+internode::cached_notify	big_op	{'op_name': "cached_notify", 'kernel_name': 'internode::cached_notify'}
+internode::combine	big_op	{'op_name': "combine", 'kernel_name': 'internode::combine'}
+FlashAttnVarlenFunc	big_op	{'op_name': "flash_attn", 'type': 'fwd', 'kernel_name': 'flash_attn_fwd'}
+FlashAttnBwdPreprocess	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'FlashAttnBwdPreprocess'}
+FlashAttnBwdPostprocessConvert	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'FlashAttnBwdPostprocessConvert'}
+FlashAttnBwd	big_op	{'op_name': "flash_attn", 'type': 'bwd', 'kernel_name': 'FlashAttnBwd'}
+unique_group_indices_impl	big_op	{'op_name': "unique_group_indices", 'kernel_name': 'unique_group_indices'}
+aux_fi_imp	big_op	{'op_name': "aux_fi", 'kernel_name': 'aux_fi'}
+per_token_cast_back	big_op	{'op_name': "per_token_cast_back", 'kernel_name': 'per_token_cast_back'}
+cast_back_impl	big_op	{'op_name': "cast_back", 'kernel_name': 'cast_back'}
+sigmoid_backward_kernel	big_op	{'op_name': "sigmoid", 'type': 'bwd', 'kernel_name': 'sigmoid'}
+# fp8_gemm_kernel	big_op	{'op_name': "gemm", 'type': 'fwd', 'kernel_name': 'internode::cached_notify', 'op_precision': 'fp8'}
+
+triton__.*	regex	{'op_name': "", 'type': '', 'kernel_name': ''}
+kernel[0-9]+	regex	{'op_name': "", 'type': '', 'kernel_name': ''}
+GemmType.[0-9]+	regex	{'op_name': "", 'type': '', 'kernel_name': ''}
+
+sm90	hw_name	H100
+
+bf16	op_precision	bf16
+__nv_bfloat16	op_precision	bf16
+__bfloat	op_precision	bf16
+BFloat16	op_precision	bf16
+fp8	op_precision	fp8
+FP8	op_precision	fp8
+e4m3	op_precision	e4m3
+FP32	op_precision	fp32
+u64	op_precision	u64
+u32	op_precision	u32
+f32	op_precision	fp32
+
+cublasLt	op_group	cublasLt
+cutlass	op_group	cutlass
+cublas	op_group	cublas
+transformer_engine	op_group	transformer_engine
+CudaCodeGen	op_group	CudaCodeGen
+ncclKernel	op_group	Nccl
+flash_attention	op_group	flash_attention
+dpsk	op_group	deepseek
+C10d	op_group	C10d
+vllm	op_group	vllm
+nccl	op_group	nccl
+
+RING_LL_Sum_int8_t	op_type	RING_LL_Sum_int8_t
+RING_SIMPLE_Sum_int8_t	op_type	RING_SIMPLE_Sum_int8_t
+NVLS_LL_Sum	op_type	NVLS_LL_Sum
+nt_n	op_type	nt_n
+tn_n	op_type	tn_n
+nn_n	op_type	tn_n
+HtoD	op_type	HtoD
+DtoH	op_type	DtoH
+DtoD	op_type	DtoD
+Backward	op_type	bwd
+TREE_LL	op_type	TREE_LL
+
+

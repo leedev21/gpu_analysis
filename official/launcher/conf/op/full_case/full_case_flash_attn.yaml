@@ -1,0 +1,192 @@
+# flash_attn_v2
+# SB_LM_LD
+# - name: flash_attn::flash_attn.flash_attn_qkvpacked_func
+#   size:
+#     B: [1, 2, 4]
+#     M: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+#     NH: [8, 32]
+#     D: [128, 192, 256]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, M, 3, NH, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+
+# ## prefill
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [1, 2, 4]
+#     MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+#     NHQ: [8, 32]
+#     NHK: [8, 32]
+#     D: [128, 192, 256]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, MQKV, NHQ, D]
+#     - _tensor: [B, MQKV, NHK, D]
+#     - _tensor: [B, MQKV, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+# ## decoding
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [1, 2, 4]
+#     MQ: [1]
+#     MK: [2048, 4096, 8192, 16384, 32768, 65536, 131072]
+#     NHQ: [8, 32]
+#     NHK: [8, 32]
+#     D: [128, 192, 256]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, MQ, NHQ, D]
+#     - _tensor: [B, MK, NHK, D]
+#     - _tensor: [B, MK, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+
+# # SB_SM_SD
+# - name: flash_attn::flash_attn.flash_attn_qkvpacked_func
+#   size:
+#     B: [1, 2, 4, 8, 16, 32]
+#     M: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+#     NH: [1, 4, 8, 32]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, M, 3, NH, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+
+# ## prefill
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [1, 2, 4, 8, 16, 32]
+#     MQKV: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+#     NHQ: [1, 4, 8, 32]
+#     NHK: [1, 4, 8, 32]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, MQKV, NHQ, D]
+#     - _tensor: [B, MQKV, NHK, D]
+#     - _tensor: [B, MQKV, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+# ## decoding
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [1, 2, 4, 8, 16, 32]
+#     MQ: [1]
+#     MK: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+#     NHQ: [1, 4, 8, 32]
+#     NHK: [1, 4, 8, 32]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - _tensor: [B, MQ, NHQ, D]
+#     - _tensor: [B, MK, NHK, D]
+#     - _tensor: [B, MK, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+
+# flash_attn_v3
+- name: flash_attn::flash_attn_interface.flash_attn_func
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072, 75360]
+    # NHQ: [8, 10, 32]
+    NHK: [8, 10, 32, 40]
+    D: [128]
+    Drop: [0.0]
+    S: [0.0]
+    C: [True]
+    W: [[-1, -1]]
+    De: [False]
+  input:
+    - _tensor: [B, MQKV, NHK, D]
+      #precision: e4m3
+    - _tensor: [B, MQKV, NHK, D]
+      #precision: e4m3
+    - _tensor: [B, MQKV, NHK, D]
+      #precision: e4m3
+    # - qv: null
+      # q_descale:
+      #   _tensor: [B, NHK]
+      #   precision: fp32
+      # k_descale:
+      #   _tensor: [B, NHK]
+      #   precision: fp32
+      # v_descale:
+      #   _tensor: [B, NHK]
+      #   precision: fp32
+    - softcap: S
+      causal: C
+      window_size: W
+      # pack_gqa: False
+      # num_splits: 1
+
+
+# # - name: flash_attn::flash_attn.flash_attn_with_kvcache
+#     # q,
+#     # k_cache,
+#     # v_cache,
+#     # k=None,
+#     # v=None,
+#     # rotary_cos=None,
+#     # rotary_sin=None,
+#     # cache_seqlens: Optional[Union[(int, torch.Tensor)]] = None,
+#     # cache_batch_idx: Optional[torch.Tensor] = None,
+#     # block_table: Optional[torch.Tensor] = None,
+#     # softmax_scale=None,
+#     # causal=False,
+#     # window_size=(-1, -1),  # -1 means infinite context window
+#     # rotary_interleaved=True,
+#     # alibi_slopes=None,

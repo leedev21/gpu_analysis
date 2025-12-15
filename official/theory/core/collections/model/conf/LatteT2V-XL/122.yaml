@@ -1,0 +1,6 @@
+model:
+  name: LatteT2V-XL122
+  size: 1.5
+  num_layers: 32
+  num_attention_heads: 16
+  hidden_size: 2048

@@ -1,0 +1,3 @@
+recursive-include torchtrace/library support_by_torch.txt
+recursive-include torchtrace/library op_trace_default.yaml
+recursive-include torchtrace/library module_trace_default.yaml

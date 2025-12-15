@@ -1,0 +1,49 @@
+layer:
+  name: deepseek_mlp
+  type:
+    - MOE_Fusion
+    # - MLP_Fusion
+    # - MOE
+    # - MLP
+  config:
+    MOE:
+      - use_moe
+    MLP:
+      - base
+    RMS:
+      - has_rms_norm
+    Fusion:
+      - fusion
+    Compile:
+      - compile
+  seq_length:
+    - 32
+    # - 30000
+  input:
+    - [1, seq_length, 7168]
+  init:
+    - hidden_size: 7168
+      rms_norm_eps: 1e-5
+      intermediate_size: 18432
+      n_routed_experts: 256
+      # n_routed_experts: 4
+      hidden_act: silu
+      n_shared_experts: 1
+      topk_method: noaux_tc
+      num_experts_per_tok: 8
+      # num_experts_per_tok: 2
+      moe_intermediate_size: 2048
+      norm_topk_prob: 0.0
+      n_group: 8
+      topk_group: 8
+      # n_group: 2
+      # topk_group: 2
+      scoring_func: sigmoid
+      quant_config: 0.0
+      enable_eplb: False
+      first_k_dense_replace: 3
+      routed_scaling_factor: 1
+      moe_layer_freq: 1
+      layer_idx: 5
+  micro_batch_size: 1
+  precision: bf16

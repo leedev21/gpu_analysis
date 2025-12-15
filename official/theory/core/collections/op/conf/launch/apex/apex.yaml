@@ -1,0 +1,104 @@
+- name: apex::scaled_upper_triang_masked_softmax_cuda.forward
+  input:
+    - [8, 6144, 6144]
+    - 0.01
+- name: apex::fused_layer_norm_cuda.forward
+  size:
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+    N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+  input:
+    - [M, N]
+    - _val: [N]
+    - _val: 0.0001
+- name: apex::fused_layer_norm_cuda.rms_forward
+  size:
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+    N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432, 27648, 53248]
+  input:
+    - [M, N]
+    - _val: [N]
+    - _val: 0.0001
+- name: apex::fused_rotary_positional_embedding.forward
+  size:
+    M: [1, 2, 4, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+    B: [1]
+    H: [2, 4, 8, 16, 32, 64, 128]
+    D: [16, 32, 64, 128, 256]
+    T: [true, false]
+  input:
+    - [M, B, H, D] #[seq,batch,head,dim]
+    - _tensor: [M, 1, 1, D]
+      precision: fp32
+    - _val: T
+- name: apex::fused_rotary_positional_embedding.backward
+  size:
+    M: [1, 2, 4, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536]
+    B: [1]
+    H: [2, 4, 8, 16, 32, 64, 128]
+    D: [16, 32, 64, 128, 256]
+    T: [true, false]
+  input:
+    - [M, B, H, D] #[seq,batch,head,dim]
+    - _tensor: [M, 1, 1, D]
+      precision: fp32
+    - _val: T
+- name: apex::fused_rotary_positional_embedding.forward
+  size:
+    M: [1, 2, 4, 256, 512, 1024, 2048, 4096]
+    B: [2, 4, 8, 16, 32]
+    H: [1, 4, 8, 16, 32, 64]
+    D: [16, 32, 64, 128]
+    T: [true, false]
+  input:
+    - [M, B, H, D] #[seq,batch,head,dim]
+    - _tensor: [M, 1, 1, D]
+      precision: fp32
+    - _val: T
+- name: apex::fused_rotary_positional_embedding.backward
+  size:
+    M: [1, 2, 4, 256, 512, 1024, 2048, 4096]
+    B: [2, 4, 8, 16, 32]
+    H: [1, 4, 8, 16, 32, 64]
+    D: [16, 32, 64, 128]
+    T: [true, false]
+  input:
+    - [M, B, H, D] #[seq,batch,head,dim]
+    - _tensor: [M, 1, 1, D]
+      precision: fp32
+    - _val: T
+- name: apex::amp_C.multi_tensor_adam
+  size:
+    M: [32, 64, 128, 192, 3072, 6144, 8192]
+    N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432]
+  input:
+    - _val: 65536
+    - _tensor: Zero
+      precision: fp32
+    - [[[M,N]], [[M,N]], [[M,N]], [[M,N]]] #tensorlist:[tensor1,tensor2,tensor3,tensor4,...]
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.0001
+    - 1
+    - 1
+    - 1
+    - 0.01
+- name: apex::amp_C.multi_tensor_l2norm
+  size:
+    M: [32, 64, 128, 192, 3072, 6144, 8192]
+    N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432]
+  input:
+    - _val: 65536
+    - _tensor: Zero
+      precision: fp32
+    - [[[M,N]]] #tensorlist:[tensor1,tensor2,tensor3,tensor4,...]
+    - False
+- name: apex::amp_C.multi_tensor_scale
+  size:
+    M: [32, 64, 128, 192, 3072, 6144, 8192]
+    N: [32, 64, 128, 192, 3072, 6144, 8192, 13824, 16384, 18432]
+  input:
+    - _val: 65536
+    - _tensor: Zero
+    - [[[M,N]],[[M,N]]] #tensorlist:[tensor1,tensor2,tensor3,tensor4,...]
+    - 0.125

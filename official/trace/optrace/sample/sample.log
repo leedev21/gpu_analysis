@@ -1,0 +1,8 @@
+A123:0:0 %1:<32x16xf16> = torch.2_10.aten::empty()
+A123:0:0 %2:<f16> = torch.2_10.aten::empty()
+A123:0:0 %3:<32x16xf16> = torch.2_10.aten::add(%1:<32x16xf16>{1, 32}+1024, %2:<f16>, 2.0:f32)
+A123:0:0 %4:<32x16xf16> = torch.2_10.aten::empty(rand{seed=123:i32, offset=0:i32})
+A123:0:0 %5:<32x16xf16> = torch.2_10.aten::sample_op(tuple{%1:<32x16xf16>{1, 32}+1024, seed=123:i32, offset=0:i32})
+A123:0:0 %6:tuple{%7:<32x16xf16>, %8:<32x16xf16>, count=2:i32} = torch.2_10.aten::sample_op(tuple{%1:<32x16xf16>{1, 32}+1024, embed_tuple:tuple{a=1.0:f32, b=32:i16}})
+A123:0:0 %9:tuple{%10:<32x16xf16>, %11:<32x16xf16>, count=2:i32} = torch.2_10.aten::sample_op(tuple01=tuple{%1:<32x16xf16>{1, 32}+1024, etuple=embed_tuple:tuple{a=1.0:f32, b=32:i16}})
+A11738:100:100 %6:<2x3xf32>{3, 1} = torch.2_3_0.aten::rand(%4:list{2:int, 3:int}, generator=%5:tuple{seed=123:i32, offset=None:NoneType}, dtype=None:NoneType, layout=None:NoneType, device=cpu:device, pin_memory=False:bool)

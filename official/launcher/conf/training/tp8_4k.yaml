@@ -1,0 +1,9 @@
+tensor_model_parallel_size: 8
+pipeline_model_parallel_size: 1
+context_parallel_size: 1
+sequence_parallel: True
+gradient_accumulation_steps: 8
+micro_batch_size: 1
+seq_length: 4096
+precision: bf16
+forward_only: False

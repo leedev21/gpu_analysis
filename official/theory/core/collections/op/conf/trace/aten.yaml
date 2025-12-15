@@ -1,0 +1,291 @@
+# 2D
+aten::matmul:
+  aten::mm
+aten::mm:
+  type: std
+  basic: op::MM
+aten::bmm:
+  type: std
+  basic: op::MM
+
+# Emb
+aten::embedding:
+  type: std
+  basic: op::EmbeddingFwd
+  mapping: [0, 1]
+aten::embedding_dense_backward:
+  type: std
+  basic: op::EmbeddingBwd
+  mapping: [0, 1]
+
+# Attention
+aten::_scaled_dot_product_efficient_attention:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [0, 1, 2]
+    outputs: [0, 1, 2]
+aten::_scaled_dot_product_efficient_attention_backward:
+  type: std
+  basic: op::AttnBwd
+  mapping:
+    inputs: [0, 1, 2, 3, 5]
+    outputs: [0, 1, 2]
+
+# 1D
+aten::add:
+  type: std
+  basic: op::Add
+aten::add_:
+  type: std
+  basic: op::Add
+aten::mul:
+  type: std
+  basic: op::Mul
+aten::mul_:
+  type: std
+  basic: op::Mul
+aten::div:
+  type: std
+  basic: op::Div
+aten::div_:
+  type: std
+  basic: op::Div
+aten::sub:
+  type: std
+  basic: op::Sub
+aten::sub_:
+  type: std
+  basic: op::Sub
+aten::rsub:
+  type: std
+  basic: op::Sub
+aten::sum:
+  type: std
+  basic: op::Sum
+  mapping: [0]
+aten::mean:
+  type: std
+  basic: op::Mean
+  mapping: [0]
+aten::max:
+  type: std
+  basic: op::Max
+  mapping: [0]
+aten::cos:
+  type: std
+  basic: op::Cos
+aten::sin:
+  type: std
+  basic: op::Sin
+aten::exp:
+  type: std
+  basic: op::Exp
+aten::exp2:
+  type: std
+  basic: op::Exp2
+aten::log:
+  type: std
+  basic: op::Log
+aten::pow:
+  type: std
+  basic: op::Pow
+  mapping: [0]
+aten::sqrt:
+  type: std
+  basic: op::Sqrt
+aten::rsqrt:
+  type: std
+  basic: op::Sqrt
+aten::ceil:
+  type: std
+  basic: op::Ceil
+aten::tanh:
+  type: std
+  basic: op::Tanh
+aten::silu:
+  type: std
+  basic: op::Silu
+aten::sigmoid:
+  type: std
+  basic: op::SigmoidFwd
+aten::sigmoid_backward:
+  type: std
+  basic: op::SigmoidBwd
+aten::topk:
+  type: std
+  basic: op::Topk
+  mapping: [0]
+aten::sort:
+  type: std
+  basic: op::Sort
+
+# DTE
+aten::transpose:
+  type: dte
+  basic: op::DTE
+aten::contiguous:
+  type: dte
+  traced: False
+  call: aten::clone
+aten::clone:
+  type: dte
+  call: aten::copy_
+aten::to:
+  type: dte
+  call: aten::_to_copy
+aten::_to_copy:
+  type: dte
+  call: aten::copy_
+  mapping: [0]
+aten::copy_:
+  type: dte
+  basic: op::DTE
+# aten::arange:
+#   type: std
+#   basic: op::DTE
+
+# aten::split
+# aten::scatter
+aten::scatter_:
+  type: std
+# aten::scatter_add
+# aten::scatter_add_
+# aten::gather
+# aten::masked_fill
+# aten::masked_select
+# aten::masked_scatter
+aten::index:
+  type: std
+  call: aten::nonzero
+aten::nonzero:
+  type: std
+aten::index_select:
+  type: std
+# aten::index_put
+# aten::index_put_
+# aten::index_add
+# aten::repeat_interleave
+aten::stack:
+  type: std
+  call: aten::cat
+aten::cat:
+  type: std
+# aten::chunk
+# aten::unbind
+# aten::select_backward
+aten::squeeze:
+  type: framework
+
+aten::new_zeros:
+  type: framework
+aten::new_ones:
+  type: framework
+aten::ones:
+  type: std
+  call: aten::fill_
+aten::zeros:
+  type: std
+  call: aten::zero_
+aten::zero_:
+  type: std
+  call: aten::fill_
+aten::ones_like:
+  type: std
+  call: aten::fill_
+aten::fill_:
+  type: std
+aten::bitwise_not:
+  type: std
+aten::__and__:
+  type: std
+  traced: False
+  call: aten::bitwise_and
+aten::bitwise_and:
+  type: std
+# aten::bitwise_or
+aten::logical_not:
+  type: std
+aten::logical_or:
+  type: std
+
+
+aten::sign:
+  type: std
+aten::isnan:
+  type: std
+  call: aten::ne
+aten::isinf:
+aten::eq:
+  type: std
+aten::ne:
+  type: std
+aten::le:
+  type: std
+aten::ge:
+  type: std
+# aten::neg
+aten::lt:
+  type: std
+aten::abs:
+  type: std
+aten::gt:
+  type: std
+
+aten::slice:
+  type: framework
+aten::split_with_sizes:
+  type: framework
+aten::unsqueeze:
+  type: framework
+aten::resize_:
+  type: framework
+aten::clamp:
+  type: std
+aten::is_nonzero:
+  type: framework
+aten::item:
+  type: framework
+aten::_local_scalar_dense:
+  type: framework
+aten::permute:
+  type: framework
+aten::record_stream:
+  type: framework
+aten::slice_backward:
+  type: framework
+
+aten::all:
+  type: std
+
+# aten::maximum
+# aten::minimum
+
+# aten::remainder
+aten::cumsum:
+  type: std
+
+aten::any:
+  type: std
+aten::normal_:
+  type: std
+
+aten::linalg_vector_norm:
+  type: std
+
+aten::_foreach_copy_:
+  type: std
+aten::_foreach_norm:
+  type: std
+aten::_foreach_mul_:
+  type: std
+aten::scalar_tensor:
+  type: framework
+aten::where:
+  type: std
+aten::min:
+  type: std
+aten::equal:
+  type: std
+aten::reciprocal:
+  type: std

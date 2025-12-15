@@ -1,0 +1,45 @@
+acc:
+  _input_normal:
+    distribution: normal
+    max: 6
+    min: 6
+    small_val: -25
+    mean: -5
+    std: 0.26
+  _weight_normal:
+    distribution: normal
+    max: 1
+    min: 1
+    small_val: -20
+    mean: -5
+    std: 0.26
+  _weight_linear:
+    distribution: normal
+    max: 8
+    min: 8
+    small_val: -10
+    mean: 5
+    std: 0.26
+  _input_linear:
+    distribution: uniform
+    max: 16
+    min: 16
+    small_val: -25
+    mean: -3
+  _fp8_scale:
+    distribution: scale
+  _fp8_scale_t:
+    distribution: scale_t
+  _zero:
+    distribution: zeros
+  _ones:
+    distribution: ones
+  _eye:
+    distribution: eye
+  _randint:
+    distribution: randint
+    low: 0
+    high: 65535
+
+
+

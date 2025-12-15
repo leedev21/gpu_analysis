@@ -1,0 +1,261 @@
+- 1_1_fwd_module::DeepseekV3ForCausalLM:
+  - 1_1_fwd_module::VocabParallelEmbedding:
+    - name: aten::ge
+    - name: aten::lt
+    - name: aten::ge
+    - name: aten::lt
+    - name: aten::mul
+    - name: aten::mul
+    - name: aten::add
+    - name: aten::sub
+    - name: aten::mul
+    - name: aten::bitwise_not
+    - name: aten::embedding
+    - name: aten::masked_fill_
+    - name: vllm::all_reduce
+  - 1_1_fwd_module::DeepseekV2DecoderLayer:
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::DeepseekV2MLAAttention:
+      - 1_1_fwd_module::ReplicatedLinear:
+        - name: vllm::_per_token_group_quant_fp8_colmajor
+        - name: vllm::apply_w8a8_block_fp8_linear
+      - 1_1_fwd_module::RMSNorm:
+        - name: _C::rms_norm
+      - 1_1_fwd_module::ColumnParallelLinear:
+        - name: vllm::_per_token_group_quant_fp8_colmajor
+        - name: vllm::apply_w8a8_block_fp8_linear
+      - 1_1_fwd_module::ReplicatedLinear:
+        - name: vllm::_per_token_group_quant_fp8
+        - name: vllm::_w8a8_block_fp8_matmul
+        - name: vllm::apply_w8a8_block_fp8_linear
+      - 1_1_fwd_module::RMSNorm:
+        - name: _C::rms_norm
+      - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+        - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+          - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+            - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+              - name: aten::index
+              - name: aten::repeat_interleave
+              - name: aten::repeat_interleave
+              - name: aten::mul
+              - name: aten::neg
+              - name: aten::stack
+              - name: aten::mul
+              - name: aten::add
+              - name: aten::mul
+              - name: aten::neg
+              - name: aten::stack
+              - name: aten::mul
+              - name: aten::add
+    - name: aten::copy_
+    - 1_1_fwd_module::Attention:
+      - name: vllm::unified_attention_with_output
+    - 1_1_fwd_module::RowParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+      - name: vllm::all_reduce
+  - 1_1_fwd_module::RMSNorm:
+    - name: _C::fused_add_rms_norm
+  - 1_1_fwd_module::DeepseekV2MLP:
+    - 1_1_fwd_module::MergedColumnParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::SiluAndMul:
+      - name: _C::silu_and_mul
+    - 1_1_fwd_module::RowParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+      - name: vllm::all_reduce
+- 1_1_fwd_module::DeepseekV2DecoderLayer:
+  - 1_1_fwd_module::RMSNorm:
+    - name: _C::fused_add_rms_norm
+  - 1_1_fwd_module::DeepseekV2MLAAttention:
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::ColumnParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8
+      - name: vllm::_w8a8_block_fp8_matmul
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+      - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+        - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+          - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+            - name: aten::index
+            - name: aten::repeat_interleave
+            - name: aten::repeat_interleave
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+  - name: aten::copy_
+  - 1_1_fwd_module::Attention:
+    - name: vllm::unified_attention_with_output
+  - 1_1_fwd_module::RowParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+    - name: vllm::all_reduce
+- 1_1_fwd_module::RMSNorm:
+  - name: _C::fused_add_rms_norm
+- 1_1_fwd_module::DeepseekV2MLP:
+  - 1_1_fwd_module::MergedColumnParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+  - 1_1_fwd_module::SiluAndMul:
+    - name: _C::silu_and_mul
+  - 1_1_fwd_module::RowParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+    - name: vllm::all_reduce
+- 1_1_fwd_module::DeepseekV2DecoderLayer:
+  - 1_1_fwd_module::RMSNorm:
+    - name: _C::fused_add_rms_norm
+  - 1_1_fwd_module::DeepseekV2MLAAttention:
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::ColumnParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8
+      - name: vllm::_w8a8_block_fp8_matmul
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+      - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+        - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+          - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+            - name: aten::index
+            - name: aten::repeat_interleave
+            - name: aten::repeat_interleave
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+  - name: aten::copy_
+  - 1_1_fwd_module::Attention:
+    - name: vllm::unified_attention_with_output
+  - 1_1_fwd_module::RowParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+    - name: vllm::all_reduce
+- 1_1_fwd_module::RMSNorm:
+  - name: _C::fused_add_rms_norm
+- 1_1_fwd_module::DeepseekV2MLP:
+  - 1_1_fwd_module::MergedColumnParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+  - 1_1_fwd_module::SiluAndMul:
+    - name: _C::silu_and_mul
+  - 1_1_fwd_module::RowParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+    - name: vllm::all_reduce
+- 1_1_fwd_module::DeepseekV2DecoderLayer:
+  - 1_1_fwd_module::RMSNorm:
+    - name: _C::fused_add_rms_norm
+  - 1_1_fwd_module::DeepseekV2MLAAttention:
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::ColumnParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::ReplicatedLinear:
+      - name: vllm::_per_token_group_quant_fp8
+      - name: vllm::_w8a8_block_fp8_matmul
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::RMSNorm:
+      - name: _C::rms_norm
+    - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+      - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+        - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+          - 1_1_fwd_module::DeepseekScalingRotaryEmbedding:
+            - name: aten::index
+            - name: aten::repeat_interleave
+            - name: aten::repeat_interleave
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+            - name: aten::mul
+            - name: aten::neg
+            - name: aten::stack
+            - name: aten::mul
+            - name: aten::add
+  - name: aten::copy_
+  - 1_1_fwd_module::Attention:
+    - name: vllm::unified_attention_with_output
+  - 1_1_fwd_module::RowParallelLinear:
+    - name: vllm::_per_token_group_quant_fp8_colmajor
+    - name: vllm::apply_w8a8_block_fp8_linear
+    - name: vllm::all_reduce
+- 1_1_fwd_module::RMSNorm:
+  - name: _C::fused_add_rms_norm
+- 1_1_fwd_module::DeepseekV2MoE:
+  - 1_1_fwd_module::DeepseekV2MLP:
+    - 1_1_fwd_module::MergedColumnParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+    - 1_1_fwd_module::SiluAndMul:
+      - name: _C::silu_and_mul
+    - 1_1_fwd_module::RowParallelLinear:
+      - name: vllm::_per_token_group_quant_fp8_colmajor
+      - name: vllm::apply_w8a8_block_fp8_linear
+  - 1_1_fwd_module::ReplicatedLinear:
+    - name: aten::linear
+  - 1_1_fwd_module::FusedMoE:
+    - name: aten::sigmoid
+    - name: aten::add
+    - name: aten::topk
+    - name: aten::sum
+    - name: aten::topk
+    - name: aten::scatter_
+    - name: aten::bitwise_not
+    - name: aten::masked_fill
+    - name: aten::topk
+    - name: aten::gather
+    - name: aten::sum
+    - name: aten::div
+    - name: vllm::_per_token_group_quant_fp8
+    - name: vllm::fused_moe_kernel
+    - name: vllm::_per_token_group_quant_fp8
+    - name: vllm::fused_moe_kernel
+    - name: vllm::inplace_fused_experts
+  - name: aten::mul
+  - name: aten::add
+  - name: vllm::all_reduce
+- 1_1_fwd_module::RMSNorm:
+  - name: _C::fused_add_rms_norm
+- name: aten::index
+- 1_1_fwd_module::LogitsProcessor:
+  - name: aten::linear
+  - name: vllm::all_gather
+- name: aten::argmax

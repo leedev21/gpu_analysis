@@ -1,0 +1,5 @@
+robotpy-cppheaderparser==5.0.16
+setuptools==74.1.2
+packaging==24.2
+pyyaml
+omegaconf

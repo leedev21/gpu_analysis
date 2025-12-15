@@ -1,0 +1,18 @@
+op:
+  - aten::embedding
+  - vllm::all_reduce
+  - _C::rms_norm
+  - vllm::apply_w8a8_block_fp8_linear
+  - _C_cache_ops::concat_and_cache_mla
+  - _vllm_fa2_C::varlen_fwd
+  - _C::fused_add_rms_norm
+  - _C::silu_and_mul
+  - _moe_C::sgl_moe_align_block_size
+  - _moe_C::moe_sum
+  - vllm::all_gather
+  - _flashmla_C::fwd_kvcache_mla
+  - aten::linear
+
+max: 100
+path: ../model-theory/AccTest/data/pt
+save_tensor: all # all tensor calc

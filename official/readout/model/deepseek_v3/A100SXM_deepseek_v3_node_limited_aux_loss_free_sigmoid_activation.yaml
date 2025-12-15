@@ -1,0 +1,159 @@
+config:
+  env:
+    hardware: A100SXM
+    software: nemo
+    n_nodes: 1
+    world_size: 8
+  model: deepseek_v3
+  trainer:
+    precision: bf16
+    micro_batch_size: 1
+    tensor_model_parallel_size: 1
+    virtual_pipeline_model_parallel_size: null
+    encoder_seq_length: 4096
+    max_position_embeddings: 4096
+    hidden_size: 7168
+    ffn_hidden_size: 18432
+    num_attention_heads: 128
+    # num_query_groups: 8
+    normalization: RMSNorm
+    position_embedding_type: rope
+    # attention_type: multihead
+    # transformer_engine: true
+    # fp8: false
+    # ub_tp_comm_overlap: false
+module:
+  # Embedding:
+  #   fwd:
+  #     - layer::VocabParallelEmbedding:
+  #       - name: aten::embedding
+  #         shape: [[102400, 7168], [1, 4096], [], [], []]
+  #         duration: 308.220us
+  #   bwd:
+  #     - layer::VocabParallelEmbedding:
+  #       - name: aten::embedding_backward
+  #         shape: [[1, 4096, 7168], [1, 4096]]
+  #         duration: 1.721ms
+  Decoder:
+    fwd:
+      - layer::RMSNorm:
+        - name: nvte_rmsnorm_fwd
+          shape: [[4096, 7168], [7168]]
+          duration: 136.030us
+      - layer::self_attention.linear_q_up_proj:
+        - name: nvte_cublas_gemm
+          shape: [[24576, 1536], [4096, 1536],[4096,24576]]
+          duration: 1.198ms
+      - layer::self_attention.linear_q_down_proj:
+        - name: nvte_cublas_gemm
+          shape: [[1536, 7168], [4096, 7168],[4096,1536]]
+          duration: 349.787us
+      - layer::self_attention.linear_kv_down_proj:
+        - name: nvte_cublas_gemm
+          shape: [[576, 7168], [4096, 7168],[4096,576]]
+          duration: 186.014us
+      - layer::self_attention.linear_kv_up_proj:
+        - name: nvte_cublas_gemm
+          shape: [[32768, 512], [4096,512],[4096,32768]]
+          duration: 589.368us
+      - layer:self_attention.rotary_pos_emb:
+        - name: FusedRoPEFunc
+          shape: [[4096, 128, 64], [4096, 64]]
+          duration: 151.998us
+      - layer::Matmul_1:
+        - name: aten::baddbmm
+          shape: [[128, 4096, 4096], [128, 4096, 192], [128,192,4096]]
+          duration: 6.092ms
+      - layer::ScaledAlignedCausalMaskedSoftmax:
+        - name:  aten::softmax_forward
+          shape: [[1, 128, 4096, 4096]]
+          duration: 7.029ms
+      - layer::Matmul_2:
+        - name: aten::bmm
+          shape: [[128, 4096, 4096], [128, 4096, 128], [128, 4096, 128]]
+          duration: 3.440ms
+      - layer::self_attention.linear_proj:
+        - name: nvte_cublas_gemm
+          shape: [[7168, 16384], [4096, 16384],[4096,7168]]
+          duration: 3.491ms
+      - layer::Add:
+        - name: aten::add
+          shape: [[4096, 1, 7168], [4096, 1, 7168], [4096, 1, 7168]]
+          duration: 120.318us
+      - layer:mlp.linear_fc1:
+        - name: nvte_cublas_gemm
+          shape:   [[36864, 7168],[4096, 7168], [4096, 36864]]
+          duration: 7.419ms
+      - layer:mlp.shared_experts.linear_fc1:
+        - name: nvte_cublas_gemm
+          shape:  [[4096, 7168],[4096, 7168],[4096, 4096]]
+          duration: 877.620us
+      - layer::Silu Dense Decoder:
+        - name: aten::silu
+          shape: [[4096, 18432]]
+          duration: 364.443us
+      - layer::Silu MOE Decoder:
+        - name: aten::silu
+          shape: [[4096, 2048]]
+          duration: 41.855us
+      - layer:Elementwise_Mul:
+        - name: aten::mul
+          shape: [[4096, 18432],[ 4096, 18432]]
+          duration: 385.114us
+      # - layer:MUL:
+      #   - name: aten::mul
+      #     shape: [[4096, 102400], [4096]]
+      #     duration: 2.465ms
+      - layer:mlp.linear_fc2:
+        - name: nvte_cublas_gemm
+          shape: [[7168, 18432],  [4096, 18432],  [4096, 7168]]
+          duration: 3.920ms
+      - layer:mlp.shared_experts.linear_fc2:
+        - name: nvte_cublas_gemm
+          shape: [[7168, 2048], [4096, 2048], [4096, 7168]]
+          duration: 487.545us
+      # - layer:All2All(F-fp8,B-fp16):
+      #   - name: c10d::alltoall_base_
+      #     shape: [[8192, 7168], [3105, 7168]]
+      #     duration:  4.726ms
+      - layer::TopKRouter:
+        - name: aten::topk
+          shape: [[4096, 32]]
+          duration: 27.519us
+      - layer:TopKRouter sigmoid:
+        - name: aten::sigmoid
+          shape: [[4096, 32]]
+          duration: 3.040us
+      # - layer:_VocabParallelCrossEntropy:
+      #   - name: aten::cross_entropy_loss
+      #     shape: [[4096, 1, 102400], [4096, 1]]
+      #     duration:  12.057ms
+      # - layer:all_gather:
+      #   - name: AllGather
+      #     shape: [[32]]
+      #     duration: 14.303us
+    bwd:
+      - layer:Silu Dense Decoder:
+        - name: aten::silu_backward
+          shape: [[4096, 1, 18432], [4096, 1, 18432]]
+          duration: 417.530us
+      - layer:Silu MOE Decoder:
+        - name: aten::silu_backward
+          shape: [[4096, 2048], [4096,2048]]
+          duration: 52.767us
+      - layer:ScaledAlignedCausalMaskedSoftmaxBackward:
+        - name:  aten::softmax_backward
+          shape: [[1, 128, 4096, 4096]]
+          duration: 9.958ms
+      - layer:RMSNorm(_RMSNormBackward):
+        - name: nvte_rmsnorm_bwd
+          shape: [[4096, 7168]]
+          duration: 214.365us
+      - layer:FusedRoPEFuncBackward:
+        - name: FusedRoPEFuncBackward
+          shape: [[4096, 64], [4096, 64]]
+          duration: 10.240us
+      - layer:TopKRouter:
+        - name: aten::sigmoid_backward
+          shape: [[4096, 32], [4096, 32]]
+          duration: 2.368us

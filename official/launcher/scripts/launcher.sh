@@ -1,0 +1,1 @@
+PYTHONPATH=$PWD python launcher/scheduler.py

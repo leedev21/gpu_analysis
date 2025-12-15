@@ -1,0 +1,7 @@
+flash_attn::varlen_fwd:
+  type: std
+  basic: op::AttnFwd
+  mapping:
+    inputs: [12, 13, 14]
+    outputs: [0]
+  gpu_kernel: 

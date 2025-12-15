@@ -1,0 +1,6 @@
+module:
+  - Attention
+
+max: 100
+path: ../model-theory/AccTest/data/pt
+save_tensor: calc # all tensor calc

@@ -1,0 +1,140 @@
+# base embedding
+# - name: aten::index_select
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+#     N: [32, 128, 1024, 8192, 16384]
+#     E: [102400]
+#   input:
+#     - _tensor: [E, N]
+#     - 0
+#     - _tensor: [M]
+#       high: E
+#       precision: long
+# - name: aten::embedding_dense_backward
+#   size:
+#     B: [1]
+#     M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+#     N: [32, 128, 1024, 8192, 16384]
+#     E: [102400]
+#   input:
+#     - _tensor: [B, M, N]
+#     - _tensor: [B, M]
+#       high: E
+#       precision: long
+#     - E
+#     - -1
+#     - false
+
+# advanced op
+# - name: aten::_softmax
+#   size:
+#     B: [1, 2, 4]
+#     M: [5, 10, 20, 40]
+#     N: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+#   input:
+#     - _tensor: [B, M, N, N]
+#       precision: fp16
+#     - -1
+#     - False
+# - name: aten::sigmoid
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+#     N: [32, 128, 1024, 8192, 16384]
+#   input:
+#     - _tensor: [M, N]
+#   precision: fp32
+# - name: aten::log_softmax
+#   size:
+#     B: [1, 2, 4]
+#     M: [5, 10, 20, 40]
+#     N: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+#   input:
+#     - _tensor: [B, M, N, N]
+#       precision: fp16
+#     - -1
+# - name: aten::layer_norm
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+#     N: [32, 128, 1024, 8192, 16384]
+#   input:
+#     - _tensor: [M, N]
+#     - _val: [N]
+# - name: aten::native_layer_norm
+#   size:
+#     B: [1]
+#     M: [1, 2, 8, 128, 1024, 4096, 16384, 131072]
+#     N: [32, 128, 1024, 8192, 16384]
+#     E: [1e-6, 1e-12]
+#   input:
+#     - _tensor: [B, M, N]
+#     - _val: [N]
+#     - _tensor: [N]
+#     - _tensor: [N]
+#     - E
+- name: aten::native_layer_norm_backward
+  size:
+    B: [1]
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [B, M, N]
+    - _tensor: [B, M, N]
+    - _val: [N]
+    - _tensor: [M, B, 1]
+      precision: fp32
+    - _tensor: [M, B, 1]
+      precision: fp32
+    - _tensor: [N]
+    - _tensor: [N]
+    - _val: [True, True, True]
+# - name: aten::tanh
+#   size:
+#     B: [8]
+#     M: [1, 2, 8, 128, 1024, 4096, 16384]
+#     N: [32, 128, 1024, 8192]
+#   input:
+#     - _tensor: [B, M, N]
+# - name: aten::tanh_backward
+#   size:
+#     B: [8]
+#     M: [1, 2, 8, 128, 1024, 4096, 16384]
+#     N: [32, 128, 1024, 8192]
+#   input:
+#     - _tensor: [B, M, N, N]
+#     - _tensor: [B, M, N, N]
+# - name: aten::native_group_norm
+#   size:
+#     B: [1]
+#     C: [32, 64, 128, 256, 512, 1024]
+#     H: [32, 64, 128, 512]
+#     W: [32, 64, 128, 512]
+#   input:
+#     - _tensor: [B, C, H, W]
+#     - _tensor: [C]
+#     - _tensor: [C]
+#     - B
+#     - C
+#     - HxW: H*W
+#     - group: 32
+#     - eps: 9.9999999999999995e-07
+# - name: aten::linalg_vector_norm
+#   size:
+#     M: [1, 2, 8, 128, 1024, 4096, 16384]
+#     N: [32, 128, 1024, 8192, 16384]
+#   input:
+#     - _tensor: [M, N]
+#     - ord: 2.0
+#       dim: null
+#       keepdim: False
+#       dtype: null
+# - name: aten::upsample_bicubic2d
+#   size:
+#     B: [1, 2, 4]
+#     C: [1, 8, 16, 32, 64, 128, 512]
+#     iH: [128, 256, 384, 512, 1024]
+#     iW: [128, 256, 384, 512, 1024]
+#     kH: [224]
+#   input:
+#     - _tensor: [B, C, iH, iW]
+#     - _val: [kH, kH]
+#     - align_corners: False

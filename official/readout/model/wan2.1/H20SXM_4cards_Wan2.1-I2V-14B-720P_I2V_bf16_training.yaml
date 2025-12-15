@@ -1,0 +1,30 @@
+config:
+  env:
+    hardware: H20SXM
+    software: nemo
+    n_nodes: 1
+    world_size: 8
+  model: wan2.1
+  modules:
+    wan2.1:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, sample_steps]
+      fwd:
+        - layer::DiT;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+        - layer::ColumnParallelLinear;[micro_batch_size*seq_length, hidden_size, vocab_size]
+        - layer::Loss;[micro_batch_size*seq_length, vocab_size]
+    optim:
+      shape: [14, 1000000000]
+      fwd:
+        - layer::Adam
+  training:
+    micro_batch_size: 1
+    context_parallel_size: 4
+    gradient_accumulation_steps: 2
+    seq_length: 75348
+    sample_steps: 40
+    task_type: i2v
+  feature:
+    precision: bf16
+    transformer_engine: true
+module:
+  Decoder:

@@ -1,0 +1,41 @@
+op::MM:
+  type: std,2D
+  size:
+    B: [1, 2, 4, 8, 32]
+    M: [1, 2, 4, 8, 32, 4096]
+    K: [3072, 4096, 5120, 6144, 7168, 8192]
+    N: [4096, 8192, 16384]
+  schema:
+    - A:<MxK>, B:<KxN> -> <MxN>
+    - A:<MxK>, B:<NxK> -> <MxN>
+    - A:<KxM>, B:<KxN> -> <MxN>
+    - A:<KxM>, B:<NxK> -> <MxN>
+    - A:<MxK>, B:<NxKxB> -> <MxN>
+    - A:<KxBxM>, B:<KxN> -> <BxMxN>
+  2D: True
+
+
+# aten::convolution:
+#   type: std
+#   2D: True
+# Gemm:
+#   type: customer
+#   2D: True
+#   size:
+#     B: [1, 2, 4, 8, 16, 32]
+#     M: [1, 2, 4, 8, 32, 64, 128, 256, 512, 1024]
+#     K: [3072, 4096, 5120, 6144, 7168, 8192]
+#     N: [3072, 4096, 5120, 6144, 7168, 8192]
+#   input:
+#     - out:
+#         _tensor: [M, N]
+#       lhs:
+#         _tensor: [M, K]
+#       rhs:
+#         _tensor: [N, K]
+#       bias: null
+#   input2: tuple{lhs:<MxKxf8e4m3>, scale:<M/GxKxf32>, mode:1D}, tuple{rhs:<KxNxf8e4m3>, scale:<M/GxK/Gxf32>, mode:2D} -> <MXN>
+# GroupedGemm:
+#   type: customer
+#   2D: True
+#   efficency: map

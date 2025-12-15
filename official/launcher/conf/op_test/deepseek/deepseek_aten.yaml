@@ -1,0 +1,194 @@
+- name: aten::log
+  size:
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+    N: [32, 64, 128, 192, 3072, 6144]
+  input:
+    - [M, N]
+  precision: fp32
+  _name: atenLog
+# - name: aten::cumsum
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - _tensor: [M, N]
+#       distributions: _input_normal
+#     - dim: -1
+#   _name: atenCumsumOp
+# - name: aten::mm
+#   input:
+#     - _tensor: [1024, 128]
+#       distributions: _input_normal
+#     - _tensor: [128, 1024]
+#       distributions: _weight_normal
+#   _name: [atenMm, atenMatmul]
+# - name: aten::pow
+#   size:
+#     B: [1]
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [B, M, N]
+#     - exponent: 2
+#   _name: atenPow
+# - name: aten::mul
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [M, N]
+#     - [N]
+#   _name: atenMul
+# - name: aten::add
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [M, N]
+#     - [M, N]
+#   _name: atenAdd
+#   _mapping: [0, 1]
+# - name: aten::sub
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [M, N]
+#     - [M, N]
+#   _name: atenSub
+#   _mapping: [0, 1]
+# - name: aten::bmm
+#   input:
+#     - [8, 4096, 6144]
+#     - [8, 6144, 128]
+#   _name: atenBmm
+# - name: aten::sum
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [M, N]
+#   _name: atenSum
+#   _mapping: [0]
+# - name: aten::_softmax
+#   size:
+#     B: [1, 2, 4]
+#     M: [5, 10, 20, 40]
+#     N: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+#   input:
+#     - _tensor: [B, M, N, N]
+#       precision: fp16
+#     - -1
+#     - False
+#   _name: atenSoftmaxForward
+# - name: aten::sigmoid
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   precision: fp32
+#   _name: atenSigmoid
+# - name: aten::argmax
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   precision: fp32
+#   _name: atenArgmax
+# - name: aten::max
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   precision: fp32
+#   _name: atenMax
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [8, 16, 32, 256]
+#     MQKV: [128, 256, 512, 1024, 2048, 4096]
+#     NHQ: [32]
+#     NHK: [32]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - [B, MQKV, NHQ, D]
+#     - [B, MQKV, NHK, D]
+#     - [B, MQKV, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+#   _name: faFlashAttnVarlenFwd
+#   _mapping: [4, 5, 6, -1, 14, 16]
+# - name: aten::reciprocal
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   _name: atenReciprocal
+# - name: aten::cos
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   _name: atenCos
+# - name: aten::sin
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   _name: atenSin
+# - name: aten::div
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+#     N: [32, 64, 128, 512, 768, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 13824, 16384]
+#   input:
+#     - [M, N]
+#     - [M, N]
+#   _name: atenDiv
+# - name: aten::log_softmax
+#   size:
+#     B: [1, 2, 4]
+#     M: [5, 10, 20, 40]
+#     N: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
+#   input:
+#     - _tensor: [B, M, N, N]
+#       precision: fp16
+#     - -1
+#   _name: atenLogSoftmaxForward
+# - name: aten::exponential_
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - output: [M, N]
+#       lambd: 1
+#     # - generator: None
+#   _name: atenExponential
+#   _mapping: [0]
+# - name: aten::index_add
+#   size:
+#     M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+#     N: [32, 64, 128, 192, 3072, 6144]
+#   input:
+#     - [M, N]
+#   _name: atenIndexAdd
+
+  # _name: atenMatmulActivation
+
+  # _name: atenRngUniform
+
+  # _name: atenIndexPutImpl
+

@@ -1,0 +1,11 @@
+model:
+  name: LLama3_405B
+  size: 405
+  num_layers: 126
+  hidden_size: 16384
+  ffn_hidden_size: 20480
+  num_attention_heads: 128
+  kv_channels: null
+  num_query_groups: 16
+  swiglu: true
+  vocab_size: 128257

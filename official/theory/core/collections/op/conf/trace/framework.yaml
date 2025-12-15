@@ -1,0 +1,7 @@
+profiler::_record_function_enter_new:
+  type: framework
+
+profiler::_record_function_exit:
+  type: framework
+
+# fsdp::split_with_sizes_copy:

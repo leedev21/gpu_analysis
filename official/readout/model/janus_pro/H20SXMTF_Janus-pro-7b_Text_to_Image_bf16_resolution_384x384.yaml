@@ -1,0 +1,548 @@
+config:
+  env:
+    hardware: H20SXM
+    software: transformers
+    n_nodes: 1
+    world_size: 1
+  model:
+    name: janus_pro
+    parameters_size: 7B
+    num_layers: 30
+    hidden_size: 4096
+    ffn_hidden_size: 11008
+    num_attention_heads: 32
+    num_hidden_dim: 128
+    swiglu: true
+    rope: true
+    rms_norm: true
+    vocab_size: 102400
+    image_size: 384
+    num_image_tokens: 0
+    patch_size: 16
+  aligner_config:
+    cls: MlpProjector
+    input_dim: 1024
+    n_embed: 4096
+  modules:
+    janus_pro:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, kv_cache]
+      percent:
+        decoding: 0.909
+      decoding: 576
+      fwd:
+        - layer::GPTDecoder
+  target:
+    layer::GPTDecoder: 3060
+    layer::MHA&RPOE: 1194
+    layer::MLP_Silu: 1686
+    janus_pro: 92197
+  inference:
+    tensor_model_parallel_size: 1
+    pipeline_model_parallel_size: 1
+    virtual_pipeline_model_parallel_size: None
+    data_parallel_size: 1
+    context_parallel_size: 1
+    expert_model_parallel_size: 1
+    sequence_parallel: False
+    gradient_accumulation_steps: 1
+    micro_batch_size: 1
+    global_batch_size: 1
+    seq_length: 26
+    trained_samples: -1
+    eval_samples: -1
+    train_iters: -1
+  feature:
+    megatron_amp_O2: None
+    fsdp: None
+    activations_checkpoint: None
+    transformer_impl: transformer_engine
+    precision: bf16
+    ub_tp_comm_overlap: None
+    cpu_offloading: False
+    use_distributed_optimizer: False
+    recompute_granularity: None
+module:
+  Decoder:
+    fwd:
+      - layer::RMSNorm:
+        - param_name: language_model.model.layers.0.input_layernorm
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - layer::LlamaAttention:
+        - param_name: language_model.model.layers.0.self_attn
+        # - inputs: ([], {'hidden_states': '<1x631x4096xbf16>{2584576, 4096, 1}', 'attention_mask': 'None', 'position_ids': '<1x631xint64>{631, 1}', 'past_key_value': 'DynamicCache()', 'output_attentions': 'False', 'use_cache': 'True', 'cache_position': '<631xint64>{1}', 'position_embeddings': ['<1x631x128xbf16>{80768, 128, 1}', '<1x631x128xbf16>{80768, 128, 1}']})
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.self_attn.q_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.self_attn.k_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.self_attn.v_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+        - name: aten::mul
+          inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+          duration: -1
+        - name: aten::neg
+          inputs: (self:<1x32x631x64xbf16>{2584576, 128, 4096, 1}+64)
+          outputs: <1x32x631x64xbf16>{1292288, 64, 2048, 1}
+          duration: -1
+        - name: aten::cat
+          inputs: (tensors:['<1x32x631x64xbf16>{1292288, 64, 2048, 1}', '<1x32x631x64xbf16>{2584576, 128, 4096, 1}'], dim:-1)
+          outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x32x631x128xbf16>{2584576, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+          duration: -1
+        - name: aten::neg
+          inputs: (self:<1x32x631x64xbf16>{2584576, 128, 4096, 1}+64)
+          outputs: <1x32x631x64xbf16>{1292288, 64, 2048, 1}
+          duration: -1
+        - name: aten::cat
+          inputs: (tensors:['<1x32x631x64xbf16>{1292288, 64, 2048, 1}', '<1x32x631x64xbf16>{2584576, 128, 4096, 1}'], dim:-1)
+          outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, other:<1x1x631x128xbf16>{80768, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 80768, 128, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x32x631x128xbf16>{2584576, 128, 4096, 1}, other:<1x32x631x128xbf16>{2584576, 80768, 128, 1})
+          outputs: <1x32x631x128xbf16>{2584576, 128, 4096, 1}
+          duration: -1
+        - name: aten::_scaled_dot_product_flash_attention
+          inputs: (query:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, key:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, value:<1x32x631x128xbf16>{2584576, 80768, 128, 1}, dropout_p:0.0, is_causal:True, scale:0.08838834764831845)
+          outputs: ['<1x32x631x128xbf16>{2584576, 80768, 128, 1}', '<1x32x631xf32>{20192, 631, 1}', 'None', 'None', '631', '631', '<i32>', '<i32>', '<0xbf16>{1}']
+          duration: -1
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.self_attn.o_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+      - name: aten::add
+        inputs: (self:<1x631x4096xbf16>{2584576, 4096, 1}, other:<1x631x4096xbf16>{2584576, 4096, 1})
+        outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+        duration: -1
+      - layer::RMSNorm:
+        - param_name: language_model.model.layers.0.post_attention_layernorm
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - layer::LlamaMLP:
+        - param_name: language_model.model.layers.0.mlp
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.mlp.gate_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x11008xbf16>{1, 4096})
+            outputs: <631x11008xbf16>{11008, 1}
+            duration: -1
+        - layer::SiLU:
+          - param_name: language_model.model.layers.0.mlp.act_fn
+          - inputs: (['<1x631x11008xbf16>{6946048, 11008, 1}'], {})
+          - name: aten::silu
+            inputs: (self:<1x631x11008xbf16>{6946048, 11008, 1})
+            outputs: <1x631x11008xbf16>{6946048, 11008, 1}
+            duration: -1
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.mlp.up_proj
+          - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x4096xbf16>{4096, 1}, mat2:<4096x11008xbf16>{1, 4096})
+            outputs: <631x11008xbf16>{11008, 1}
+            duration: -1
+        - name: aten::mul
+          inputs: (self:<1x631x11008xbf16>{6946048, 11008, 1}, other:<1x631x11008xbf16>{6946048, 11008, 1})
+          outputs: <1x631x11008xbf16>{6946048, 11008, 1}
+          duration: -1
+        - layer::Linear:
+          - param_name: language_model.model.layers.0.mlp.down_proj
+          - inputs: (['<1x631x11008xbf16>{6946048, 11008, 1}'], {})
+          - name: aten::mm
+            inputs: (self:<631x11008xbf16>{11008, 1}, mat2:<11008x4096xbf16>{1, 11008})
+            outputs: <631x4096xbf16>{4096, 1}
+            duration: -1
+      - name: aten::add
+        inputs: (self:<1x631x4096xbf16>{2584576, 4096, 1}, other:<1x631x4096xbf16>{2584576, 4096, 1})
+        outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+        duration: -1
+  Post:
+    fwd:
+      - layer::LlamaRMSNorm:
+        - param_name: language_model.model.norm
+        - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - layer::Linear:
+        - param_name: language_model.lm_head
+        - inputs: (['<1x1x4096xbf16>{2584576, 4096, 1}+2580480'], {})
+        - name: aten::mm
+          inputs: (self:<1x4096xbf16>{4096, 1}+2580480, mat2:<4096x102400xbf16>{1, 4096})
+          outputs: <1x102400xbf16>{102400, 1}
+          duration: -1
+      - name: aten::new_ones
+        inputs: (self:<1x631xint64>{631, 1}, size:['1', '1'], pin_memory:False)
+        outputs: <1x1xint64>{1, 1}
+        duration: -1
+      - name: aten::cat
+        inputs: (tensors:['<1x631xint64>{631, 1}', '<1x1xint64>{1, 1}'], dim:-1)
+        outputs: <1x632xint64>{632, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1xint64>{1}+630, other:1)
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::argmax
+        inputs: (self:<1x102400xf32>{102400, 1}, dim:-1)
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1xint64>{1}, other:<1xint64>{1})
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::rsub
+        inputs: (self:<1xint64>{1}, other:1)
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<i32>, other:<1xint64>{1})
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1xint64>{1}, other:<1xint64>{1})
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::cat
+        inputs: (tensors:['<1x0xint64>{1, 1}', '<1x1xint64>{1, 1}'], dim:-1)
+        outputs: <1x1xint64>{1, 1}
+        duration: -1
+      - name: aten::full
+        inputs: (size:['1'], fill_value:False, dtype:torch.bool, device:cuda:0, pin_memory:False)
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::full
+        inputs: (size:['1'], fill_value:False, dtype:torch.bool, device:cuda:0, pin_memory:False)
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::bitwise_or
+        inputs: (self:<1xbool>{1}, other:<1xbool>{1})
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::isin
+        inputs: (elements:<1xint64>{1}, test_elements:<1xint64>{1})
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::bitwise_or
+        inputs: (self:<1xbool>{1}, other:<1xbool>{1})
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::bitwise_not
+        inputs: (self:<1xbool>{1})
+        outputs: <1xbool>{1}
+        duration: -1
+      - name: aten::bitwise_and
+        inputs: (self:<1xint64>{1}, other:<1xbool>{1})
+        outputs: <1xint64>{1}
+        duration: -1
+      - name: aten::max
+        inputs: (self:<1xint64>{1})
+        outputs: <i32>
+        duration: -1
+      - name: aten::eq
+        inputs: (self:<i32>, other:0)
+        outputs: <i32>
+        duration: -1
+      - name: aten::eq
+        inputs: (self:<i32>, other:0)
+        outputs: <i32>
+        duration: -1
+      - name: aten::cumsum
+        inputs: (self:<1x632xint64>{632, 1}, dim:-1)
+        outputs: <1x632xint64>{632, 1}
+        duration: -1
+      - name: aten::sub
+        inputs: (self:<1x632xint64>{632, 1}, other:1)
+        outputs: <1x632xint64>{632, 1}
+        duration: -1
+      - name: aten::eq
+        inputs: (self:<1x632xint64>{632, 1}, other:0)
+        outputs: <1x632xbool>{632, 1}
+        duration: -1
+      - name: aten::masked_fill_
+        inputs: (self:<1x632xint64>{632, 1}, mask:<1x632xbool>{632, 1}, value:1)
+        outputs: <1x632xint64>{632, 1}
+        duration: -1
+  LlamaRMSNorm:
+    fwd:
+      - param_name: language_model.model.layers.0.input_layernorm
+      - inputs: (['<1x631x4096xbf16>{2584576, 4096, 1}'], {})
+      - name: aten::pow
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, exponent:2)
+        outputs: <1x631x4096xf32>{2584576, 4096, 1}
+        duration: -1
+      - name: aten::mean
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, dim:['-1'], keepdim:True)
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x631x1xf32>{631, 1, 1}, other:1e-06)
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::rsqrt
+        inputs: (self:<1x631x1xf32>{631, 1, 1})
+        outputs: <1x631x1xf32>{631, 1, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<1x631x4096xf32>{2584576, 4096, 1}, other:<1x631x1xf32>{631, 1, 1})
+        outputs: <1x631x4096xf32>{2584576, 4096, 1}
+        duration: -1
+      - name: aten::mul
+        inputs: (self:<4096xbf16>{1}, other:<1x631x4096xbf16>{2584576, 4096, 1})
+        outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+        duration: -1
+  siglip_vit:
+    fwd:
+    - name: aten::eq
+      inputs: (self:<54xint64>{1}, other:100594)
+      outputs: <54xbool>{1}
+      duration: -1
+    - name: aten::nonzero
+      inputs: (self:<54xbool>{1})
+      outputs: <1x1xint64>{1, 1}
+      duration: -1
+    - name: aten::ones
+      inputs: (size:['1'], dtype:torch.int64, device:cpu, pin_memory:False)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::mul
+      inputs: (self:<1xint64>{1}, other:100016)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::ones
+      inputs: (size:['576'], dtype:torch.int64, device:cpu, pin_memory:False)
+      outputs: <576xint64>{1}
+      duration: -1
+    - name: aten::mul
+      inputs: (self:<576xint64>{1}, other:100594)
+      outputs: <576xint64>{1}
+      duration: -1
+    - name: aten::ones
+      inputs: (size:['1'], dtype:torch.int64, device:cpu, pin_memory:False)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::mul
+      inputs: (self:<1xint64>{1}, other:100593)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::add
+      inputs: (self:<1xint64>{1}, other:1)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::cat
+      inputs: (tensors:['<41xint64>{1}', '<1xint64>{1}', '<576xint64>{1}', '<1xint64>{1}', '<12xint64>{1}+42'])
+      outputs: <631xint64>{1}
+      duration: -1
+    - name: aten::full
+      inputs: (size:['1', '631'], fill_value:100015, device:cpu, pin_memory:False)
+      outputs: <1x631xint64>{631, 1}
+      duration: -1
+    - name: aten::zeros
+      inputs: (size:['1', '631'], device:cpu, pin_memory:False)
+      outputs: <1x631xf32>{631, 1}
+      duration: -1
+    - name: aten::zeros
+      inputs: (size:['1', '1', '3', '384', '384'], device:cpu, pin_memory:False)
+      outputs: <1x1x3x384x384xf32>{442368, 442368, 147456, 384, 1}
+      duration: -1
+    - name: aten::zeros
+      inputs: (size:['1', '631'], device:cpu, pin_memory:False)
+      outputs: <1x631xf32>{631, 1}
+      duration: -1
+    - name: aten::zeros
+      inputs: (size:['1', '1', '576'], device:cpu, pin_memory:False)
+      outputs: <1x1x576xf32>{576, 576, 1}
+      duration: -1
+    - name: aten::fill_
+      inputs: (self:<631xint64>{1}, value:<i32>)
+      outputs: <631xint64>{1}
+      duration: -1
+    - name: aten::copy_
+      inputs: (self:<631xint64>{1}, src:<631xint64>{1})
+      outputs: <631xint64>{1}
+      duration: -1
+    - name: aten::eq
+      inputs: (self:<631xint64>{1}, other:100594)
+      outputs: <631xbool>{1}
+      duration: -1
+    - name: aten::copy_
+      inputs: (self:<631xbool>{1}, src:<631xbool>{1})
+      outputs: <631xbool>{1}
+      duration: -1
+    - name: aten::copy_
+      inputs: (self:<1x3x384x384xf32>{442368, 147456, 384, 1}, src:<1x3x384x384xf32>{442368, 147456, 384, 1})
+      outputs: <1x3x384x384xf32>{442368, 147456, 384, 1}
+      duration: -1
+    - name: aten::fill_
+      inputs: (self:<576xbool>{1}, value:<i32>)
+      outputs: <576xbool>{1}
+      duration: -1
+    - name: aten::convolution
+      inputs: (input:<1x3x384x384xbf16>{442368, 147456, 384, 1}, weight:<1024x3x16x16xbf16>{768, 256, 16, 1}, bias:<1024xbf16>{1}, stride:['16', '16'], padding:['0', '0'], dilation:['1', '1'], transposed:False, output_padding:['0', '0'], groups:1)
+      outputs: <1x1024x24x24xbf16>{589824, 576, 24, 1}
+      duration: -1
+    - name: aten::add
+      inputs: (self:<1x576x1024xbf16>{589824, 1, 576}, other:<1x576x1024xbf16>{589824, 1024, 1})
+      outputs: <1x576x1024xbf16>{589824, 1, 576}
+      duration: -1
+    - CLIPEncoderLayer:
+    - name: aten::native_layer_norm
+      inputs: (input:<1x576x1024xbf16>{589824, 1, 576}, normalized_shape:['1024'], weight:<1024xbf16>{1}, bias:<1024xbf16>{1}, eps:1e-06)
+      outputs: ['<1x576x1024xbf16>{589824, 1024, 1}', '<1x576x1xf32>{576, 1, 1}', '<1x576x1xf32>{576, 1, 1}']
+      duration: -1
+    - MlpProjector:
+      - name: aten::addmm
+        inputs: (self:<4096xbf16>{1}, mat1:<576x1024xbf16>{1024, 1}, mat2:<1024x4096xbf16>{1, 1024})
+        outputs: <576x4096xbf16>{4096, 1}
+        duration: -1
+      - name: aten::gelu
+        inputs: (self:<1x576x4096xbf16>{2359296, 4096, 1})
+        outputs: <1x576x4096xbf16>{2359296, 4096, 1}
+        duration: -1
+      - name: aten::addmm
+        inputs: (self:<4096xbf16>{1}, mat1:<576x4096xbf16>{4096, 1}, mat2:<4096x4096xbf16>{1, 4096})
+        outputs: <576x4096xbf16>{4096, 1}
+        duration: -1
+    - name: aten::lt
+      inputs: (self:<1x631xint64>{631, 1}, other:0)
+      outputs: <1x631xbool>{631, 1}
+      duration: -1
+    - name: aten::index_put_
+      inputs: (self:<1x631xint64>{631, 1}, indices:['<1x631xbool>{631, 1}'], values:<i32>)
+      outputs: <1x631xint64>{631, 1}
+      duration: -1
+    - name: aten::embedding
+      inputs: (weight:<102400x4096xbf16>{4096, 1}, indices:<1x631xint64>{631, 1})
+      outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+      duration: -1
+    - name: aten::index
+      inputs: (self:<1x576x4096xbf16>{2359296, 4096, 1}, indices:['<1x576xbool>{576, 1}'])
+      outputs: <576x4096xbf16>{4096, 1}
+      duration: -1
+    - name: aten::index_put_
+      inputs: (self:<1x631x4096xbf16>{2584576, 4096, 1}, indices:['<1x631xbool>{631, 1}'], values:<576x4096xbf16>{4096, 1})
+      outputs: <1x631x4096xbf16>{2584576, 4096, 1}
+      duration: -1
+    - name: aten::ones
+      inputs: (size:['1', '0'], dtype:torch.int64, device:cuda:0, pin_memory:False)
+      outputs: <1x0xint64>{1, 1}
+      duration: -1
+    - name: aten::isin
+      inputs: (elements:<1xint64>{1}, test_elements:<i32>)
+      outputs: <1xbool>{1}
+      duration: -1
+    - name: aten::any
+      inputs: (self:<1xbool>{1})
+      outputs: <i32>
+      duration: -1
+    - name: aten::lt
+      inputs: (self:<1xint64>{1}, other:0)
+      outputs: <1xbool>{1}
+      duration: -1
+    - name: aten::any
+      inputs: (self:<1xbool>{1})
+      outputs: <i32>
+      duration: -1
+    - name: aten::ones
+      inputs: (size:['1'], dtype:torch.int64, device:cuda:0, pin_memory:False)
+      outputs: <1xint64>{1}
+      duration: -1
+    - name: aten::cumsum
+      inputs: (self:<631xint64>{1}, dim:0)
+      outputs: <631xint64>{1}
+      duration: -1
+    - name: aten::sub
+      inputs: (self:<631xint64>{1}, other:1)
+      outputs: <631xint64>{1}
+      duration: -1
+    - name: aten::eq
+      inputs: (self:<i32>, other:0)
+      outputs: <i32>
+      duration: -1
+    - name: aten::cumsum
+      inputs: (self:<1x631xint64>{631, 1}, dim:-1)
+      outputs: <1x631xint64>{631, 1}
+      duration: -1
+    - name: aten::sub
+      inputs: (self:<1x631xint64>{631, 1}, other:1)
+      outputs: <1x631xint64>{631, 1}
+      duration: -1
+    - name: aten::eq
+      inputs: (self:<1x631xint64>{631, 1}, other:0)
+      outputs: <1x631xbool>{631, 1}
+      duration: -1
+    - name: aten::masked_fill_
+      inputs: (self:<1x631xint64>{631, 1}, mask:<1x631xbool>{631, 1}, value:1)
+      outputs: <1x631xint64>{631, 1}
+      duration: -1
+  CLIPEncoderLayer:
+    fwd:
+      - name: aten::native_layer_norm
+        inputs: (input:<1x576x1024xbf16>{589824, 1, 576}, normalized_shape:['1024'], weight:<1024xbf16>{1}, bias:<1024xbf16>{1}, eps:1e-06)
+        outputs: ['<1x576x1024xbf16>{589824, 1024, 1}', '<1x576x1xf32>{576, 1, 1}', '<1x576x1xf32>{576, 1, 1}']
+        duration: -1
+      - name: aten::addmm
+        inputs: (self:<3072xbf16>{1}, mat1:<576x1024xbf16>{1024, 1}, mat2:<1024x3072xbf16>{1, 1024})
+        outputs: <576x3072xbf16>{3072, 1}
+        duration: -1
+      - name: aten::_scaled_dot_product_flash_attention
+        inputs: (query:<1x16x576x64xbf16>{1769472, 64, 3072, 1}, key:<1x16x576x64xbf16>{1769472, 64, 3072, 1}+1024, value:<1x16x576x64xbf16>{1769472, 64, 3072, 1}+2048, scale:0.125)
+        outputs: ['<1x16x576x64xbf16>{589824, 64, 1024, 1}', '<1x16x576xf32>{9216, 576, 1}', 'None', 'None', '576', '576', '<i32>', '<i32>', '<0xbf16>{1}']
+        duration: -1
+      - name: aten::addmm
+        inputs: (self:<1024xbf16>{1}, mat1:<576x1024xbf16>{1024, 1}, mat2:<1024x1024xbf16>{1, 1024})
+        outputs: <576x1024xbf16>{1024, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x576x1024xbf16>{589824, 1, 576}, other:<1x576x1024xbf16>{589824, 1024, 1})
+        outputs: <1x576x1024xbf16>{589824, 1, 576}
+        duration: -1
+      - name: aten::native_layer_norm
+        inputs: (input:<1x576x1024xbf16>{589824, 1, 576}, normalized_shape:['1024'], weight:<1024xbf16>{1}, bias:<1024xbf16>{1}, eps:1e-06)
+        outputs: ['<1x576x1024xbf16>{589824, 1024, 1}', '<1x576x1xf32>{576, 1, 1}', '<1x576x1xf32>{576, 1, 1}']
+        duration: -1
+      - name: aten::addmm
+        inputs: (self:<4096xbf16>{1}, mat1:<576x1024xbf16>{1024, 1}, mat2:<1024x4096xbf16>{1, 1024})
+        outputs: <576x4096xbf16>{4096, 1}
+        duration: -1
+      - name: aten::gelu
+        inputs: (self:<1x576x4096xbf16>{2359296, 4096, 1})
+        outputs: <1x576x4096xbf16>{2359296, 4096, 1}
+        duration: -1
+      - name: aten::addmm
+        inputs: (self:<1024xbf16>{1}, mat1:<576x4096xbf16>{4096, 1}, mat2:<4096x1024xbf16>{1, 4096})
+        outputs: <576x1024xbf16>{1024, 1}
+        duration: -1
+      - name: aten::add
+        inputs: (self:<1x576x1024xbf16>{589824, 1, 576}, other:<1x576x1024xbf16>{589824, 1024, 1})
+        outputs: <1x576x1024xbf16>{589824, 1, 576}
+        duration: -1

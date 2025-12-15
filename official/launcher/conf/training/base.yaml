@@ -1,0 +1,5 @@
+micro_batch_size: 1
+seq_length: 1024
+precision: [bf16, fp16]
+forward_only: True
+report: data

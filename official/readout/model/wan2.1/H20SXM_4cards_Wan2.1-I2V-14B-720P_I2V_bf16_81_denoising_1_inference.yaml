@@ -1,0 +1,472 @@
+config:
+  env:
+    hardware: H20SXM
+    software: nemo
+    n_nodes: 1
+    world_size: 4
+  model: wan2.1
+  modules:
+    wan2.1:
+      shape: [num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, vocab_size, sample_steps]
+      loop: 80
+      percent:
+        base: 0.788
+      fwd:
+        - layer::DiT;[num_layers, micro_batch_size, num_attention_heads, seq_length, num_hidden_dim, hidden_size, ffn_hidden_size, -1]
+  inference:
+    micro_batch_size: 1
+    context_parallel_size: 4
+    seq_length: 75348
+    sample_steps: 40
+    task_type: i2v
+  feature:
+    precision: bf16
+    transformer_engine: true
+inference_info:
+  summary:
+    step_time: 1441.62s
+    iter_time: 17.579s
+    clip: 13.7s
+    text_encodder: 76.6ms
+    vae: 21.45s
+  official:
+    step_time: 1417s
+    peak_device_memory: 41.9G
+module:
+  T5Encoder:
+    fwd:
+      - 0_0_fwd_module::Embedding:
+        - param_name: text_encoder._fsdp_wrapped_module.token_embedding
+        - inputs: (['<1x512xint64>{512, 1}'], {})
+        - name: aten::embedding
+          inputs: (weight:<256384x4096xbf16>{4096, 1}, indices:<1x512xint64>{512, 1})
+          outputs: <1x512x4096xbf16>{2097152, 4096, 1}
+          duration: -1
+      - 0_0_fwd_module::FullyShardedDataParallel:
+        - param_name: text_encoder._fsdp_wrapped_module.blocks.0
+        #- inputs: (['<1x512x4096xbf16>{2097152, 4096, 1}', '<1x512xint64>{512, 1}'], {'pos_bias': 'None:NoneType'})
+  Encoder3d:
+    fwd:
+      - param_name: vae.encoder
+      #- inputs: (['<1x3x1x1104x832xf32>{223202304, 74400768, 918528, 832, 1}'], {'feat_cache': ['None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType'], 'feat_idx': ['0:int']})
+      - 0_1_fwd_module::CausalConv3d:
+        - param_name: vae.encoder.conv1
+        - inputs: (['<1x3x1x1104x832xf32>{223202304, 74400768, 918528, 832, 1}', 'None:NoneType'], {})
+        - name: aten::constant_pad_nd
+          inputs: (self:<1x3x1x1104x832xf32>{223202304, 74400768, 918528, 832, 1}, pad:['1:int', '1:int', '1:int', '1:int', '2:int', '0:int'], value:0_0:float)
+          outputs: <1x3x3x1106x834xf32>{8301636, 2767212, 922404, 834, 1}
+          duration: -1
+        - name: aten::convolution
+          inputs: (input:<1x3x3x1106x834xf32>{8301636, 2767212, 922404, 834, 1}, weight:<96x3x3x3x3xf32>{81, 27, 9, 3, 1}, bias:<96xf32>{1}, stride:['1:int', '1:int', '1:int'], padding:['0:int', '0:int', '0:int'], dilation:['1:int', '1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int', '0:int'], groups:1:int)
+          outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+          duration: -1
+      - 0_1_fwd_module::ResidualBlock:
+        - param_name: vae.encoder.downsamples.0
+        - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', ['<1x3x1x1104x832xf32>{2755584, 918528, 918528, 832, 1}', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType'], ['1:int']], {})
+        - 0_1_fwd_module::RMS_norm:
+          - param_name: vae.encoder.downsamples.0.residual.0
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}'], {})
+        - 0_1_fwd_module::SiLU:
+          - param_name: vae.encoder.downsamples.0.residual.1
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}'], {})
+          - name: aten::silu
+            inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1})
+            outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+            duration: -1
+        - 0_1_fwd_module::CausalConv3d:
+          - param_name: vae.encoder.downsamples.0.residual.2
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', 'None:NoneType'], {})
+          - name: aten::constant_pad_nd
+            inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}, pad:['1:int', '1:int', '1:int', '1:int', '2:int', '0:int'], value:0_0:float)
+            outputs: <1x96x3x1106x834xf32>{265652352, 2767212, 922404, 834, 1}
+            duration: -1
+          - name: aten::convolution
+            inputs: (input:<1x96x3x1106x834xf32>{265652352, 2767212, 922404, 834, 1}, weight:<96x96x3x3x3xf32>{2592, 27, 9, 3, 1}, bias:<96xf32>{1}, stride:['1:int', '1:int', '1:int'], padding:['0:int', '0:int', '0:int'], dilation:['1:int', '1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int', '0:int'], groups:1:int)
+            outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+            duration: -1
+        - 0_1_fwd_module::RMS_norm:
+          - param_name: vae.encoder.downsamples.0.residual.3
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}'], {})
+        - 0_1_fwd_module::SiLU:
+          - param_name: vae.encoder.downsamples.0.residual.4
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}'], {})
+          - name: aten::silu
+            inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1})
+            outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+            duration: -1
+        - 0_1_fwd_module::CausalConv3d:
+          - param_name: vae.encoder.downsamples.0.residual.6
+          - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', 'None:NoneType'], {})
+          - name: aten::constant_pad_nd
+            inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}, pad:['1:int', '1:int', '1:int', '1:int', '2:int', '0:int'], value:0_0:float)
+            outputs: <1x96x3x1106x834xf32>{265652352, 2767212, 922404, 834, 1}
+            duration: -1
+          - name: aten::convolution
+            inputs: (input:<1x96x3x1106x834xf32>{265652352, 2767212, 922404, 834, 1}, weight:<96x96x3x3x3xf32>{2592, 27, 9, 3, 1}, bias:<96xf32>{1}, stride:['1:int', '1:int', '1:int'], padding:['0:int', '0:int', '0:int'], dilation:['1:int', '1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int', '0:int'], groups:1:int)
+            outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+            duration: -1
+        - name: aten::add
+          inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}, other:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1})
+          outputs: <1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+          duration: -1
+      - 0_1_fwd_module::Resample:
+        - param_name: vae.encoder.downsamples.2
+        - inputs: (['<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', ['<1x3x1x1104x832xf32>{2755584, 918528, 918528, 832, 1}', '<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', '<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', '<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', '<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType'], ['5:int']], {})
+        - name: aten::permute
+          inputs: (self:<1x96x1x1104x832xf32>{88178688, 918528, 918528, 832, 1}, dims:['0:int', '2:int', '1:int', '3:int', '4:int'])
+          outputs: <1x1x96x1104x832xf32>{88178688, 918528, 918528, 832, 1}
+          support_by_backend: True
+          duration: -1
+        - 0_1_fwd_module::Sequential:
+          - param_name: vae.encoder.downsamples.2.resample
+          - inputs: (['<1x96x1104x832xf32>{88178688, 918528, 832, 1}'], {})
+          - 0_1_fwd_module::ZeroPad2d:
+            - param_name: vae.encoder.downsamples.2.resample.0
+            - inputs: (['<1x96x1104x832xf32>{88178688, 918528, 832, 1}'], {})
+            - name: aten::constant_pad_nd
+              inputs: (self:<1x96x1104x832xf32>{88178688, 918528, 832, 1}, pad:['0:int', '1:int', '0:int', '1:int'], value:0_0:float)
+              outputs: <1x96x1105x833xf32>{88364640, 920465, 833, 1}
+              duration: -1
+          - 0_1_fwd_module::Conv2d:
+            - param_name: vae.encoder.downsamples.2.resample.1
+            - inputs: (['<1x96x1105x833xf32>{88364640, 920465, 833, 1}'], {})
+            - name: aten::convolution
+              inputs: (input:<1x96x1105x833xf32>{88364640, 920465, 833, 1}, weight:<96x96x3x3xf32>{864, 9, 3, 1}, bias:<96xf32>{1}, stride:['2:int', '2:int'], padding:['0:int', '0:int'], dilation:['1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int'], groups:1:int)
+              outputs: <1x96x552x416xf32>{22044672, 229632, 416, 1}
+              duration: -1
+        - name: aten::permute
+          inputs: (self:<1x1x96x552x416xf32>{22044672, 22044672, 229632, 416, 1}, dims:['0:int', '2:int', '1:int', '3:int', '4:int'])
+          outputs: <1x96x1x552x416xf32>{22044672, 229632, 22044672, 416, 1}
+          support_by_backend: True
+          duration: -1
+      - 0_1_fwd_module::AttentionBlock:
+        - param_name: vae.encoder.middle.1
+        - inputs: (['<1x384x1x138x104xf32>{5511168, 14352, 14352, 104, 1}'], {})
+        - name: aten::permute
+          inputs: (self:<1x384x1x138x104xf32>{5511168, 14352, 14352, 104, 1}, dims:['0:int', '2:int', '1:int', '3:int', '4:int'])
+          outputs: <1x1x384x138x104xf32>{5511168, 14352, 14352, 104, 1}
+          support_by_backend: True
+          duration: -1
+        - 0_1_fwd_module::RMS_norm:
+          - param_name: vae.encoder.middle.1.norm
+          - inputs: (['<1x384x138x104xf32>{5511168, 14352, 104, 1}'], {})
+        - 0_1_fwd_module::Conv2d:
+          - param_name: vae.encoder.middle.1.to_qkv
+          - inputs: (['<1x384x138x104xf32>{5511168, 14352, 104, 1}'], {})
+          - name: aten::convolution
+            inputs: (input:<1x384x138x104xf32>{5511168, 14352, 104, 1}, weight:<1152x384x1x1xf32>{384, 1, 1, 1}, bias:<1152xf32>{1}, stride:['1:int', '1:int'], padding:['0:int', '0:int'], dilation:['1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int'], groups:1:int)
+            outputs: <1x1152x138x104xf32>{16533504, 14352, 104, 1}
+            duration: -1
+        - name: aten::permute
+          inputs: (self:<1x1x1152x14352xf32>{16533504, 16533504, 14352, 1}, dims:['0:int', '1:int', '3:int', '2:int'])
+          outputs: <1x1x14352x1152xf32>{16533504, 16533504, 1, 14352}
+          support_by_backend: True
+          duration: -1
+        - name: aten::clone
+          inputs: (self:<1x1x14352x1152xf32>{16533504, 16533504, 1, 14352}, memory_format:torch_contiguous_format:memory_format)
+          outputs: <1x1x14352x1152xf32>{16533504, 16533504, 1152, 1}
+          support_by_backend: True
+          duration: -1
+        - name: aten::split
+          inputs: (self:<1x1x14352x1152xf32>{16533504, 16533504, 1152, 1}, split_size:384:int, dim:-1:int)
+          outputs: ['<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}', '<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}+384', '<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}+768']
+          support_by_backend: True
+          duration: -1
+        - name: aten::_scaled_dot_product_efficient_attention
+          inputs: (query:<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}, key:<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}+384, value:<1x1x14352x384xf32>{16533504, 16533504, 1152, 1}+768, attn_bias:None:NoneType, compute_log_sumexp:False:bool)
+          outputs: ['<1x1x14352x384xf32>{5511168, 384, 384, 1}', '<1x1x0xf32>{1, 1, 1}', '<i32>', '<i32>']
+          duration: -1
+        - name: aten::squeeze
+          inputs: (self:<1x1x14352x384xf32>{5511168, 384, 384, 1}, dim:1:int)
+          outputs: <1x14352x384xf32>{5511168, 384, 1}
+          support_by_backend: True
+          duration: -1
+        - name: aten::permute
+          inputs: (self:<1x14352x384xf32>{5511168, 384, 1}, dims:['0:int', '2:int', '1:int'])
+          outputs: <1x384x14352xf32>{5511168, 1, 384}
+          support_by_backend: True
+          duration: -1
+        - 0_1_fwd_module::Conv2d:
+          - param_name: vae.encoder.middle.1.proj
+          - inputs: (['<1x384x138x104xf32>{384, 1, 39936, 384}'], {})
+          - name: aten::convolution
+            inputs: (input:<1x384x138x104xf32>{384, 1, 39936, 384}, weight:<384x384x1x1xf32>{384, 1, 1, 1}, bias:<384xf32>{1}, stride:['1:int', '1:int'], padding:['0:int', '0:int'], dilation:['1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int'], groups:1:int)
+            outputs: <1x384x138x104xf32>{5511168, 14352, 104, 1}
+            duration: -1
+        - name: aten::permute
+          inputs: (self:<1x1x384x138x104xf32>{5511168, 5511168, 14352, 104, 1}, dims:['0:int', '2:int', '1:int', '3:int', '4:int'])
+          outputs: <1x384x1x138x104xf32>{5511168, 14352, 5511168, 104, 1}
+          support_by_backend: True
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x384x1x138x104xf32>{5511168, 14352, 5511168, 104, 1}, other:<1x384x1x138x104xf32>{5511168, 14352, 14352, 104, 1})
+          outputs: <1x384x1x138x104xf32>{5511168, 14352, 14352, 104, 1}
+          duration: -1
+  WanModel:
+    fwd:
+      - param_name: transformer._fsdp_wrapped_module
+      #- inputs: ([['<16x21x138x104xbf16>{301392, 14352, 104, 1}']], {'t': '<1xint64>{1}', 'context': ['<118x4096xbf16>{4096, 1}'], 'clip_fea': '<1x257x1280xbf16>{328960, 1280, 1}', 'seq_len': '75348:int', 'y': ['<20x21x138x104xbf16>{301392, 14352, 104, 1}']})
+      - 0_2_fwd_module::Conv3d:
+        - param_name: transformer._fsdp_wrapped_module.patch_embedding
+        - inputs: (['<1x36x21x138x104xbf16>{10850112, 301392, 14352, 104, 1}'], {})
+        - name: aten::convolution
+          inputs: (input:<1x36x21x138x104xbf16>{10850112, 301392, 14352, 104, 1}, weight:<5120x36x1x2x2xbf16>{144, 4, 4, 2, 1}, bias:<5120xbf16>{1}+737280, stride:['1:int', '2:int', '2:int'], padding:['0:int', '0:int', '0:int'], dilation:['1:int', '1:int', '1:int'], transposed:False:bool, output_padding:['0:int', '0:int', '0:int'], groups:1:int)
+          outputs: <1x5120x21x69x52xbf16>{385781760, 75348, 3588, 52, 1}
+          duration: -1
+      - 0_2_fwd_module::Sequential:
+        - param_name: transformer._fsdp_wrapped_module.time_embedding
+        #- inputs: (['<1x256xf32>{256, 1}'], {})- 0_2_fwd_module::Linear:
+        - 0_2_fwd_module::Linear:
+          - param_name: transformer._fsdp_wrapped_module.time_embedding.0
+          - inputs: (['<1x256xf32>{256, 1}'], {})
+          - name: aten::t
+            inputs: (self:<5120x256xf32>{256, 1})
+            outputs: <256x5120xf32>{1, 256}
+            support_by_backend: True
+            duration: -1
+          - name: aten::addmm
+            inputs: (self:<5120xf32>{1}, mat1:<1x256xf32>{256, 1}, mat2:<256x5120xf32>{1, 256})
+            outputs: <1x5120xf32>{5120, 1}
+            duration: -1
+        - 0_2_fwd_module::SiLU:
+          - param_name: transformer._fsdp_wrapped_module.time_embedding.1
+          - inputs: (['<1x5120xf32>{5120, 1}'], {})
+          - name: aten::silu
+            inputs: (self:<1x5120xf32>{5120, 1})
+            outputs: <1x5120xf32>{5120, 1}
+            duration: -1
+        - 0_2_fwd_module::Linear:
+          - param_name: transformer._fsdp_wrapped_module.time_embedding.2
+          - inputs: (['<1x5120xf32>{5120, 1}'], {})
+          - name: aten::t
+            inputs: (self:<5120x5120xf32>{5120, 1})
+            outputs: <5120x5120xf32>{1, 5120}
+            support_by_backend: True
+            duration: -1
+          - name: aten::addmm
+            inputs: (self:<5120xf32>{1}, mat1:<1x5120xf32>{5120, 1}, mat2:<5120x5120xf32>{1, 5120})
+            outputs: <1x5120xf32>{5120, 1}
+            duration: -1
+      - 0_2_fwd_module::MLPProj:
+        - param_name: transformer._fsdp_wrapped_module.img_emb
+        - inputs: (['<1x257x1280xbf16>{328960, 1280, 1}'], {})
+        - 0_2_fwd_module::Sequential:
+          - param_name: transformer._fsdp_wrapped_module.img_emb.proj
+          - inputs: (['<1x257x1280xbf16>{328960, 1280, 1}'], {})
+          - 0_2_fwd_module::LayerNorm:
+            - param_name: transformer._fsdp_wrapped_module.img_emb.proj.0
+            - inputs: (['<1x257x1280xbf16>{328960, 1280, 1}'], {})
+            - name: aten::native_layer_norm
+              inputs: (input:<1x257x1280xf32>{328960, 1280, 1}, normalized_shape:['1280:int'], weight:<1280xf32>{1}, bias:<1280xf32>{1}, eps:1e-05:float)
+              outputs: ['<1x257x1280xf32>{328960, 1280, 1}', '<1x257x1xf32>{257, 1, 1}', '<1x257x1xf32>{257, 1, 1}']
+              duration: -1
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.img_emb.proj.1
+            - inputs: (['<1x257x1280xf32>{328960, 1280, 1}'], {})
+            - name: aten::t
+              inputs: (self:<1280x1280xbf16>{1280, 1}+233131584)
+              outputs: <1280x1280xbf16>{1, 1280}+233131584
+              support_by_backend: True
+              duration: -1
+            - name: aten::addmm
+              inputs: (self:<1280xbf16>{1}+234769984, mat1:<257x1280xbf16>{1280, 1}, mat2:<1280x1280xbf16>{1, 1280}+233131584)
+              outputs: <257x1280xbf16>{1280, 1}
+              duration: -1
+          - 0_2_fwd_module::GELU:
+            - param_name: transformer._fsdp_wrapped_module.img_emb.proj.2
+            - inputs: (['<1x257x1280xbf16>{328960, 1280, 1}'], {})
+            - name: aten::gelu
+              inputs: (self:<1x257x1280xbf16>{328960, 1280, 1})
+              outputs: <1x257x1280xbf16>{328960, 1280, 1}
+              duration: -1
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.img_emb.proj.3
+            - inputs: (['<1x257x1280xbf16>{328960, 1280, 1}'], {})
+            - name: aten::t
+              inputs: (self:<5120x1280xbf16>{1280, 1}+234771264)
+              outputs: <1280x5120xbf16>{1, 1280}+234771264
+              support_by_backend: True
+              duration: -1
+            - name: aten::addmm
+              inputs: (self:<5120xbf16>{1}+241324864, mat1:<257x1280xbf16>{1280, 1}, mat2:<1280x5120xbf16>{1, 1280}+234771264)
+              outputs: <257x5120xbf16>{5120, 1}
+              duration: -1
+          - 0_2_fwd_module::LayerNorm:
+            - param_name: transformer._fsdp_wrapped_module.img_emb.proj.4
+            - inputs: (['<1x257x5120xbf16>{1315840, 5120, 1}'], {})
+            - name: aten::native_layer_norm
+              inputs: (input:<1x257x5120xf32>{1315840, 5120, 1}, normalized_shape:['5120:int'], weight:<5120xf32>{1}, bias:<5120xf32>{1}, eps:1e-05:float)
+              outputs: ['<1x257x5120xf32>{1315840, 5120, 1}', '<1x257x1xf32>{257, 1, 1}', '<1x257x1xf32>{257, 1, 1}']
+              duration: -1
+        - 0_2_fwd_module::WanSelfAttention:
+          - param_name: transformer._fsdp_wrapped_module.blocks.0._fsdp_wrapped_module.self_attn
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}', '<1xint64>{1}', '<1x3xint64>{3, 1}', '<1024x64xcomplex128>{64, 1}'], {})
+        - 0_2_fwd_module::WanLayerNorm:
+          - param_name: transformer._fsdp_wrapped_module.blocks.0._fsdp_wrapped_module.norm3
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+        - 0_2_fwd_module::WanI2VCrossAttention:
+          - param_name: transformer._fsdp_wrapped_module.blocks.0._fsdp_wrapped_module.cross_attn
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}', '<1x769x5120xf32>{3937280, 5120, 1}', 'None:NoneType'], {})
+        - 0_2_fwd_module::WanLayerNorm:
+          - param_name: transformer._fsdp_wrapped_module.blocks.0._fsdp_wrapped_module.norm2
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+      - 0_2_fwd_module::WanAttentionBlock:
+        - name: aten::add
+          inputs: (self:<1x6x5120xbf16>{30720, 5120, 1}, other:<1x6x5120xf32>{30720, 5120, 1})
+          outputs: <1x6x5120xf32>{30720, 5120, 1}
+          duration: -1
+        - name: aten::split
+          inputs: (self:<1x6x5120xf32>{30720, 5120, 1}, split_size:1:int, dim:1:int)
+          outputs: ['<1x1x5120xf32>{30720, 5120, 1}', '<1x1x5120xf32>{30720, 5120, 1}+5120', '<1x1x5120xf32>{30720, 5120, 1}+10240', '<1x1x5120xf32>{30720, 5120, 1}+15360', '<1x1x5120xf32>{30720, 5120, 1}+20480', '<1x1x5120xf32>{30720, 5120, 1}+25600']
+          support_by_backend: True
+          duration: -1
+        - 0_2_fwd_module::WanLayerNorm:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.norm1
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - name: aten::native_layer_norm
+            inputs: (input:<1x18837x5120xf32>{96445440, 5120, 1}, normalized_shape:['5120:int'], weight:None:NoneType, bias:None:NoneType, eps:1e-06:float)
+            outputs: ['<1x18837x5120xf32>{96445440, 5120, 1}', '<1x18837x1xf32>{18837, 1, 1}', '<1x18837x1xf32>{18837, 1, 1}']
+            duration: -1
+        - name: aten::add
+          inputs: (self:<1x1x5120xf32>{30720, 5120, 1}+5120, other:1:int)
+          outputs: <1x1x5120xf32>{5120, 5120, 1}
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x1x5120xf32>{5120, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x1x5120xf32>{30720, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - 0_2_fwd_module::WanSelfAttention:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}', '<1xint64>{1}', '<1x3xint64>{3, 1}', '<1024x64xcomplex128>{64, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.q
+            - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::WanRMSNorm:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.norm_q
+            - inputs: (['<1x18837x5120xbf16>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.k
+            - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::WanRMSNorm:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.norm_k
+            - inputs: (['<1x18837x5120xbf16>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.v
+            - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - name: c10d::alltoall_base_
+            inputs: (output:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, input:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, process_group:ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, output_split_sizes:[], input_split_sizes:[], timeout:-1:int)
+            outputs: ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject
+            duration: -1
+          - name: c10d::alltoall_base_
+            inputs: (output:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, input:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, process_group:ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, output_split_sizes:[], input_split_sizes:[], timeout:-1:int)
+            outputs: ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject
+            duration: -1
+          - name: c10d::alltoall_base_
+            inputs: (output:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, input:<4x18837x1x10x128xbf16>{24111360, 1280, 1280, 128, 1}, process_group:ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, output_split_sizes:[], input_split_sizes:[], timeout:-1:int)
+            outputs: ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject
+            duration: -1
+          - name: api::FlashAttnVarlenFunc
+          - name: c10d::alltoall_base_
+            inputs: (output:<4x10x18837x1x128xbf16>{24111360, 2411136, 128, 128, 1}, input:<4x10x18837x1x128xbf16>{24111360, 2411136, 128, 128, 1}, process_group:ScriptObject____torch___torch_classes_c10d_ProcessGroup_:ScriptObject, output_split_sizes:[], input_split_sizes:[], timeout:-1:int)
+            outputs: ScriptObject____torch___torch_classes_c10d_Work_:ScriptObject
+            duration: -1
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.self_attn.o
+            - inputs: (['<1x18837x5120xbf16>{96445440, 5120, 1}'], {})
+        - name: aten::mul
+          inputs: (self:<1x18837x5120xbf16>{96445440, 5120, 1}, other:<1x1x5120xf32>{30720, 5120, 1}+10240)
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x18837x5120xf32>{96445440, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - 0_2_fwd_module::WanLayerNorm:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.norm3
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+        - 0_2_fwd_module::WanI2VCrossAttention:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}', '<1x769x5120xf32>{3937280, 5120, 1}', 'None:NoneType'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.q
+            - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::WanRMSNorm:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.norm_q
+            - inputs: (['<1x18837x5120xbf16>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.k
+            - inputs: (['<1x512x5120xf32>{3937280, 5120, 1}+1315840'], {})
+          - 0_2_fwd_module::WanRMSNorm:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.norm_k
+            - inputs: (['<1x512x5120xbf16>{2621440, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.v
+            - inputs: (['<1x512x5120xf32>{3937280, 5120, 1}+1315840'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.k_img
+            - inputs: (['<1x257x5120xf32>{3937280, 5120, 1}'], {})
+          - 0_2_fwd_module::WanRMSNorm:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.norm_k_img
+            - inputs: (['<1x257x5120xbf16>{1315840, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.v_img
+            - inputs: (['<1x257x5120xf32>{3937280, 5120, 1}'], {})
+          - name: api::FlashAttnVarlenFunc
+          - name: api::FlashAttnVarlenFunc
+          - name: aten::add
+            inputs: (self:<1x18837x5120xbf16>{96445440, 5120, 1}, other:<1x18837x5120xbf16>{96445440, 5120, 1})
+            outputs: <1x18837x5120xbf16>{96445440, 5120, 1}
+            duration: -1
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.cross_attn.o
+            - inputs: (['<1x18837x5120xbf16>{96445440, 5120, 1}'], {})
+        - name: aten::add
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x18837x5120xbf16>{96445440, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - 0_2_fwd_module::WanLayerNorm:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.norm2
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+        - name: aten::add
+          inputs: (self:<1x1x5120xf32>{30720, 5120, 1}+20480, other:1:int)
+          outputs: <1x1x5120xf32>{5120, 5120, 1}
+          duration: -1
+        - name: aten::mul
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x1x5120xf32>{5120, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x1x5120xf32>{30720, 5120, 1}+15360)
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+        - 0_2_fwd_module::Sequential:
+          - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.ffn
+          - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.ffn.0
+            - inputs: (['<1x18837x5120xf32>{96445440, 5120, 1}'], {})
+          - 0_2_fwd_module::GELU:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.ffn.1
+            - inputs: (['<1x18837x13824xbf16>{260402688, 13824, 1}'], {})
+            - name: aten::gelu
+              inputs: (self:<1x18837x13824xbf16>{260402688, 13824, 1}, approximate:tanh:str)
+              outputs: <1x18837x13824xbf16>{260402688, 13824, 1}
+              duration: -1
+          - 0_2_fwd_module::Linear:
+            - param_name: transformer._fsdp_wrapped_module.blocks.5._fsdp_wrapped_module.ffn.2
+            - inputs: (['<1x18837x13824xbf16>{260402688, 13824, 1}'], {})
+        - name: aten::mul
+          inputs: (self:<1x18837x5120xbf16>{96445440, 5120, 1}, other:<1x1x5120xf32>{30720, 5120, 1}+25600)
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+        - name: aten::add
+          inputs: (self:<1x18837x5120xf32>{96445440, 5120, 1}, other:<1x18837x5120xf32>{96445440, 5120, 1})
+          outputs: <1x18837x5120xf32>{96445440, 5120, 1}
+          duration: -1
+  Decoder3d:
+    fwd:
+      - param_name: vae.decoder
+      #- inputs: (['<1x16x1x138x104xf32>{4822272, 301392, 14352, 104, 1}'], {'feat_cache': ['None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType', 'None:NoneType'], 'feat_idx': ['0:int']})

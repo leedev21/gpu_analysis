@@ -1,0 +1,735 @@
+aten::new_empty:
+  type: framework
+aten::contiguous:
+  type: std
+  split:
+    - fill_
+    - copy_
+  flops: 0
+  io: 2
+aten::item:
+  type: framework
+aten::squeeze:
+  type: framework
+aten::transpose:
+  type: framework
+aten::unflatten_dense_tensors:
+  type: framework
+aten::view_as:
+  type: framework
+aten::reshape:
+  type: framework
+aten::dropout:
+  type: std
+  split:
+    - native_dropout
+  flops: 12
+  io: 2
+aten::dropout_bwd:
+  type: std
+  split:
+    - native_dropout
+  flops: 1
+  io: 2
+aten::detach:
+  type: framework
+aten::result_type:
+  type: framework
+aten::index_put_:
+  type: std
+  flops: 0
+  io: 2
+aten::t:
+  type: framework
+aten::embedding_dense_backward:
+  type: std
+  flops: 0
+  io: 3
+aten::to:
+  type: std
+  split:
+    - copy_
+  flops: 0
+  io: 2
+aten::split_with_sizes:
+  type: framework
+aten::select:
+  type: framework
+aten::narrow:
+  type: framework
+aten::_unsafe_view:
+  type: framework
+aten::_to_copy:
+  type: std
+  split:
+    - copy_
+aten::concat:
+  type: std
+  split:
+    - cat_out
+aten::new_zeros:
+  type: std
+  split:
+    - fill_
+aten::zeros:
+  type: std
+  split:
+    - fill_
+aten::flatten_dense_tensors:
+  type: std
+  split:
+    - cat_out
+aten::index_put:
+  type: std
+  split:
+    - copy_
+    - index_put_
+aten::clone:
+  type: std
+  split:
+    - fill_
+    - copy_
+aten::divide_:
+  type: std
+  # split:
+  #   - div_out
+aten::expand:
+  type: framework
+aten::empty_like:
+  type: framework
+aten::lift_fresh:
+  type: framework
+aten::slice:
+  type: framework
+  flops: 0
+  io: 1
+aten::ones_like:
+  type: std
+  split:
+    - fill_
+aten::detach_:
+  type: framework
+aten::copy_:
+  type: std
+  flops: 1
+  io: 2
+aten::unsqueeze:
+  type: framework
+aten::__or__:
+  type: std
+  split:
+    - bitwise_or
+aten::bitwise_or:
+  type: std
+  flops: 0
+  io: 0
+aten::bitwise_and:
+  type: std
+  flops: 0
+  io: 0
+aten::bitwise_not:
+  type: std
+  flops: 0
+  io: 0
+aten::new_empty_strided:
+  type: framework
+aten::split:
+  type: framework
+aten::alias:
+  type: framework
+aten::full:
+  type: std
+  split:
+    - fill_
+aten::embedding:
+  type: std
+  split:
+    - index_select
+  flops: 0
+  io: 2
+aten::randint:
+  type: std
+  split:
+    - random_
+aten::random_:
+  type: std
+  flops: 0
+  io: 2
+aten::embedding_backward:
+  type: std
+  split:
+    - embedding_dense_backward
+aten::softmax_backward:
+  type: std
+  split:
+    - _softmax_backward_data_out
+  flops: 7
+  io: 0
+aten::outer:
+  type: std
+  split:
+    - mul_out
+aten::mul_out:
+  type: std
+  split:
+    - mul_out
+  flops: 1
+  io: 3
+aten::softmax_forward:
+  type: std
+  split:
+    - _softmax_out
+  flops: 7
+  io: 0
+aten::silu_backward:
+  type: std
+  split:
+    - silu_backward_out
+  flops: 26
+  io: 2
+aten::softmax:
+  type: std
+  split:
+    - _softmax_out
+  flops: 9
+  io: 2
+aten::scatter_add:
+  type: std
+  split:
+    - scatter_add_out
+aten::masked_scatter_:
+  type: std
+aten::count_nonzero:
+  type: std
+aten::type_as:
+  type: std
+  split:
+    - copy_
+aten::__and__:
+  type: std
+  split:
+    - bitwise_and
+aten::chunk:
+  type: framework
+aten::value_selecting_reduction_backward:
+  type: std
+  split:
+    - fill_
+    - scatter
+aten::scatter_add_:
+  type: std
+  split:
+    - scatter_add_out
+aten::scatter_add_out:
+  type: std
+  flops: 0
+  io: 2
+aten::scatter_:
+  type: std
+  flops: 0
+  io: 2
+aten::is_nonzero:
+  type: framework
+aten::_softmax_backward_data:
+  type: std
+  split:
+    - _softmax_backward_data_out
+aten::masked_select:
+  type: std
+  split:
+    - masked_select_out
+aten::slice_backward:
+  type: framework
+aten::zeros_like:
+  type: std
+  split:
+    - fill_
+aten::masked_select_backward:
+  type: std
+  split:
+    - masked_scatter_
+aten::one_hot:
+  type: std
+  split:
+    - fill_
+    - scatter
+aten::gather_backward:
+  type: std
+  split:
+    - fill_
+    - scatter_add_out
+aten::_efficient_attention_forward:
+  type: std
+aten::permute:
+  type: framework
+aten::_foreach_sqrt:
+  type: std
+aten::nll_loss_nd:
+  type: std
+  split:
+    - copy_
+    - nll_loss_forward_out
+    - nll_loss2d_forward
+    - nll_loss2d_forward_out
+aten::index_add_:
+  type: std
+  split:
+    - index_add_out
+aten::expand_as:
+  type: std
+aten::gelu_backward:
+  type: std
+  split:
+    - gelu_backward_out
+  flops: 13
+  io: 2
+aten::nonzero_numpy:
+  type: std
+  split:
+    - nonzero
+aten::pin_memory:
+  type: framework
+aten::nll_loss_forward:
+  type: std
+  split:
+    - nll_loss_forward_out
+  flops: 0
+  io: 2
+aten::stack:
+  type: std
+  split:
+    - cat_out
+aten::cat_out:
+  type: std
+  flops: 0
+  io: 0
+aten::_foreach_mul_:
+  type: std
+aten::is_same_size:
+  type: framework
+aten::isfinite:
+  type: std
+  split:
+    - fill_
+    - eq
+    - ne
+    - mul
+aten::_flash_attention_forward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::pad:
+  type: std
+  split:
+    - copy_
+    - fill_
+    - reflection_pad1d_out
+    - reflection_pad2d_out
+    - reflection_pad3d_out
+    - replication_pad1d_out
+    - replication_pad2d_out
+    - replication_pad3d_out
+aten::nll_loss_backward:
+  type: std
+  split:
+    - nll_loss_backward_out
+  flops: 0
+  io: 2
+aten::_efficient_attention_backward:
+  type: std
+aten::log_softmax:
+  type: std
+  split:
+    - _log_softmax_out
+aten::constant_pad_nd:
+  type: std
+  split:
+    - copy_
+    - fill_
+aten::cross_entropy_loss:
+  type: std
+  split:
+    - add
+    - mul
+    - sub
+    - div
+    - sum
+    - fill_
+    - copy_
+    - nll_loss_forward_out
+    - nll_loss2d_forward
+    - nll_loss2d_forward_out
+    - _log_softmax_out
+    - masked_fill_
+    - masked_select_out
+aten::masked_fill:
+  type: std
+  split:
+    - masked_fill_
+aten::masked_fill_:
+  type: std
+  flops: 0
+  io: 2
+aten::_scaled_dot_product_flash_attention_backward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::nll_loss:
+  type: std
+  split:
+    - nll_loss_forward_out
+aten::_log_softmax_backward_data:
+  type: std
+  split:
+    - _log_softmax_backward_data_out
+  flops: 7
+  io: 2
+aten::select_backward:
+  type: std
+  split:
+    - copy_
+aten::square:
+  type: std
+  split:
+    - pow_out
+aten::isinf:
+  type: std
+  split:
+    - fill_
+    - eq
+    - abs
+aten::scaled_dot_product_attention:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_scaled_dot_product_efficient_attention:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_flash_attention_backward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::unbind:
+  type: framework
+aten::_scaled_dot_product_efficient_attention_backward:
+  type: std
+aten::silu:
+  type: std
+  flops: 13
+  io: 2
+aten::add:
+  type: std
+  flops: 1
+  io: 3
+aten::add_:
+  type: std
+  flops: 1
+  io: 3
+aten::sub:
+  type: std
+  flops: 1
+  io: 3
+aten::mul:
+  type: std
+  flops: 1
+  io: 3
+aten::pow:
+  type: std
+  flops: 4
+  io: 3
+aten::mean:
+  type: std
+  flops: 1
+  io: 1
+aten::rsqrt:
+  type: std
+  flops: 1
+  io: 1
+aten::ne:
+  type: std
+  flops: 1
+  io: 2
+aten::sum:
+  type: std
+  flops: 1
+  io: 1
+aten::div:
+  type: std
+  flops: 1
+  io: 3
+aten::fill_:
+  type: std
+  flops: 0
+  io: 1
+aten::cat:
+  type: std
+  flops: 0
+  io: 4
+aten::_log_softmax:
+  type: std
+  split:
+    - _log_softmax_out
+aten::_log_softmax_out:
+  type: std
+  flops: 9
+  io: 2
+aten::argmax:
+  type: std
+  flops: 0
+  io: 2
+aten::linear:
+  type: std
+  2D: True
+aten::mm:
+  type: std
+  2D: True
+aten::bmm:
+  type: std
+  2D: True
+aten::baddbmm:
+  type: std
+  2D: True
+aten::topk:
+  type: std
+  flops: 130
+  io: 2
+aten::convolution:
+  type: std
+  2D: True
+aten::sigmoid:
+  type: std
+  flops: 4
+  io: 2
+aten::sigmoid_backward:
+  type: std
+  flops: 4
+  io: 2
+aten::layer_norm:
+  type: std
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+aten::native_layer_norm:
+  type: std
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+aten::gelu:
+  type: std
+  flops: 13
+  io: 2
+aten::lt:
+  type: std
+  flops: 0
+  io: 2
+aten::index:
+  type: std
+  flops: 0
+  io: 2
+aten::layer_norm_backward:
+  type: std
+  flops:
+    1D: 9
+    SFU: 1
+  io: 3
+customer::nvte_rmsnorm_fwd:
+  type: customer
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+customer::nvte_rmsnorm_bwd:
+  type: customer
+  flops:
+    1D: 9
+    SFU: 1
+  io: 2
+customer::FusedRoPEFunc:
+  type: customer
+  flops: 16
+  io: 2
+customer::FusedRoPEFuncBackward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rope_forward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rope_backward:
+  type: customer
+  flops: 16
+  io: 2
+customer::FusedScaleMaskSoftmax:
+  type: customer
+  flops: 9
+  io: 2
+customer::nvte_cublas_gemm:
+  type: customer
+  2D: True
+customer::cutlass_scaled_mm:
+  type: customer
+  2D: True
+customer::grouped_gemm:
+  type: customer
+  2D: True
+  efficency: map
+customer::cast_to_fp8:
+  type: customer
+  flops: 4
+  io: 2
+customer::normal:
+  type: customer
+  flops: 4
+  io: 2
+customer::top2_sum_gate:
+  type: customer
+  flops: 16
+  io: 2
+customer::FlashAttnVarlenFunc:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 0
+customer::FlashAttnVarlenFuncBackward:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 0
+customer::L2Norm:
+  type: customer
+  flops: 8
+  io: 2
+customer::Scale:
+  type: customer
+  flops: 8
+  io: 2
+customer::Adam:
+  type: customer
+  flops: 8
+  io: 2
+customer::fused_layer_norm_cuda.rms_forward:
+  type: customer
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+customer::fused_layer_norm_cuda.rms_backward:
+  type: customer
+  flops:
+    1D: 9
+    SFU: 1
+  io: 2
+customer::fused_layer_norm_cuda.forward:
+  type: customer
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+customer::fused_layer_norm_cuda.backward:
+  type: customer
+  flops:
+    1D: 9
+    SFU: 1
+  io: 2
+customer::scaled_upper_triang_masked_softmax_cuda.forward:
+  type: customer
+  flops: 9
+  io: 2
+customer::flash_attn.flash_attn_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn.flash_attn_qkvpacked_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_interface.flash_attn_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_qkvpacked_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_with_kvcache:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::fused_rotary_positional_embedding.forward:
+  type: customer
+  flops: 16
+  io: 2
+customer::fused_rotary_positional_embedding.backward:
+  type: customer
+  flops: 16
+  io: 2
+customer::amp_C.multi_tensor_adam:
+  type: customer
+  flops: 4
+  io: 2
+customer::amp_C.multi_tensor_l2norm:
+  type: customer
+  flops: 2
+  io: 2
+customer::amp_C.multi_tensor_scale:
+  type: customer
+  flops: 1
+  io: 2
+customer::moe_sum:
+  type: customer
+  split:
+    - sum
+customer::rms_norm:
+  type: customer
+  flops:
+    1D: 8
+    SFU: 1
+  io: 2
+customer::grouped_topk:
+  type: customer
+  flops: 130
+  io: 2
+customer::sgl_moe_align_block_size:
+  type: customer
+  flops: 0
+  io: 2
+customer::concat_and_cache_mla:
+  type: customer
+  flops: 0
+  io: 2
+aten::div_:
+  type: std
+  split:
+    - div

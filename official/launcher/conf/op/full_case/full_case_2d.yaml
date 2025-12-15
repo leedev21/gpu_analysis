@@ -1,0 +1,95 @@
+- name: aten::mm
+  size:
+    M: [1, 2, 8, 128, 1024, 4096, 16384]
+    K: [32, 128, 1024, 8192, 16384]
+    N: [32, 128, 1024, 8192, 16384]
+  input:
+    - _tensor: [M, K]
+    - _tensor: [K, N]
+- name: aten::baddbmm
+  size:
+    B: [1, 2, 8, 16, 32]
+    M: [1, 2, 8, 32, 128, 512, 1024]
+    K: [3072, 4096, 6144, 8192]
+    N: [3072, 4096, 6144, 8192]
+  input:
+    - _tensor: [B, M, N]
+    - _tensor: [B, M, K]
+    - _tensor: [B, K, N]
+- name: aten::baddbmm
+  size:
+    B: [64, 128, 256]
+    M: [1, 2, 8, 32, 128]
+    K: [4096]
+    N: [4096]
+  input:
+    - _tensor: [B, M, N]
+    - _tensor: [B, M, K]
+    - _tensor: [B, K, N]
+- name: aten::bmm
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    M: [1, 2, 8, 32, 128, 256, 1024]
+    K: [3072, 4096, 6144, 8192]
+    N: [3072, 4096, 6144, 8192]
+  input:
+    - _tensor: [B, M, K]
+    - _tensor: [B, K, N]
+- name: aten::bmm
+  size:
+    B: [64, 128]
+    M: [1, 2, 8, 32, 128, 256]
+    K: [32, 128, 512, 2048, 4096, 5120]
+    N: [32, 128, 512, 2048, 4096, 5120]
+  input:
+    - _tensor: [B, M, K]
+    - _tensor: [B, K, N]
+
+# base 2d
+- name: aten::linear
+  size:
+    M: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]
+    K: [6144]
+    N: [8192]
+  input:
+    - _tensor: [M, K]
+    - _tensor: [N, K]
+    - _tensor: [N]
+- name: aten::convolution
+  size:
+    B: [1, 2, 4]
+    C_IN: [1, 8, 16, 32, 64, 128, 512]
+    iH: [128, 256, 384, 512, 1024]
+    kH: [1, 2, 3, 16, 32]
+    C_OUT: [8, 128, 256, 512, 1408, 4096]
+  input:
+    - _tensor: [B, C_IN, iH, iH]
+    - _tensor: [C_OUT, C_IN, kH, kH]
+    - _tensor: [C_OUT]
+    - stride: [2, 2]
+    - padding: [0, 0]
+    - dilation: [1, 1]
+    - transposed: false
+    - output_padding: [0, 0]
+    - groups: 1
+  precision: fp16
+- name: aten::convolution_backward
+  size:
+    B: [1, 2, 4]
+    C_IN: [1, 8, 16, 32, 64, 128, 512]
+    kH: [1, 2, 3, 16, 32, 64, 128]
+    C_OUT: [8, 128, 256, 512, 1408, 4096]
+    Scale: [2]
+  input:
+    - _tensor: [B, C_OUT, kH, kH]
+    - _tensor: [B, C_IN, kH*Scale, kH*Scale]
+    - _tensor: [C_OUT, C_IN, Scale, Scale]
+    - _val: [C_OUT]
+    - stride: [2, 2]
+      padding: [0, 0]
+      dilation: [1, 1]
+      transposed: false
+      output_padding: [0, 0]
+      groups: 1
+      output_mask: [True, True, True]
+  precision: fp16

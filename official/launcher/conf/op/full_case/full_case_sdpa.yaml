@@ -1,0 +1,306 @@
+# sdpa
+# SB_LM_LD
+## prefill
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQKV: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## decoding
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8]
+    MQ: [1]
+    MK: [2048, 4096, 8192, 16384, 32768, 65536]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [128, 192, 257]
+    DV: [128, 192, 257]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+
+# SB_SM_SD
+## prefill
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQKV: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQKV: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQKV: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQKV: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S
+## decoding
+### NHQ=1
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQ: [1]
+    MK: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [1]
+    NHK: [1]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+### NHQ=4
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQ: [1]
+    MK: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [4]
+    NHK: [1, 4]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=8
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQ: [1]
+    MK: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [8]
+    NHK: [1, 4, 8]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+## NHQ=32
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 2, 4, 8, 16, 32]
+    MQ: [1]
+    MK: [1, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    NHQ: [32]
+    NHK: [1, 4, 8, 32]
+    DQK: [64, 80, 128]
+    DV: [64, 80, 128]
+    C: [true]
+    S: [0.08]
+  input:
+    - _tensor: [B, NHQ, MQ, DQK]
+    - _tensor: [B, NHK, MK, DQK]
+    - _tensor: [B, NHK, MK, DV]
+    - is_causal: C
+      scale: S
+
+# from vision model
+- name: aten::scaled_dot_product_attention
+  size:
+    B: [1, 32]
+    MQKV: [4, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
+    NHQ: [16]
+    NHK: [16]
+    DQK: [80]
+    DV: [80]
+    C: [false]
+    S: [false, 0.08]
+  input:
+    - _tensor: [B, NHQ, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DQK]
+    - _tensor: [B, NHK, MQKV, DV]
+    - is_causal: C
+      scale: S

@@ -1,0 +1,158 @@
+op::AttnFwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4]
+    K: [128]
+    Hqk: [128, 192]
+    Hv: [128]
+  schema:
+    - Q:<NxBxKxHqk>, K:<NxBxKxHqk>, V:<NxBxKxHv> -> <NxBxKxHv>
+  distributions:
+    Q: input
+    K: input
+    V: input
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+
+op::AttnBwd:
+  type: std
+  size:
+    N: [1, 2, 4, 8, 32, 4096]
+    B: [1, 2, 4]
+    K: [128]
+    Hqk: [128, 192]
+    Hv: [128]
+  schema:
+    - <NxBxKxHqk>, <NxBxKxHqk>, <NxBxKxHv>, <NxBxKxHv>, <NxBxKxHv> -> <NxBxKxHqk>, <NxBxKxHqk>, <NxBxKxHv>
+  distributions:
+    in: input
+    weight: weight
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+
+customer::FlashAttnVarlenFunc:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 0
+customer::FlashAttnVarlenFuncBackward:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 0
+customer::flash_attn_with_kvcache:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_qkvpacked_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+customer::flash_attn_interface.flash_attn_func:
+  type: customer
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::scaled_dot_product_attention:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_scaled_dot_product_efficient_attention:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_flash_attention_backward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_scaled_dot_product_flash_attention_backward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+aten::_flash_attention_forward:
+  type: std
+  flops:
+    1D: 7
+    SFU: 1
+  io: 1
+
+# customer::fused_layer_norm_cuda.rms_forward:
+#   type: customer
+#   flops:
+#     1D: 8
+#     SFU: 1
+#   io: 2
+# customer::fused_layer_norm_cuda.rms_backward:
+#   type: customer
+#   flops:
+#     1D: 9
+#     SFU: 1
+#   io: 2
+# customer::fused_layer_norm_cuda.forward:
+#   type: customer
+#   flops:
+#     1D: 8
+#     SFU: 1
+#   io: 2
+# customer::fused_layer_norm_cuda.backward:
+#   type: customer
+#   flops:
+#     1D: 9
+#     SFU: 1
+#   io: 2
+# aten::layer_norm_backward:
+#   type: std
+#   flops:
+#     1D: 9
+#     SFU: 1
+#   io: 3
+# customer::nvte_rmsnorm_fwd:
+#   type: customer
+#   flops:
+#     1D: 8
+#     SFU: 1
+#   io: 2
+# customer::nvte_rmsnorm_bwd:
+#   type: customer
+#   flops:
+#     1D: 9
+#     SFU: 1
+#   io: 2
+# aten::layer_norm:
+#   type: std
+#   flops:
+#     1D: 8
+#     SFU: 1
+#   io: 2
+# aten::native_layer_norm:
+#   type: std
+#   flops:
+#     1D: 8
+#     SFU: 1
+#   io: 2

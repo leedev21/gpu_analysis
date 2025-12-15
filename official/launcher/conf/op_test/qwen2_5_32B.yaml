@@ -1,0 +1,142 @@
+# - name: flash_attn::flash_attn.flash_attn_func
+#   size:
+#     B: [1, 2, 4, 8]
+#     MQ: [4096]
+#     MK: [4096]
+#     NGQ: [5]
+#     NHK: [1, 2, 4, 8]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.01]
+#     C: [True, False]
+#     W: [[-1, -1]]
+#     De: [True]
+#   input:
+#     - [B, MQ, NHK*NGQ, D]
+#     - [B, MK, NHK, D]
+#     - [B, MK, NHK, D]
+#     - dropout_p: Drop
+#       softmax_scale: S
+#       causal: C
+#       window_size: W
+#       alibi_slopes: null
+#       deterministic: De
+# - name: aten::mm
+#   size:
+#     M: [896, 1792, 3584, 6912, 13824, 19008, 27648, 38016, 76032]
+#     K: [4096]
+#     N: [5120]
+#   input:
+#     - [M, K]
+#     - [K, N]
+- name: aten::mm
+  size:
+    M: [5120]
+    K: [4096]
+    N: [640, 1280, 2560, 3456, 6912, 13824]
+  input:
+    - [M, K]
+    - [K, N]
+# - name: aten::mm
+#   size:
+#     M: [4096]
+#     K: [640, 896, 1280, 1792, 2560, 3456, 3584, 6912, 13824, 19008, 27648, 38016, 76032]
+#     N: [5120]
+#   input:
+#     - [M, K]
+#     - [K, N]
+# - name: aten::mm
+#   size:
+#     M: [4096]
+#     K: [5120]
+#     N: [640, 896, 1280, 1792, 2560, 3456, 3584, 6912, 13824, 19008, 27648, 38016, 76032]
+#   input:
+#     - [M, K]
+#     - [K, N]
+# # - name: aten::_softmax
+# #   size:
+# #     B: [1, 2, 4]
+# #     M: [1, 5, 10, 20, 40]
+# #   input:
+# #     - _tensor: [B, M, 4096, 4096]
+# #       precision: fp16
+# #     - -1
+# #     - True
+# - name: aten::bmm
+#   size:
+#     B: [1, 5, 10, 20, 40]
+#     M: [4096]
+#     K: [128]
+#     N: [4096]
+#   input:
+#     - [B, M, K]
+#     - [B, K, N]
+# - name: aten::bmm
+#   size:
+#     B: [1, 5, 10, 20, 40]
+#     M: [4096]
+#     K: [4096]
+#     N: [128]
+#   input:
+#     - [B, M, K]
+#     - [B, K, N]
+# - name: aten::baddbmm
+#   size:
+#     B: [1, 5, 10, 20, 40]
+#     M: [4096]
+#     K: [128]
+#     N: [4096]
+#   input:
+#     - [B, M, N]
+#     - [B, M, K]
+#     - [B, K, N]
+# - name: aten::scaled_dot_product_attention
+#   size:
+#     B: [1, 2, 4, 8]
+#     MQKV: [4096]
+#     NGQ: [5]
+#     NHK: [1]
+#     DQK: [128]
+#     DV: [128]
+#     C: [true, false]
+#     S: [0.08]
+#   input:
+#     - [B, NHK*NGQ, MQKV, DQK]
+#     - [B, NHK, MQKV, DQK]
+#     - [B, NHK, MQKV, DV]
+#     - is_causal: C
+#      scale: S
+# - name: flash_attn::flash_attn_interface.flash_attn_func
+#   size:
+#     B: [1, 2, 4]
+#     MQKV: [2048, 4096, 8192, 16384, 32768, 65536, 131072, 75360]
+#     # NHQ: [8, 10, 32]
+#     NHK: [8, 10, 32, 40]
+#     D: [128]
+#     Drop: [0.0]
+#     S: [0.0]
+#     C: [False]
+#     W: [[-1, -1]]
+#     De: [False]
+#   input:
+#     - _tensor: [B, MQKV, NHK, D]
+#       precision: e4m3
+#     - _tensor: [B, MQKV, NHK, D]
+#       precision: e4m3
+#     - _tensor: [B, MQKV, NHK, D]
+#       precision: e4m3
+#     - qv: null
+#       softcap: S
+#       q_descale:
+#         _tensor: [B, NHK]
+#         precision: fp32
+#       k_descale:
+#         _tensor: [B, NHK]
+#         precision: fp32
+#       v_descale:
+#         _tensor: [B, NHK]
+#         precision: fp32
+#       causal: C
+#       window_size: W
+#       pack_gqa: False
+#       num_splits: 1

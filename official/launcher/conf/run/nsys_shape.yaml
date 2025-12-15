@@ -1,0 +1,9 @@
+loop_time: 5
+max_steps: 8
+draw: False
+duration_limit: 500000
+nsys_profile:
+  enabled: True
+  start_step: 4  # Global batch to start profiling
+  ranks: [0] # Global rank IDs to profile
+  gen_shape: True # Generate model and kernel details including input shapes

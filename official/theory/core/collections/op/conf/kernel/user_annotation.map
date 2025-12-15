@@ -1,0 +1,12 @@
+ProfilerStep#1	kernel_name	{'op_name': "ProfilerStep_1", 'type': 'none'}
+1F1B	kernel_name	{'op_name': "1F1B", 'type': 'none'}
+combine(F)	kernel_name	{'op_name': "combine_FWD", 'type': 'none'}
+combine(B)	kernel_name	{'op_name': "combine_BWD", 'type': 'none'}
+attn(F)	kernel_name	{'op_name': "attn_FWD", 'type': 'none'}
+attn(B)	kernel_name	{'op_name': "attn_BWD", 'type': 'none'}
+attn(W)	kernel_name	{'op_name': "attn_Weight", 'type': 'none'}
+dispatch(F)	kernel_name	{'op_name': "dispatch_FWD", 'type': 'none'}
+dispatch(B)	kernel_name	{'op_name': "dispatch_BWD", 'type': 'none'}
+mlp(W)	kernel_name	{'op_name': "mlp_Weight", 'type': 'none'}
+mlp(F)	kernel_name	{'op_name': "mlp_FWD", 'type': 'none'}
+mlp(B)	kernel_name	{'op_name': "mlp_BWD", 'type': 'none'}

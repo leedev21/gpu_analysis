@@ -1,0 +1,25 @@
+acc_check: True
+loop_time: 1
+max_steps: 2
+schedule_case_limit: -1
+duration_limit: 500000
+fast_test: True
+use_allclose: True
+use_detail_check: True
+acc_target_device: cpu
+use_cpu_hight_precision: True
+tripartite_check: True
+save_output_by_pt: False
+load_op_summary: null
+draw: False
+
+# 真实数据加载配置
+enable_real_data: False  # 是否启用真实数据加载
+dump_json_path: null     # dump.json 文件路径
+pt_data_dir: null        # pt 文件目录路径
+
+nsys_profile:
+  enabled: False
+  start_step: 5  # Global batch to start profiling
+  ranks: [0] # Global rank IDs to profile
+  gen_shape: False # Generate model and kernel details including input shapes 

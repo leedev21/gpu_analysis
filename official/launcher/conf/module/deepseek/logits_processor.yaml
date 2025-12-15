@@ -1,0 +1,23 @@
+layer:
+  name: deepseek_logits_processor
+  type:
+    - MOE
+    - MLP
+  config:
+    MOE:
+      - use_moe
+    MLP:
+      - base
+    RMS:
+      - has_rms_norm
+  seq_length:
+    - 32
+    # - 30000
+  input:
+    - [1, seq_length, 7168]
+  init:
+    - hidden_size: 7168
+      rms_norm_eps: 1e-5
+      vocab_size: 18432
+  micro_batch_size: 1
+  precision: bf16

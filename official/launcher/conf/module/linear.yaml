@@ -1,0 +1,13 @@
+layer:
+  name: linear
+  type:
+    - Torch
+    - TE
+  seq_length:
+    - 4096
+  shape: 
+    - ['seq_length', 12288]
+  init: 
+    - [12288, 6144, False]
+  micro_batch_size: 1
+  precision: bf16

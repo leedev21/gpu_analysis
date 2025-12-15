@@ -1,0 +1,16 @@
+  model:
+    name: janus_pro
+    size: 7B
+    num_layers: 30
+    hidden_size: 4096
+    ffn_hidden_size: 11008
+    num_attention_heads: 32
+    num_hidden_dim: 128
+    swiglu: true
+    vocab_size: 102400
+    image_size: 384
+    num_image_tokens: 576
+    aligner_config:
+      cls: MlpProjector
+      input_dim: 1024
+      n_embed: 4096
